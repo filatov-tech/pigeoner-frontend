@@ -1,0 +1,19 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.pigeoner-footer {
+    display: flex;
+    background-color: #171717;
+    padding: 30px 100px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.pigeoner-footer p {
+    color: white;
+    font-size: 1.2rem;
+    margin: 0;
+}
