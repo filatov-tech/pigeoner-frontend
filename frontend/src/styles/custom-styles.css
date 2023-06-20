@@ -1,0 +1,58 @@
+.label {
+    display: inline-block;
+    padding: 10px 20px;
+    color: black;
+    border: none;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+}
+
+.label:hover {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.label:active {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.label-female {
+    background-color: #fbcfe8;
+}
+
+.label-female:hover {
+    background-color: #f9a8d4;
+}
+
+.label-female:active {
+    background-color: #f472b6;
+}
+
+.label-male {
+    background-color: #bae6fd;
+}
+
+.label-male:hover {
+    background-color: #7dd3fc;
+}
+
+.label-male:active {
+    background-color: #38bdf8;
+}
+
+.label-vacant {
+    background-color: #f4f4f5;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.label-vacant:hover {
+    background-color: #e4e4e7;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.label-vacant:active {
+    background-color: #d4d4d8;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.5);
+}

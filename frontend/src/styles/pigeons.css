@@ -1,0 +1,18 @@
+.filter-parameter-box {
+    margin-top: 5px;
+}
+
+.label-box {
+    padding: 0 0;
+    margin-bottom: 8px;
+}
+
+.button-box {
+    height: 90px;
+}
+
+.pigeons-table-head {
+    border-bottom-color: var(--bs-table-color);
+    background: rgb(51,122,183);
+    color: rgb(255,255,255);
+}
