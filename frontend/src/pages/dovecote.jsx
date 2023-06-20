@@ -1,11 +1,16 @@
 import React from 'react';
+import { Container, Row, Col } from 'react-bootstrap';
+import MyAccordion from "../components/UI/dovecoteAccordion/MyAccordion";
 
 const Dovecote = () => {
     return (
-        <div>
-            <h1>Dovecotes scheme</h1>
-        </div>
-    );
+        <Container>
+            <Row>
+                <Col>
+                    <MyAccordion />
+                </Col>
+            </Row>
+        </Container>);
 };
 
 export default Dovecote;
