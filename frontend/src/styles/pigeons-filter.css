@@ -1,0 +1,48 @@
+.pigeons-filters {
+    padding-top: 30px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    gap: 12px 12px;
+    grid-auto-flow: row;
+    grid-template-areas:
+    "ring condition dovecote name"
+    "year-from year-to age-from age-to"
+    "submit-button submit-button new-pigeon-button new-pigeon-button";
+}
+
+.ring { grid-area: ring; }
+
+.condition { grid-area: condition; }
+
+.dovecote { grid-area: dovecote; }
+
+.name { grid-area: name; }
+
+.year-from { grid-area: year-from; }
+
+.year-to { grid-area: year-to; }
+
+.age-from { grid-area: age-from; }
+
+.age-to { grid-area: age-to; }
+
+.submit-button { grid-area: submit-button; }
+
+.new-pigeon-button { grid-area: new-pigeon-button; }
+
+.two-fields-filter {  display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 12px 12px;
+    grid-auto-flow: row;
+    grid-template-areas:
+    "label-field label-field"
+    "left-filter right-filter";
+}
+
+.label-field { grid-area: label-field; }
+
+.left-filter { grid-area: left-filter; }
+
+.right-filter { grid-area: right-filter; }

@@ -41,7 +41,7 @@ class SectionSelect extends React.Component {
                 <select id="location" className="form-select" name="location">
                     <option value={''}>Выберите голубятню</option>
                     {sections.map(section => (
-                        <SectionOption section={section} hierarchyLevel={rootLevel}/>
+                        <SectionOption section={section} hierarchyLevel={rootLevel} key={section.id}/>
                     ))}
                 </select>
             );

@@ -13,7 +13,7 @@ class SectionOption extends React.Component {
             return <React.Fragment>
                 <option value={section.id}>{currentLevelPrefix}   {section.name}</option>
                 {section.children.map(section =>(
-                    <SectionOption section={section} hierarchyLevel={nextLevelPrefix}/>
+                    <SectionOption section={section} hierarchyLevel={nextLevelPrefix} key={section.id}/>
                 ))}
             </React.Fragment>;
         } else {
