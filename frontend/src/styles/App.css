@@ -17,3 +17,8 @@
     font-size: 1.2rem;
     margin: 0;
 }
+
+.page-body {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
