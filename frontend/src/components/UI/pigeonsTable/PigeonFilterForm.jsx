@@ -6,7 +6,7 @@ import InputDate from "../input/InputDate";
 import SelectTwoFields from "../input/SelectTwoFields";
 import '../../../styles/pigeons-filter.css';
 
-const PigeonFilterForm = () => {
+const PigeonFilterForm = ({submit}) => {
     const filterForm = useRef();
 
     const yearOptions = [
@@ -54,14 +54,13 @@ const PigeonFilterForm = () => {
     const ageYearToFilter = new FilterData("ageYearTo", "ДО", "...лет", yearOptions);
     const ageMonthToFilter = new FilterData("ageMonthTo", "", "...мес.", monthOptions);
 
-    const handleSubmit = event => {
-        event.preventDefault();
-        const data = new FormData(event.target);
-        console.log(data);
+    const handleSubmit = () => {
+        const formDataQuery = new URLSearchParams(new FormData(filterForm.current)).toString();
+        submit(formDataQuery);
     }
 
     return (
-        <form ref={filterForm} id="pigeon-filter" onSubmit={handleSubmit}>
+        <form ref={filterForm} id="pigeon-filter" /*onSubmit={handleSubmit}*/>
             <div className="pigeons-filters">
                 <div className="ring"><InputText filterData={ringNumberFilter} /></div>
                 <div className="condition"><SelectCommon filterData={conditionFilter}/></div>
@@ -82,8 +81,20 @@ const PigeonFilterForm = () => {
                 <div className="age-to">
                     <SelectTwoFields leftFilterData={ageYearToFilter} rightFilterData={ageMonthToFilter}/>
                 </div>
-                <div className="submit-button"></div>
-                <div className="new-pigeon-button"></div>
+                <div className="submit-button">
+                    <button id="filter" onClick={handleSubmit}
+                            className="btn btn-primary btn-lg"
+                            type="button" style={{background: "rgb(51,122,183)", width: 150 + "px"}}>
+                        Найти
+                    </button>
+                </div>
+                <div className="new-pigeon-button">
+                    <button id="create"
+                            className="btn btn-primary btn-lg"
+                            type="button" style={{background: "rgb(51,122,183)", width: 165 + "px"}}>
+                        Новый голубь
+                    </button>
+                </div>
             </div>
         </form>
     );

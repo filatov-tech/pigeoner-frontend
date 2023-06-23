@@ -1,42 +1,42 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { Container, Row, Col } from "react-bootstrap";
 import '../styles/pigeons.css';
 import PigeonFilterForm from "../components/UI/pigeonsTable/PigeonFilterForm";
+import PigeonTable from "../components/UI/pigeonsTable/PigeonTable";
 
 const Pigeons = () => {
+
+    const [tableData, setTableData] = useState();
+
+    useEffect(() => {
+        fetch('/api/v1/pigeons')
+            .then(res => res.json())
+            .then(json => setTableData(json));
+    }, []);
+
+    function updateTable(formData) {
+        fetch(`/api/v1/pigeons/filter?${formData}`)
+            .then(res => res.json())
+            .then(json => setTableData(json));
+    }
+
     return (
         <Container>
             <Row>
                 <div className="col-12">
-                    <PigeonFilterForm />
+                    <PigeonFilterForm submit={updateTable}/>
                 </div>
             </Row>
             <Row>
                 <Col>
-
-
-
-                    {/*<div className="table-responsive text-center">*/}
-                    {/*    <table id="pigeons-table" className="table table-striped table-hover">*/}
-                    {/*        <thead className="text-center pigeons-table-head">*/}
-                    {/*        <tr>*/}
-                    {/*            <th>Кольцо</th>*/}
-                    {/*            <th>Окрас</th>*/}
-                    {/*            <th>Пол</th>*/}
-                    {/*            <th>Родился</th>*/}
-                    {/*            <th>Возраст</th>*/}
-                    {/*            <th>Пара</th>*/}
-                    {/*            <th>Статус</th>*/}
-                    {/*            <th></th>*/}
-                    {/*        </tr>*/}
-                    {/*        </thead>*/}
-                    {/*        <tbody></tbody>*/}
-                    {/*    </table>*/}
-                    {/*</div>*/}
+                    {tableData
+                        ? <PigeonTable data={tableData}/>
+                        : <div className="spinner-border text-primary m-5" role="status">
+                            <span className="visually-hidden">Loading...</span>
+                        </div>}
                 </Col>
             </Row>
         </Container>
-
     );
 };
 

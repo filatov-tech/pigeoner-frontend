@@ -13,14 +13,14 @@ const SelectTwoFields = ({leftFilterData, rightFilterData}) => {
             <Row>
                 <Col>
                     <select id={selectId} className="form-select" name={leftFilterData.name}>
-                        <option value>{leftFilterData.placeholder}</option>
+                        <option value="">{leftFilterData.placeholder}</option>
                         {leftFilterData.options.map(option =>
                             <option value={option.value} key={option.label}>{option.label}</option>)}
                     </select>
                 </Col>
                 <Col>
                     <select className="form-select" name={rightFilterData.name}>
-                        <option value>{rightFilterData.placeholder}</option>
+                        <option value="">{rightFilterData.placeholder}</option>
                         {rightFilterData.options.map(option =>
                             <option value={option.value} key={option.label}>{option.label}</option>)}
                     </select>

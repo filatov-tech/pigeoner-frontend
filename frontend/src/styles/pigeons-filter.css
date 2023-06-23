@@ -27,9 +27,17 @@
 
 .age-to { grid-area: age-to; }
 
-.submit-button { grid-area: submit-button; }
+.submit-button {
+    grid-area: submit-button;
+    padding-top: 20px;
+}
 
-.new-pigeon-button { grid-area: new-pigeon-button; }
+.new-pigeon-button {
+    grid-area: new-pigeon-button;
+    justify-self: end;
+    padding-top: 20px;
+
+}
 
 .two-fields-filter {  display: grid;
     grid-template-columns: 1fr 1fr;
