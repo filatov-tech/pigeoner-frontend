@@ -1,5 +1,6 @@
 import React, {useMemo} from 'react';
 import { MaterialReactTable } from "material-react-table";
+import {MRT_Localization_RU} from "material-react-table/locales/ru";
 
 const PigeonTable = ({data}) => {
     const columns = useMemo(() => [
@@ -42,7 +43,9 @@ const PigeonTable = ({data}) => {
             sx: {
                 borderRadius: '0.5rem',
             },
-    }}/>;
+        }}
+        localization={MRT_Localization_RU}
+    />;
 };
 
 export default PigeonTable;
