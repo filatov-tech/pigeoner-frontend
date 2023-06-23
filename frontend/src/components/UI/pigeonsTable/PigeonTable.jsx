@@ -35,7 +35,14 @@ const PigeonTable = ({data}) => {
         []
     );
 
-    return <MaterialReactTable columns={columns} data={data}/>;
+    return <MaterialReactTable
+        columns={columns}
+        data={data}
+        muiTablePaperProps={{
+            sx: {
+                borderRadius: '0.5rem',
+            },
+    }}/>;
 };
 
 export default PigeonTable;
