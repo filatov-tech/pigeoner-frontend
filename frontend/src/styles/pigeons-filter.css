@@ -1,3 +1,12 @@
+.reset-button {
+    margin-left: 1rem;
+}
+
+.table-box{
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
 .pigeons-filters {
     padding-top: 30px;
     display: grid;

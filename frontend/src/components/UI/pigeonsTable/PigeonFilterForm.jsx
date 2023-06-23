@@ -59,8 +59,12 @@ const PigeonFilterForm = ({submit}) => {
         submit(formDataQuery);
     }
 
+    const resetFilters = () => {
+        submit();
+    }
+
     return (
-        <form ref={filterForm} id="pigeon-filter" /*onSubmit={handleSubmit}*/>
+        <form ref={filterForm} id="pigeon-filter">
             <div className="pigeons-filters">
                 <div className="ring"><InputText filterData={ringNumberFilter} /></div>
                 <div className="condition"><SelectCommon filterData={conditionFilter}/></div>
@@ -87,6 +91,7 @@ const PigeonFilterForm = ({submit}) => {
                             type="button" style={{background: "rgb(51,122,183)", width: 150 + "px"}}>
                         Найти
                     </button>
+                    <button className="btn btn-light btn-lg reset-button" type="reset" onClick={resetFilters}>Сбросить</button>
                 </div>
                 <div className="new-pigeon-button">
                     <button id="create"

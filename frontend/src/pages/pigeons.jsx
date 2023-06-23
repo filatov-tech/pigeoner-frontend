@@ -15,7 +15,8 @@ const Pigeons = () => {
     }, []);
 
     function updateTable(formData) {
-        fetch(`/api/v1/pigeons/filter?${formData}`)
+        const url = formData ? `/api/v1/pigeons/filter?${formData}` : '/api/v1/pigeons';
+        fetch(url)
             .then(res => res.json())
             .then(json => setTableData(json));
     }
@@ -28,7 +29,7 @@ const Pigeons = () => {
                 </div>
             </Row>
             <Row>
-                <Col>
+                <Col className="table-box">
                     {tableData
                         ? <PigeonTable data={tableData}/>
                         : <div className="spinner-border text-primary m-5" role="status">
