@@ -9,7 +9,7 @@ const SelectCommon = ({filterData}) => {
                 <strong>{filterData.label}</strong>
             </label>}
             <select id={selectId} className="form-select" name={filterData.name}>
-                <option value>{filterData.placeholder}</option>
+                <option value="">{filterData.placeholder}</option>
                 {filterData.options.map(option =>
                     <option value={option.value} key={option.value}>{option.label}</option>)}
             </select>
