@@ -2,6 +2,10 @@ hr {
     size: 2px;
 }
 
+.name-column {
+    width: 45%;
+}
+
 /* grid */
 .pigeon-content {  display: grid;
     grid-template-columns: 1fr;
@@ -16,7 +20,7 @@ hr {
 }
 
 .main-info {  display: grid;
-    grid-template-columns: 0.6fr 1.4fr;
+    grid-template-columns: 0.8fr 1.2fr;
     grid-template-rows: 0.2fr 1.8fr;
     gap: 2px 5px;
     grid-auto-flow: row;
@@ -63,10 +67,11 @@ hr {
 .flight-box { grid-area: flight-box; }
 
 .image-box {  display: grid;
-    grid-template-columns: 1.5fr 0.5fr;
+    grid-template-columns: 1.7fr 0.3fr;
     grid-template-rows: 0.2fr 1.5fr 1.6fr 1.5fr 0.2fr;
     gap: 6px 6px;
     grid-auto-flow: row;
+    justify-items: end;
     grid-template-areas:
     "main-image up-list"
     "main-image first-additional-image"
@@ -75,7 +80,10 @@ hr {
     "main-image down-list";
 }
 
-.main-image { grid-area: main-image; }
+.main-image {
+    grid-area: main-image;
+    place-self: center;
+}
 
 .up-list { grid-area: up-list; }
 

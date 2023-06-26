@@ -1,12 +1,13 @@
 import React from 'react';
 import {Table} from "react-bootstrap";
+import '../../../styles/pigeon.css';
 
 const TwoColumnTable = ({pigeon}) => {
     return (
         <Table striped bordered>
             <tbody>
                 <tr>
-                    <td>Кличка</td>
+                    <td className="name-column">Кличка</td>
                     <td>{pigeon.name}</td>
                 </tr>
                 <tr>
