@@ -56,3 +56,311 @@
     background-color: #d4d4d8;
     box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.5);
 }
+
+.pigeon-card {
+    background: rgb(255, 255, 255);
+    border-radius: 6px;
+    box-shadow: 0.3em 0.3em 0.7em #00000015;
+    transition: border 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: rgb(250, 250, 250) 0.2em solid;
+    height: 100%;
+    color: #434343;
+}
+
+
+
+.male {
+    border: #dcedfc 0.2em solid;
+}
+
+.male-background {
+    background: #f5f9fd;
+}
+
+.female {
+    border: #fde7ee 0.2em solid;
+}
+
+.female-background {
+    background: #fcf4f7;
+}
+
+.pigeon-card:hover {
+    border: #bdbdbd 0.2em solid;
+}
+
+.male:hover {
+    border: #90caf9 0.2em solid;
+}
+
+.female:hover {
+    border: #f48fb1 0.2em solid;
+}
+
+.no-border {
+    border-width: 0;
+}
+
+.card-small div {
+    padding-top: 6px;
+    padding-bottom: 6px;
+}
+
+.card-small h5 {
+    font-size: 16px;
+}
+
+.card-small p {
+    font-size: 12px;
+}
+
+.card-medium div {
+    padding-top: 6px;
+    padding-bottom: 6px;
+}
+
+.card-medium h5 {
+    font-size: 18px;
+}
+
+.card-medium p {
+    font-size: 14px;
+}
+
+.card-big p {
+    font-size: 14px;
+}
+
+.card-empty h5 {
+    color: #bdbdbd;
+    text-align: center;
+    font-size: 12px;
+}
+
+/*  genealogy styles  */
+.genealogy-frame {
+    background: #f4f4f4;
+    border-radius: 5px;
+    padding-top: 10px;
+    padding-bottom: 12px;
+}
+
+.full-height {
+    height: 100%;
+}
+
+.half-height {
+    height: 50%;
+}
+
+.pigeon-add-button {
+    background: #ffffff;
+    color: #b2b2b2;
+    font-family: inherit;
+    padding: 0.35em;
+    padding-left: 1.2em;
+    font-size: 17px;
+    font-weight: 500;
+    border-radius: 0.3em;
+    border: none;
+    letter-spacing: 0.05em;
+    display: flex;
+    align-items: center;
+    box-shadow: inset 0 0 0.6em -0.2em #bdbdbd;
+    overflow: hidden;
+    position: relative;
+    height: 1.8em;
+    padding-right: 3.3em;
+}
+
+.pigeon-add-button .icon {
+    background: white;
+    margin-left: 1em;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 1.2em;
+    width: 2.4em;
+    border-radius: 0.2em;
+    box-shadow: 0 0 0.1em 0.1em #dedede;
+    right: 0.3em;
+    transition: all 0.3s;
+}
+
+.pigeon-add-button:hover .icon {
+    width: calc(100% - 0.6em);
+}
+
+.pigeon-add-button .icon svg {
+    width: 1.1em;
+    transition: transform 0.3s;
+    color: #bdbdbd;
+}
+
+.pigeon-add-button:hover .icon svg {
+    transform: translateX(0.1em);
+}
+
+.pigeon-add-button:active .icon {
+    transform: scale(0.95);
+}
+
+.pedigree-tree {  display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    gap: 10px 4px;
+    grid-auto-flow: row;
+    justify-items: stretch;
+    align-items: center;
+    grid-template-areas:
+    "pigeon father ff fff"
+    "pigeon father ff ffm"
+    "pigeon father fm fmf"
+    "pigeon father fm fmm"
+    "pigeon mother mf mff"
+    "pigeon mother mf mfm"
+    "pigeon mother mm mmf"
+    "pigeon mother mm mmm";
+    height: 620px;
+}
+
+.pigeon { grid-area: pigeon; }
+
+.father { grid-area: father; }
+
+.mother { grid-area: mother; }
+
+.ff {
+    align-self: stretch;
+    grid-area: ff;
+}
+
+.fm {
+    align-self: stretch;
+    grid-area: fm;
+}
+
+.mf {
+    align-self: stretch;
+    grid-area: mf;
+}
+
+.mm {
+    align-self: stretch;
+    grid-area: mm;
+}
+
+.fff {
+    align-self: stretch;
+    grid-area: fff;
+}
+
+.ffm {
+    align-self: stretch;
+    grid-area: ffm;
+}
+
+.fmf {
+    align-self: stretch;
+    grid-area: fmf;
+}
+
+.fmm {
+    align-self: stretch;
+    grid-area: fmm;
+}
+
+.mff {
+    align-self: stretch;
+    grid-area: mff;
+}
+
+.mfm {
+    align-self: stretch;
+    grid-area: mfm;
+}
+
+.mmf {
+    align-self: stretch;
+    grid-area: mmf;
+}
+
+.mmm {
+    align-self: stretch;
+    grid-area: mmm;
+}
+
+@media (max-width: 998px) {
+    .pedigree-tree {  display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+        gap: 4px 0;
+        grid-auto-flow: row;
+        grid-template-areas:
+    "pigeon"
+    "pigeon"
+    "pigeon"
+    "pigeon"
+    "pigeon"
+    "pigeon"
+    "pigeon"
+    "pigeon"
+    "father"
+    "father"
+    "father"
+    "father"
+    "ff"
+    "ff"
+    "fm"
+    "fm"
+    "fff"
+    "ffm"
+    "fmf"
+    "fmm"
+    "mother"
+    "mother"
+    "mother"
+    "mother"
+    "mf"
+    "mf"
+    "mm"
+    "mm"
+    "mff"
+    "mfm"
+    "mmf"
+    "mmm";
+        height: 2400px;
+    }
+
+    .pigeon { grid-area: pigeon; }
+
+    .father { grid-area: father; }
+
+    .ff { grid-area: ff; }
+
+    .fm { grid-area: fm; }
+
+    .fff { grid-area: fff; }
+
+    .ffm { grid-area: ffm; }
+
+    .fmf { grid-area: fmf; }
+
+    .fmm { grid-area: fmm; }
+
+    .mother { grid-area: mother; }
+
+    .mf { grid-area: mf; }
+
+    .mm { grid-area: mm; }
+
+    .mff { grid-area: mff; }
+
+    .mfm { grid-area: mfm; }
+
+    .mmf { grid-area: mmf; }
+
+    .mmm { grid-area: mmm; }
+
+}
