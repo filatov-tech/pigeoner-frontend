@@ -1,0 +1,94 @@
+hr {
+    size: 2px;
+}
+
+/* grid */
+.pigeon-content {  display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    gap: 14px 0;
+    grid-auto-flow: row;
+    grid-template-areas:
+    "main-info"
+    "pedigree-container"
+    "flight-container";
+    height: 1600px;
+}
+
+.main-info {  display: grid;
+    grid-template-columns: 0.6fr 1.4fr;
+    grid-template-rows: 0.2fr 1.8fr;
+    gap: 2px 5px;
+    grid-auto-flow: row;
+    grid-template-areas:
+    "main-head main-head"
+    "pigeon-data pigeon-photo";
+    grid-area: main-info;
+}
+
+.main-head { grid-area: main-head; }
+
+.pigeon-data { grid-area: pigeon-data; }
+
+.pigeon-photo { grid-area: pigeon-photo; }
+
+.pedigree-container {  display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 0.2fr 1.8fr;
+    gap: 2px 0;
+    grid-auto-flow: row;
+    grid-template-areas:
+    "pedigree-head"
+    "pedigree-tree-box";
+    grid-area: pedigree-container;
+}
+
+.pedigree-head { grid-area: pedigree-head; }
+
+.pedigree-tree-box { grid-area: pedigree-tree-box; }
+
+.flight-container {  display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 0.2fr 1.8fr;
+    gap: 2px 0;
+    grid-auto-flow: row;
+    grid-template-areas:
+    "flight-head"
+    "flight-box";
+    grid-area: flight-container;
+}
+
+.flight-head { grid-area: flight-head; }
+
+.flight-box { grid-area: flight-box; }
+
+.image-box {  display: grid;
+    grid-template-columns: 1.5fr 0.5fr;
+    grid-template-rows: 0.2fr 1.5fr 1.6fr 1.5fr 0.2fr;
+    gap: 6px 6px;
+    grid-auto-flow: row;
+    grid-template-areas:
+    "main-image up-list"
+    "main-image first-additional-image"
+    "main-image second-additional-image"
+    "main-image third-additional-image"
+    "main-image down-list";
+}
+
+.main-image { grid-area: main-image; }
+
+.up-list { grid-area: up-list; }
+
+.first-additional-image { grid-area: first-additional-image; }
+
+.second-additional-image { grid-area: second-additional-image; }
+
+.third-additional-image { grid-area: third-additional-image; }
+
+.down-list { grid-area: down-list; }
+
+
+html, body {
+    height: 100%;
+    margin: 0;
+}

@@ -14,7 +14,8 @@ const PigeonTable = ({data}) => {
         },
         {
             accessorKey: 'sex',
-            header: 'Пол'
+            header: 'Пол',
+            size: 100
         },
         {
             accessorKey: 'birthday',
@@ -44,6 +45,11 @@ const PigeonTable = ({data}) => {
                 borderRadius: '0.5rem',
             },
         }}
+        muiTableBodyRowProps={({ row }) => ({
+            onClick: (event) => {
+                console.info(event, row.id);
+            }
+        })}
         localization={MRT_Localization_RU}
     />;
 };
