@@ -2,7 +2,7 @@ import React from 'react';
 import Nest from "./Nest";
 import OutsideTheNests from "./OutsideTheNests";
 
-class MyAccordion extends React.Component {
+class DovecoteAccordion extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -85,7 +85,7 @@ class MyAccordion extends React.Component {
                                             :
                                             (<React.Fragment>
                                                 <strong>Секции:</strong>
-                                                <MyAccordion sections={section.children} parentId={section.id}/>
+                                                <DovecoteAccordion sections={section.children} parentId={section.id}/>
                                             </React.Fragment>)}
                                     </div>
                                 </div>
@@ -98,4 +98,4 @@ class MyAccordion extends React.Component {
     }
 }
 
-export default MyAccordion;
+export default DovecoteAccordion;

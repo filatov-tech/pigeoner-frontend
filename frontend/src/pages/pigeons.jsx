@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import { Container, Row, Col } from "react-bootstrap";
 import '../styles/pigeons.css';
-import PigeonFilterForm from "../components/UI/pigeonsTable/PigeonFilterForm";
-import PigeonTable from "../components/UI/pigeonsTable/PigeonTable";
+import PigeonFilterForm from "../components/UI/PigeonTable/PigeonFilterForm";
+import PigeonTable from "../components/UI/PigeonTable/PigeonTable";
 
 const Pigeons = () => {
 

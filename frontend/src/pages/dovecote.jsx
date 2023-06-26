@@ -1,13 +1,13 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
-import MyAccordion from "../components/UI/dovecoteAccordion/MyAccordion";
+import DovecoteAccordion from "../components/UI/DovecoteAccordion/DovecoteAccordion";
 
 const Dovecote = () => {
     return (
         <Container>
             <Row>
                 <Col>
-                    <MyAccordion />
+                    <DovecoteAccordion />
                 </Col>
             </Row>
         </Container>);
