@@ -92,8 +92,8 @@ class PigeonCard extends React.Component {
                     <div className="card-body">
                         <p className="card-text">
                             {pigeon.year} - {pigeon.status} - {pigeon.isNative
-                            ? <span className="text-success">свой</span>
-                            : <span className="text-danger">чужой</span>
+                            ? <span className="text-success">{pigeon.keeper}</span>
+                            : <span className="text-danger">{pigeon.keeper}</span>
                         }
                             <br/>
                             {cardSize !== "card-small" &&
