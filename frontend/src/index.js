@@ -11,6 +11,8 @@ import Pigeon from "./pages/pigeon";
 import Dovecote from "./pages/dovecote";
 import ErrorPage from "./pages/error-page";
 import Layout from "./pages/layout";
+import Flights from "./pages/flights";
+import Flight from "./pages/flight";
 
 const router = createBrowserRouter([
     {
@@ -29,6 +31,14 @@ const router = createBrowserRouter([
             {
                 path: "/dovecote",
                 element: <Dovecote/>
+            },
+            {
+                path: "/flights",
+                element: <Flights/>
+            },
+            {
+                path: "/flights/:id",
+                element: <Flight/>
             }
         ]
     }

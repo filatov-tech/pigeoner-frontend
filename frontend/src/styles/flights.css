@@ -1,0 +1,20 @@
+.flights-page {  display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    gap: 6px 0;
+    grid-auto-flow: row;
+    grid-template-areas:
+    "header"
+    "flights-table"
+    "add-button";
+}
+
+.header { grid-area: header; }
+
+.flights-table { grid-area: flights-table; }
+
+.add-button {
+    justify-self: center;
+    align-self: center;
+    grid-area: add-button;
+}
