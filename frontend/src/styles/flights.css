@@ -1,20 +1,37 @@
 .flights-page {  display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-rows: 0.3fr 2.5fr 0.2fr;
     gap: 6px 0;
     grid-auto-flow: row;
     grid-template-areas:
-    "header"
+    "flights-header"
     "flights-table"
     "add-button";
 }
 
-.header { grid-area: header; }
+.flights-header {
+    grid-area: flights-header;
+    display: flex;
+    flex-wrap: wrap;
+}
 
 .flights-table { grid-area: flights-table; }
 
-.add-button {
+.flights-add-button {
     justify-self: center;
     align-self: center;
+    padding: 20px 0;
     grid-area: add-button;
+}
+
+.flights-header>h1 {
+    flex-basis: 100%;
+}
+
+.flights-header>p {
+    font-size: 1.2rem;
+}
+
+.flights-add-button-style {
+    background: #337ab7;
 }
