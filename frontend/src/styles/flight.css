@@ -82,7 +82,11 @@
     margin: 10px 0;
 }
 
-.flight-add-button { grid-area: flight-add-button; }
+.flight-add-button {
+    grid-area: flight-add-button;
+    display: flex;
+    justify-content: center;
+}
 
 .flight-header > hr {
     margin-bottom: 4px;
