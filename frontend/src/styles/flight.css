@@ -1,0 +1,144 @@
+.flight-page {  display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows:  0.5fr 0.7fr 0.3fr 3.2fr 0.3fr;
+    gap: 12px 12px;
+    grid-auto-flow: row;
+    grid-template-areas:
+    "flight-header flight-header"
+    "flight-info manage-zone"
+    "switch manage-zone"
+    "flight-result-table flight-result-table"
+    "flight-add-button flight-add-button";
+}
+
+.flight-page > div {
+    font-size: 1.3rem;
+}
+
+.flight-header {
+    grid-area: flight-header;
+}
+
+.flight-header-box {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.flight-header-box > h1 {
+    flex-basis: 100%;
+}
+
+.flight-header-box>div {
+    font-size: 2rem;
+}
+
+.flight-info {
+    grid-area: flight-info;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: start;
+}
+
+.flight-info > div {
+    flex-basis: 50%;
+    font-size: 1.1rem;
+}
+
+.switch {
+    grid-area: switch;
+    display: flex;
+    align-items: end;
+}
+
+.switch > div {
+    font-size: 1.6rem;
+}
+
+.switch>label {
+    margin: 0 20px;
+}
+
+.manage-zone {
+    grid-area: manage-zone;
+    width: 40%;
+    justify-self: end;
+    display: flex;
+    flex-flow: row-reverse wrap;
+    align-content: flex-end;
+}
+
+.manage-zone > p {
+    font-size: 1rem;
+
+}
+
+.manage-zone > * {
+    flex-basis: 100%;
+}
+
+.flight-result-table {
+    grid-area: flight-result-table;
+    margin: 10px 0;
+}
+
+.flight-add-button { grid-area: flight-add-button; }
+
+.flight-header > hr {
+    margin-bottom: 4px;
+}
+
+/* switch button */
+.switch-button {
+    font-size: 17px;
+    position: relative;
+    display: inline-block;
+    width: 4em;
+    min-width: 4em;
+    height: 2em;
+}
+
+.switch-button input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #f4f8ff;
+    border: 1px solid #adb5bd;
+    transition: .4s;
+    border-radius: 30px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 1.4em;
+    width: 1.4em;
+    border-radius: 20px;
+    left: 0.27em;
+    bottom: 0.25em;
+    background-color: #adb5bd;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: #007bff;
+    border: 1px solid #007bff;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #007bff;
+}
+
+input:checked + .slider:before {
+    transform: translateX(2em);
+    background-color: #fff;
+}
