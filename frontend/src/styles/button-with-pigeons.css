@@ -1,0 +1,112 @@
+.button-with-pigeons {
+    position: relative;
+    padding: 13px 35px;
+    background: #337ab7;
+    font-family: sans-serif;
+    font-size: 1.25rem;
+    font-weight: 400;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 2px 2px 5px #18181869;
+    transition: all .3s ease-in-out;
+    z-index: 2;
+}
+
+.pigeon-1 {
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    width: 0;
+    height: auto;
+    transition: all .5s ease-in-out;
+}
+
+.pigeon-2 {
+    position: absolute;
+    top: 10%;
+    left: 60%;
+    transform: translate(-50%, 0);
+    width: 0;
+    height: auto;
+    transition: all .5s ease-in-out;
+}
+
+.pigeon-3 {
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    width: 0;
+    height: auto;
+    transition: all .5s ease-in-out;
+}
+
+.pigeon-4 {
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    width: 0;
+    height: auto;
+    transition: all .5s ease-in-out;
+}
+
+.pigeon-5 {
+    position: absolute;
+    top: 50%;
+    left: 60%;
+    transform: translate(-50%, 0);
+    width: 0;
+    height: auto;
+    transition: all .5s ease-in-out;
+}
+
+.button-with-pigeons:hover .pigeon-1 {
+    top: -250%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    width: 50px;
+    height: auto;
+}
+
+.button-with-pigeons:hover .pigeon-2 {
+    position: absolute;
+    top: -200%;
+    left: 90%;
+    transform: translate(-50%, 0);
+    width: 75px;
+    height: auto;
+}
+
+.button-with-pigeons:hover .pigeon-3 {
+    position: absolute;
+    top: -90%;
+    left: 20%;
+    transform: translate(-50%, 0);
+    width: 60px;
+    height: auto;
+}
+
+.button-with-pigeons:hover .pigeon-4 {
+    position: absolute;
+    top: 100%;
+    left: 10%;
+    transform: translate(-30%, 0);
+    width: 85px;
+    height: auto;
+}
+
+.button-with-pigeons:hover .pigeon-5 {
+    position: absolute;
+    top: 50%;
+    left: 80%;
+    transform: translate(-50%, 0);
+    width: 85px;
+    height: auto;
+}
+
+.button-with-pigeons:active {
+    scale: 1.03;
+}

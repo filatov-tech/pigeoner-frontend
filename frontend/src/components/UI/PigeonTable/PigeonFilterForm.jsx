@@ -5,6 +5,7 @@ import SelectCommon from "../input/SelectCommon";
 import InputDate from "../input/InputDate";
 import SelectTwoFields from "../input/SelectTwoFields";
 import '../../../styles/pigeons-filter.css';
+import ButtonWithPigeons from "../button/ButtonWithPigeons";
 
 const PigeonFilterForm = ({submit}) => {
     const filterForm = useRef();
@@ -94,11 +95,7 @@ const PigeonFilterForm = ({submit}) => {
                     <button className="btn btn-light btn-lg reset-button" type="reset" onClick={resetFilters}>Сбросить</button>
                 </div>
                 <div className="new-pigeon-button">
-                    <button id="create"
-                            className="btn btn-primary btn-lg"
-                            type="button" style={{background: "rgb(51,122,183)", width: 165 + "px"}}>
-                        Новый голубь
-                    </button>
+                    <ButtonWithPigeons/>
                 </div>
             </div>
         </form>
