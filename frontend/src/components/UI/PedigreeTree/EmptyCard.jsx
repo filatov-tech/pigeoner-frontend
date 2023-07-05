@@ -1,5 +1,5 @@
 import React from 'react';
-import AddButton from "../button/AddButton";
+import PigeonToPedigreeAddButton from "../button/PigeonToPedigreeAddButton";
 
 const EmptyCard = ({pigeonStub}) => {
     return (
@@ -9,7 +9,7 @@ const EmptyCard = ({pigeonStub}) => {
                     <h5 className="mb-0">Пустой слот</h5>
                 </div>
                 <div className="card-body d-flex align-items-center justify-content-center">
-                    {pigeonStub.parentId > 0 && <AddButton />}
+                    {pigeonStub.parentId > 0 && <PigeonToPedigreeAddButton />}
                 </div>
             </div>
         </div>

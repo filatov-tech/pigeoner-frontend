@@ -1,7 +1,7 @@
 import React from 'react';
 import '../../../styles/custom-styles.css';
 
-const AddButton = () => {
+const PigeonToPedigreeAddButton = () => {
     return (
         <button className="pigeon-add-button">Добавить
             <div className="icon">
@@ -15,4 +15,4 @@ const AddButton = () => {
     );
 };
 
-export default AddButton;
+export default PigeonToPedigreeAddButton;
