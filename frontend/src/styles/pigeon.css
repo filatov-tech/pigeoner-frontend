@@ -94,9 +94,3 @@ hr {
 .third-additional-image { grid-area: third-additional-image; }
 
 .down-list { grid-area: down-list; }
-
-
-html, body {
-    height: 100%;
-    margin: 0;
-}
