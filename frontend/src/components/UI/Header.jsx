@@ -1,5 +1,4 @@
 import React from 'react';
-import {Container, Nav, Navbar} from "react-bootstrap";
 import logo from '../../images/pigeoner_logo.svg';
 import {Link, NavLink} from "react-router-dom";
 
