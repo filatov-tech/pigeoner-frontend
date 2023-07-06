@@ -8,6 +8,21 @@
     min-height: 100vh;
 }
 
+.custom-navbar {
+    background-color: #f2f7ff;
+    font-size: 1.3rem;
+    text-transform: uppercase;
+    --bs-navbar-padding-y: 1.5rem;
+}
+
+.nav-underline {
+    --bs-navbar-nav-link-padding-x: 0;
+    --bs-nav-underline-gap: 2.5rem;
+    --bs-navbar-active-color: #337AB7;
+    --bs-navbar-hover-color: #337AB7;
+    --bs-nav-link-color: #676767;
+}
+
 .pigeoner-footer {
     position: sticky;
     top: 100vh;
