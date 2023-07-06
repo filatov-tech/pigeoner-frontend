@@ -7,6 +7,8 @@ const Dovecote = () => {
         <Container>
             <Row>
                 <Col>
+                    <h1>Голубятня</h1>
+                    <hr/>
                     <DovecoteAccordion />
                 </Col>
             </Row>

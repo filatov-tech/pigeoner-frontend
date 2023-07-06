@@ -25,6 +25,8 @@ const Pigeons = () => {
         <Container>
             <Row>
                 <div className="col-12">
+                    <h1>Голуби</h1>
+                    <hr/>
                     <PigeonFilterForm submit={updateTable}/>
                 </div>
             </Row>

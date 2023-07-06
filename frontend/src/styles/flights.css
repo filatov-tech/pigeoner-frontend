@@ -11,8 +11,7 @@
 
 .flights-header {
     grid-area: flights-header;
-    display: flex;
-    flex-wrap: wrap;
+
 }
 
 .flights-table { grid-area: flights-table; }

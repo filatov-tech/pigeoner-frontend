@@ -19,6 +19,7 @@ const Flights = () => {
                     <div className="flights-page">
                         <div className="flights-header">
                             <h1>Полеты</h1>
+                            <hr/>
                             <p>Здесь отображается информация по существующим соревновательным вылетам голубей</p>
                         </div>
                         <div className="flights-table">
