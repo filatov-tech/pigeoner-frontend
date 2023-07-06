@@ -4,7 +4,6 @@ import PigeonLabel from "./PigeonLabel";
 class OutsideTheNests extends React.Component {
     render() {
         const pigeons = this.props.pigeons;
-        console.log(pigeons)
         return (
             <div className="col-12">
                 <div className="card">
