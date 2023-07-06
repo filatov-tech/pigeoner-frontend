@@ -13,6 +13,7 @@ import ErrorPage from "./pages/error-page";
 import Layout from "./pages/layout";
 import Flights from "./pages/flights";
 import Flight from "./pages/flight";
+import Feeding from "./pages/feeding";
 
 const router = createBrowserRouter([
     {
@@ -39,6 +40,10 @@ const router = createBrowserRouter([
             {
                 path: "/flights/:id",
                 element: <Flight/>
+            },
+            {
+                path: "/feeding",
+                element: <Feeding/>
             }
         ]
     }
