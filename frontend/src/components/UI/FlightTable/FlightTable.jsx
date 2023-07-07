@@ -1,6 +1,7 @@
 import {React, useMemo} from 'react';
 import {MaterialReactTable} from "material-react-table";
 import {MRT_Localization_RU} from "material-react-table/locales/ru";
+import {useNavigate} from "react-router-dom";
 
 const FlightTable = ({data}) => {
     const columns = useMemo(() => [
@@ -40,6 +41,8 @@ const FlightTable = ({data}) => {
         []
     );
 
+    let navigate = useNavigate();
+
     return <MaterialReactTable
         columns={columns}
         data={data}
@@ -49,8 +52,8 @@ const FlightTable = ({data}) => {
             },
         }}
         muiTableBodyRowProps={({ row }) => ({
-            onClick: (event) => {
-                console.info(event, row.id);
+            onClick: () => {
+                navigate(`/flights/${row.original.id}/flight-results`);
             }
         })}
         localization={MRT_Localization_RU}

@@ -1,6 +1,7 @@
 import React, {useMemo} from 'react';
 import { MaterialReactTable } from "material-react-table";
 import {MRT_Localization_RU} from "material-react-table/locales/ru";
+import {useNavigate} from "react-router-dom";
 
 const PigeonTable = ({data}) => {
     const columns = useMemo(() => [
@@ -37,6 +38,8 @@ const PigeonTable = ({data}) => {
         []
     );
 
+    let navigate = useNavigate();
+
     return <MaterialReactTable
         columns={columns}
         data={data}
@@ -46,8 +49,8 @@ const PigeonTable = ({data}) => {
             },
         }}
         muiTableBodyRowProps={({ row }) => ({
-            onClick: (event) => {
-                console.info(event, row.id);
+            onClick: () => {
+                navigate(`/pigeons/${row.original.id}`);
             }
         })}
         localization={MRT_Localization_RU}
