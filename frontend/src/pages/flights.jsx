@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import '../styles/flights.css';
 import {Button, Col, Container, Row} from "react-bootstrap";
 import FlightsTable from "../components/UI/FlightsTable/FlightsTable";
+import TableSkeletonLoader from "../components/UI/loader/TableSkeletonLoader";
 
 const Flights = () => {
     const [tableData, setTableData] = useState();
@@ -23,11 +24,7 @@ const Flights = () => {
                             <p>Здесь отображается информация по существующим соревновательным вылетам голубей</p>
                         </div>
                         <div className="flights-table">
-                            {tableData
-                                ? <FlightsTable data={tableData}/>
-                                : <div className="spinner-border text-primary m-5" role="status">
-                                    <span className="visually-hidden">Loading...</span>
-                                </div>}
+                            {tableData ? <FlightsTable data={tableData}/> : <TableSkeletonLoader/>}
                         </div>
                         <div className="flights-add-button">
                             <Button bsPrefix="btn btn-primary btn-lg flights-add-button-style">Добавить Зачет</Button>

@@ -5,6 +5,7 @@ import '../styles/flight.css';
 import LoadingButton from "../components/UI/button/LoadingButton";
 import FlightTable from "../components/UI/FlightTable/FlightTable";
 import BigButton from "../components/UI/button/BigButton";
+import TableSkeletonLoader from "../components/UI/loader/TableSkeletonLoader";
 
 const Flight = () => {
     let { id } = useParams();
@@ -64,9 +65,7 @@ const Flight = () => {
                                 </div>
                                 <div className="flight-result-table">
                                     {flightResults ? <FlightTable data={flightResults}/>
-                                    : <div className="spinner-border text-primary m-5" role="status">
-                                            <span className="visually-hidden">Loading...</span>
-                                        </div>}
+                                    : <TableSkeletonLoader/>}
                                 </div>
                                 <div className="flight-add-button">
                                     <BigButton name={"Добавить результат"}/>

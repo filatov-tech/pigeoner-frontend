@@ -3,6 +3,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import '../styles/pigeons.css';
 import PigeonFilterForm from "../components/UI/PigeonTable/PigeonFilterForm";
 import PigeonTable from "../components/UI/PigeonTable/PigeonTable";
+import TableSkeletonLoader from "../components/UI/loader/TableSkeletonLoader";
 
 const Pigeons = () => {
 
@@ -32,11 +33,7 @@ const Pigeons = () => {
             </Row>
             <Row>
                 <Col className="table-box">
-                    {tableData
-                        ? <PigeonTable data={tableData}/>
-                        : <div className="spinner-border text-primary m-5" role="status">
-                            <span className="visually-hidden">Loading...</span>
-                        </div>}
+                    {tableData  ? <PigeonTable data={tableData}/> : <TableSkeletonLoader/>}
                 </Col>
             </Row>
         </Container>
