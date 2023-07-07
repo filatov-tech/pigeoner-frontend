@@ -63,7 +63,10 @@ const Flight = () => {
                                     <div><LoadingButton name={"Подгрузить данные"}/></div>
                                 </div>
                                 <div className="flight-result-table">
-                                    <FlightTable data={flightResults}/>
+                                    {flightResults ? <FlightTable data={flightResults}/>
+                                    : <div className="spinner-border text-primary m-5" role="status">
+                                            <span className="visually-hidden">Loading...</span>
+                                        </div>}
                                 </div>
                                 <div className="flight-add-button">
                                     <BigButton name={"Добавить результат"}/>
