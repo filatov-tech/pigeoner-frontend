@@ -68,7 +68,7 @@ const Flight = () => {
                                     : <TableSkeletonLoader/>}
                                 </div>
                                 <div className="flight-add-button">
-                                    <BigButton name={"Добавить результат"}/>
+                                    <BigButton name={"Добавить участника"}/>
                                 </div>
                             </div>
                         </Col>
