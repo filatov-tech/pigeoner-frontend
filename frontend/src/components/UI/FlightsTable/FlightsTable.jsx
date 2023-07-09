@@ -1,39 +1,50 @@
 import React, {useMemo} from 'react';
 import { MaterialReactTable } from "material-react-table";
 import {MRT_Localization_RU} from "material-react-table/locales/ru";
-import {useNavigate} from "react-router-dom";
+import {Link} from "react-router-dom";
 
 const FlightsTable = ({data}) => {
+    const addLinkToCell = function () {
+        return ({cell, row}) => {
+            return <>{cell.getValue()}<Link to={`/flights/${row.original.id}`}
+                                            className="table-link"></Link></>;
+        };
+    }
+
     const columns = useMemo(() => [
             {
                 accessorKey: 'locationName',
-                header: 'Место выпуска'
+                header: 'Место выпуска',
+                Cell: addLinkToCell()
             },
             {
                 accessorKey: 'distance',
-                header: 'Дистанция, км'
+                header: 'Дистанция, км',
+                Cell: addLinkToCell()
             },
             {
                 accessorKey: 'numberParticipants',
-                header: 'Мои голуби'
+                header: 'Мои голуби',
+                Cell: addLinkToCell()
             },
             {
                 accessorKey: 'myPassed',
-                header: 'В зачете'
+                header: 'В зачете',
+                Cell: addLinkToCell()
             },
             {
                 accessorKey: 'totalParticipants',
-                header: 'Всего участников'
+                header: 'Всего участников',
+                Cell: addLinkToCell()
             },
             {
                 accessorKey: 'departure',
-                header: 'Выпуск'
+                header: 'Выпуск',
+                Cell: addLinkToCell()
             }
         ],
         []
     );
-
-    let navigate = useNavigate();
 
     return <MaterialReactTable
         columns={columns}
@@ -43,11 +54,11 @@ const FlightsTable = ({data}) => {
                 borderRadius: '0.5rem',
             },
         }}
-        muiTableBodyRowProps={({ row }) => ({
-            onClick: () => {
-                navigate(`/flights/${row.original.id}`);
+        muiTableBodyCellProps={{
+            sx: {
+                position: "relative"
             }
-        })}
+        }}
         localization={MRT_Localization_RU}
     />;
 };

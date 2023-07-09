@@ -1,44 +1,55 @@
 import React, {useMemo} from 'react';
 import { MaterialReactTable } from "material-react-table";
 import {MRT_Localization_RU} from "material-react-table/locales/ru";
-import {useNavigate} from "react-router-dom";
+import {Link} from "react-router-dom";
 
 const PigeonTable = ({data}) => {
+    const addLinkToCell = function () {
+        return (({ cell,row }) => {
+            return <>{cell.getValue()}<Link to={`/pigeons/${row.original.id}`} className="table-link"></Link></>;
+        });
+    }
+
     const columns = useMemo(() => [
         {
             accessorKey: 'ringNumber',
-            header: 'Кольцо'
+            header: 'Кольцо',
+            Cell: addLinkToCell()
         },
         {
             accessorKey: 'color',
-            header: 'Окрас'
+            header: 'Окрас',
+            Cell: addLinkToCell()
         },
         {
             accessorKey: 'sex',
             header: 'Пол',
-            size: 100
+            size: 100,
+            Cell: addLinkToCell()
         },
         {
             accessorKey: 'birthday',
-            header: 'Дата рождения'
+            header: 'Дата рождения',
+            Cell: addLinkToCell()
         },
         {
             accessorKey: 'age',
-            header: 'Возраст'
+            header: 'Возраст',
+            Cell: addLinkToCell()
         },
         {
             accessorKey: 'mate',
-            header: 'Пара'
+            header: 'Пара',
+            Cell: addLinkToCell()
         },
         {
             accessorKey: 'status',
-            header: 'Статус'
+            header: 'Статус',
+            Cell: addLinkToCell()
         },
         ],
         []
     );
-
-    let navigate = useNavigate();
 
     return <MaterialReactTable
         columns={columns}
@@ -48,11 +59,11 @@ const PigeonTable = ({data}) => {
                 borderRadius: '0.5rem',
             },
         }}
-        muiTableBodyRowProps={({ row }) => ({
-            onClick: () => {
-                navigate(`/pigeons/${row.original.id}`);
+        muiTableBodyCellProps={{
+            sx: {
+                position: "relative"
             }
-        })}
+        }}
         localization={MRT_Localization_RU}
     />;
 };
