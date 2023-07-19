@@ -1,19 +1,32 @@
 import React, {useId} from 'react';
+import {FormControl, InputLabel, MenuItem, Select} from "@mui/material";
 
-const SelectCommon = ({filterData}) => {
+const SelectCommon = ({filterData, onChange}) => {
     const selectId = useId();
 
+    const handleChange = (event) => {
+        onChange({
+            name: filterData.name,
+            value: event.target.value
+        });
+    }
+
     return (
-        <>
-            {filterData.label && <label className="form-label" htmlFor={selectId}>
-                <strong>{filterData.label}</strong>
-            </label>}
-            <select id={selectId} className="form-select" name={filterData.name}>
-                <option value="">{filterData.placeholder}</option>
+        <FormControl fullWidth>
+            {filterData.label && <InputLabel id={selectId}>{filterData.label}</InputLabel>}
+            <Select
+                labelId={selectId}
+                id={filterData.name}
+                value={filterData.value}
+                label={filterData.label}
+                onChange={handleChange}
+            >
+                <MenuItem value=""><em>-</em></MenuItem>
                 {filterData.options.map(option =>
-                    <option value={option.value} key={option.value}>{option.label}</option>)}
-            </select>
-        </>
+                    <MenuItem value={option.value} key={option.value}>{option.label}</MenuItem>)}
+            </Select>
+        </FormControl>
+
     );
 };
 

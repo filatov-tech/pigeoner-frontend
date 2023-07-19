@@ -1,5 +1,4 @@
-import React, {useRef} from 'react';
-import SectionSelect from "../SectionSelect";
+import React, {useEffect, useRef, useState} from 'react';
 import InputText from "../input/InputText";
 import SelectCommon from "../input/SelectCommon";
 import InputDate from "../input/InputDate";
@@ -9,6 +8,31 @@ import ButtonWithPigeons from "../button/ButtonWithPigeons";
 
 const PigeonFilterForm = ({submit}) => {
     const filterForm = useRef();
+
+    const [ringNumber, setRingNumber] = useState('');
+    const [condition, setCondition] = useState('');
+    const [dovecote, setDovecote] = useState('');
+    const [name, setName] = useState('');
+    const [birthdateFrom, setBirthdateFrom] = useState('');
+    const [birthdateTo, setBirthdateTo] = useState('');
+    const [ageYearFrom, setAgeYearFrom] = useState('');
+    const [ageMonthFrom, setAgeMonthFrom] = useState('');
+    const [ageYearTo, setAgeYearTo] = useState('');
+    const [ageMonthTo, setAgeMonthTo] = useState('');
+    // const [, set] = useState();
+
+    const filtersMap = new Map();
+    filtersMap.set("ringNumber", setRingNumber);
+    filtersMap.set("condition", setCondition);
+    filtersMap.set("dovecote", setDovecote);
+    filtersMap.set("name", setName);
+    filtersMap.set("birthdateFrom", setBirthdateFrom);
+    filtersMap.set("birthdateTo", setBirthdateTo);
+    filtersMap.set("ageYearFrom", setAgeYearFrom);
+    filtersMap.set("ageMonthFrom", setAgeMonthFrom);
+    filtersMap.set("ageYearTo", setAgeYearTo);
+    filtersMap.set("ageMonthTo", setAgeMonthTo);
+    // filtersMap.set("", );
 
     const yearOptions = [
         {value: 0, label: "0 лет"},
@@ -45,38 +69,73 @@ const PigeonFilterForm = ({submit}) => {
         {value: "Умер", label: "Умер"},
     ];
 
-    const ringNumberFilter = new FilterData("ringNumber", "Кольцо", "Введите номер кольца");
-    const conditionFilter = new FilterData("condition", "Состояние", "Состояние птицы", conditionOptions);
-    const nameFilter = new FilterData("name", "Кличка", "Кличка, если есть");
-    const birthdateFromFilter = new FilterData("birthdateFrom", "Дата рождения: ОТ");
-    const birthdateToFilter = new FilterData("birthdateTo", "ДО");
-    const ageYearFromFilter = new FilterData("ageYearFrom", "Возраст ОТ", "...лет", yearOptions);
-    const ageMonthFromFilter = new FilterData("ageMonthFrom", "", "...мес.", monthOptions);
-    const ageYearToFilter = new FilterData("ageYearTo", "ДО", "...лет", yearOptions);
-    const ageMonthToFilter = new FilterData("ageMonthTo", "", "...мес.", monthOptions);
+    const [sectionOptions, setSectionOptions] = useState([]);
+
+    const ringNumberFilter = new FilterData("ringNumber", ringNumber, "Номер кольца", "Введите номер кольца");
+    const conditionFilter = new FilterData("condition", condition, "Состояние", "Состояние птицы", conditionOptions);
+    const nameFilter = new FilterData("name", name, "Кличка", "Кличка, если есть");
+    const dovecoteFilter = new FilterData("dovecote", dovecote, "Голубятня", "Выберите голубятню", sectionOptions);
+    const birthdateFromFilter = new FilterData("birthdateFrom", birthdateFrom, "Дата рождения: ОТ");
+    const birthdateToFilter = new FilterData("birthdateTo", birthdateTo, "ДО");
+    const ageYearFromFilter = new FilterData("ageYearFrom", ageYearFrom, "Возраст ОТ", "...лет", yearOptions);
+    const ageMonthFromFilter = new FilterData("ageMonthFrom", ageMonthFrom, "", "...мес.", monthOptions);
+    const ageYearToFilter = new FilterData("ageYearTo", ageYearTo, "ДО", "...лет", yearOptions);
+    const ageMonthToFilter = new FilterData("ageMonthTo", ageMonthTo, "", "...мес.", monthOptions);
 
     const handleSubmit = () => {
         const formDataQuery = new URLSearchParams(new FormData(filterForm.current)).toString();
         submit(formDataQuery);
     }
 
+    const handleChange = (data) => {
+        const updateFilterState = filtersMap.get(data.name);
+        updateFilterState(data.value);
+    };
+
     const resetFilters = () => {
         submit();
     }
 
+    function makeHierarchicalView(data) {
+        if (data.length === 0) return [];
+
+        const rootLevel = '';
+        let optionsForDovecoteFilter = [];
+        data.forEach(section => {
+            addSectionOption(section, rootLevel, optionsForDovecoteFilter)
+        })
+        return optionsForDovecoteFilter;
+    }
+
+    const prefixElement = '\xa0\xa0\u23B9\xa0\xa0\xa0';
+    function addSectionOption(hierarchicalObject, levelPrefix, sectionList) {
+        sectionList.push({value: hierarchicalObject.id, label: `${levelPrefix} ${hierarchicalObject.name}`});
+
+        if (hierarchicalObject.children.length === 0) return;
+
+        const nextLevelPrefix = levelPrefix + prefixElement;
+        hierarchicalObject.children.forEach(childSection => {
+            addSectionOption(childSection, nextLevelPrefix, sectionList);
+        })
+    }
+
+    const DOVECOTE_WITH_SECTIONS_HIERARCHY_URL = 'http://localhost:8080/api/v1/sections/hierarchy';
+    useEffect(()=>{
+        fetch(DOVECOTE_WITH_SECTIONS_HIERARCHY_URL)
+            .then(res => res.json())
+            .then(json => setSectionOptions(makeHierarchicalView(json)))
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
     return (
         <form ref={filterForm} id="pigeon-filter">
             <div className="pigeons-filters">
-                <div className="ring"><InputText filterData={ringNumberFilter} /></div>
-                <div className="condition"><SelectCommon filterData={conditionFilter}/></div>
+                <div className="ring">
+                    <InputText filterData={ringNumberFilter} onChange={handleChange}/></div>
+                <div className="condition">
+                    <SelectCommon filterData={conditionFilter} onChange={handleChange}/></div>
                 <div className="dovecote">
-                    <label className="form-label" htmlFor="location">
-                        <strong>Голубятня</strong>
-                    </label>
-                    <div id="pigeoner-sections">
-                        <SectionSelect/>
-                    </div>
-                </div>
+                    {sectionOptions && <SelectCommon filterData={dovecoteFilter} onChange={handleChange}/>}</div>
                 <div className="name"><InputText filterData={nameFilter} /></div>
                 <div className="year-from"><InputDate filterData={birthdateFromFilter}/></div>
                 <div className="year-to"><InputDate filterData={birthdateToFilter}/></div>
@@ -102,8 +161,9 @@ const PigeonFilterForm = ({submit}) => {
     );
 };
 
-function FilterData(name, label, placeholder, options) {
+function FilterData(name, value, label, placeholder, options) {
     this.name = name;
+    this.value = value;
     this.label = label;
     this.placeholder = placeholder;
     this.options = options;
