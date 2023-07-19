@@ -16,7 +16,7 @@
     grid-template-areas:
     "ring condition dovecote name"
     "year-from year-to age-from age-to"
-    "submit-button submit-button new-pigeon-button new-pigeon-button";
+    "submit-button info-zone info-zone new-pigeon-button";
 }
 
 .ring { grid-area: ring; }
@@ -38,6 +38,10 @@
 .submit-button {
     grid-area: submit-button;
     padding-top: 20px;
+}
+
+.info-zone {
+    grid-area: info-zone;
 }
 
 .new-pigeon-button {
