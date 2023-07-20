@@ -94,6 +94,16 @@ const PigeonFilterForm = ({submit}) => {
     };
 
     const resetFilters = () => {
+        setRingNumber('');
+        setCondition('');
+        setDovecote('');
+        setName('');
+        setBirthdateFrom(null);
+        setBirthdateTo(null);
+        setAgeYearFrom('');
+        setAgeMonthFrom('');
+        setAgeYearTo('');
+        setAgeMonthTo('');
         submit();
     }
 
