@@ -15,7 +15,7 @@
     grid-auto-flow: row;
     grid-template-areas:
     "ring condition dovecote name"
-    "year-from year-to age-from age-to"
+    "date-filters date-filters age-from age-to"
     "submit-button info-zone info-zone new-pigeon-button";
 }
 
@@ -27,9 +27,7 @@
 
 .name { grid-area: name; }
 
-.year-from { grid-area: year-from; }
-
-.year-to { grid-area: year-to; }
+.date-filters { grid-area: date-filters; }
 
 .age-from { grid-area: age-from; }
 
@@ -37,7 +35,6 @@
 
 .submit-button {
     grid-area: submit-button;
-    padding-top: 20px;
 }
 
 .info-zone {
@@ -47,8 +44,6 @@
 .new-pigeon-button {
     grid-area: new-pigeon-button;
     justify-self: end;
-    padding-top: 20px;
-
 }
 
 .two-fields-filter {  display: grid;

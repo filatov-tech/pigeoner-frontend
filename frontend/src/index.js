@@ -1,11 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+
+import {LocalizationProvider} from "@mui/x-date-pickers";
+import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
+import 'dayjs/locale/ru';
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.min';
-import './styles/custom-styles.css'
 import './styles/App.css'
+import './styles/custom-styles.css'
 
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Pigeons from "./pages/pigeons";
 import Pigeon from "./pages/pigeon";
 import Dovecote from "./pages/dovecote";
@@ -52,5 +57,7 @@ const router = createBrowserRouter([
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <RouterProvider router={router}/>
+    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ru">
+        <RouterProvider router={router}/>
+    </LocalizationProvider>
 );

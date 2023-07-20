@@ -5,6 +5,7 @@ import InputDate from "../input/InputDate";
 import SelectTwoFields from "../input/SelectTwoFields";
 import '../../../styles/pigeons-filter.css';
 import ButtonWithPigeons from "../button/ButtonWithPigeons";
+import {outlinedInputClasses} from "@mui/material/OutlinedInput";
 
 const PigeonFilterForm = ({submit}) => {
     const filterForm = useRef();
@@ -13,8 +14,8 @@ const PigeonFilterForm = ({submit}) => {
     const [condition, setCondition] = useState('');
     const [dovecote, setDovecote] = useState('');
     const [name, setName] = useState('');
-    const [birthdateFrom, setBirthdateFrom] = useState('');
-    const [birthdateTo, setBirthdateTo] = useState('');
+    const [birthdateFrom, setBirthdateFrom] = useState(null);
+    const [birthdateTo, setBirthdateTo] = useState(null);
     const [ageYearFrom, setAgeYearFrom] = useState('');
     const [ageMonthFrom, setAgeMonthFrom] = useState('');
     const [ageYearTo, setAgeYearTo] = useState('');
@@ -96,6 +97,32 @@ const PigeonFilterForm = ({submit}) => {
         submit();
     }
 
+    let startGroupElement = {
+        borderRightColor: "transparent",
+        borderTopRightRadius: 0,
+        borderBottomRightRadius: 0
+    }
+    let middleGroupElement = {
+        borderRightColor: "transparent",
+        borderRadius: 0
+    }
+    let endGroupElement = {
+        borderTopLeftRadius: 0,
+        borderBottomLeftRadius: 0
+    }
+
+    const customMuiStyle = (muiStyle) => {
+        return ({
+                MuiOutlinedInput: {
+                    styleOverrides: {
+                        root: {
+                            [`& .${outlinedInputClasses.notchedOutline}`]: muiStyle
+                        }
+                    }
+                }
+        })
+    }
+
     function makeHierarchicalView(data) {
         if (data.length === 0) return [];
 
@@ -137,8 +164,9 @@ const PigeonFilterForm = ({submit}) => {
                 <div className="dovecote">
                     {sectionOptions && <SelectCommon filterData={dovecoteFilter} onChange={handleChange}/>}</div>
                 <div className="name"><InputText filterData={nameFilter} /></div>
-                <div className="year-from"><InputDate filterData={birthdateFromFilter}/></div>
-                <div className="year-to"><InputDate filterData={birthdateToFilter}/></div>
+                <div className="date-filters">
+                    <InputDate filterData={birthdateFromFilter} onChange={handleChange} customStyle={customMuiStyle(startGroupElement)}/>
+                    <InputDate filterData={birthdateToFilter} onChange={handleChange} customStyle={customMuiStyle(endGroupElement)}/></div>
                 <div className="age-from">
                     <SelectTwoFields leftFilterData={ageYearFromFilter} rightFilterData={ageMonthFromFilter}/>
                 </div>
