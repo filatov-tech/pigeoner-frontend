@@ -1,11 +1,10 @@
 import React, {useEffect, useRef, useState} from 'react';
 import InputText from "../input/InputText";
 import SelectCommon from "../input/SelectCommon";
-import InputDate from "../input/InputDate";
-import SelectTwoFields from "../input/SelectTwoFields";
 import '../../../styles/pigeons-filter.css';
 import ButtonWithPigeons from "../button/ButtonWithPigeons";
 import {outlinedInputClasses} from "@mui/material/OutlinedInput";
+import AgeSlider from "../input/AgeSlider";
 
 const PigeonFilterForm = ({submit}) => {
     const filterForm = useRef();
@@ -16,10 +15,10 @@ const PigeonFilterForm = ({submit}) => {
     const [name, setName] = useState('');
     const [birthdateFrom, setBirthdateFrom] = useState(null);
     const [birthdateTo, setBirthdateTo] = useState(null);
-    const [ageYearFrom, setAgeYearFrom] = useState('');
-    const [ageMonthFrom, setAgeMonthFrom] = useState('');
-    const [ageYearTo, setAgeYearTo] = useState('');
-    const [ageMonthTo, setAgeMonthTo] = useState('');
+    const [ageYearFrom, setAgeYearFrom] = useState(0);
+    const [ageMonthFrom, setAgeMonthFrom] = useState(0);
+    const [ageYearTo, setAgeYearTo] = useState(9);
+    const [ageMonthTo, setAgeMonthTo] = useState(11);
     // const [, set] = useState();
 
     const filtersMap = new Map();
@@ -34,34 +33,6 @@ const PigeonFilterForm = ({submit}) => {
     filtersMap.set("ageYearTo", setAgeYearTo);
     filtersMap.set("ageMonthTo", setAgeMonthTo);
     // filtersMap.set("", );
-
-    const yearOptions = [
-        {value: 0, label: "0 лет"},
-        {value: 1, label: "1 года"},
-        {value: 2, label: "2 лет"},
-        {value: 3, label: "3 лет"},
-        {value: 4, label: "4 лет"},
-        {value: 5, label: "5 лет"},
-        {value: 6, label: "6 лет"},
-        {value: 7, label: "7 лет"},
-        {value: 8, label: "8 лет"},
-        {value: 9, label: "9 лет"},
-    ];
-
-    const monthOptions = [
-        {value: 1, label: "0 мес."},
-        {value: 2, label: "1 мес."},
-        {value: 3, label: "2 мес."},
-        {value: 4, label: "3 мес."},
-        {value: 5, label: "4 мес."},
-        {value: 6, label: "5 мес."},
-        {value: 7, label: "6 мес."},
-        {value: 8, label: "7 мес."},
-        {value: 9, label: "8 мес."},
-        {value: 10, label: "9 мес."},
-        {value: 11, label: "10 мес."},
-        {value: 12, label: "11 мес."}
-    ];
 
     const conditionOptions = [
         {value: "Здоров", label: "Здоров"},
@@ -78,10 +49,10 @@ const PigeonFilterForm = ({submit}) => {
     const dovecoteFilter = new FilterData("dovecote", dovecote, "Голубятня", "Выберите голубятню", sectionOptions);
     const birthdateFromFilter = new FilterData("birthdateFrom", birthdateFrom, "Дата рождения: ОТ");
     const birthdateToFilter = new FilterData("birthdateTo", birthdateTo, "ДО");
-    const ageYearFromFilter = new FilterData("ageYearFrom", ageYearFrom, "Возраст ОТ", "...лет", yearOptions);
-    const ageMonthFromFilter = new FilterData("ageMonthFrom", ageMonthFrom, "", "...мес.", monthOptions);
-    const ageYearToFilter = new FilterData("ageYearTo", ageYearTo, "ДО", "...лет", yearOptions);
-    const ageMonthToFilter = new FilterData("ageMonthTo", ageMonthTo, "", "...мес.", monthOptions);
+    const ageYearFromFilter = new FilterData("ageYearFrom", ageYearFrom, "Возраст ОТ", "...лет");
+    const ageMonthFromFilter = new FilterData("ageMonthFrom", ageMonthFrom, "", "...мес.");
+    const ageYearToFilter = new FilterData("ageYearTo", ageYearTo, "ДО", "...лет");
+    const ageMonthToFilter = new FilterData("ageMonthTo", ageMonthTo, "", "...мес.");
 
     const handleSubmit = () => {
         const formDataQuery = new URLSearchParams(new FormData(filterForm.current)).toString();
@@ -93,6 +64,10 @@ const PigeonFilterForm = ({submit}) => {
         updateFilterState(data.value);
     };
 
+    const handleGroupChange = (data) => {
+        data.forEach(filterState => handleChange(filterState));
+    }
+
     const resetFilters = () => {
         setRingNumber('');
         setCondition('');
@@ -100,10 +75,10 @@ const PigeonFilterForm = ({submit}) => {
         setName('');
         setBirthdateFrom(null);
         setBirthdateTo(null);
-        setAgeYearFrom('');
-        setAgeMonthFrom('');
-        setAgeYearTo('');
-        setAgeMonthTo('');
+        setAgeYearFrom(0);
+        setAgeMonthFrom(0);
+        setAgeYearTo(1);
+        setAgeMonthTo(0);
         submit();
     }
 
@@ -175,13 +150,15 @@ const PigeonFilterForm = ({submit}) => {
                     {sectionOptions && <SelectCommon filterData={dovecoteFilter} onChange={handleChange}/>}</div>
                 <div className="name"><InputText filterData={nameFilter} /></div>
                 <div className="date-filters">
-                    <InputDate filterData={birthdateFromFilter} onChange={handleChange} customStyle={customMuiStyle(startGroupElement)}/>
-                    <InputDate filterData={birthdateToFilter} onChange={handleChange} customStyle={customMuiStyle(endGroupElement)}/></div>
+                    <AgeSlider filterData={{value: [ageYearFrom, ageMonthFrom, ageYearTo, ageMonthTo]}} onChange={handleGroupChange}/>
+                    {/*<InputDate filterData={birthdateFromFilter} onChange={handleChange} customStyle={customMuiStyle(startGroupElement)}/>*/}
+                    {/*<InputDate filterData={birthdateToFilter} onChange={handleChange} customStyle={customMuiStyle(endGroupElement)}/>*/}
+                </div>
                 <div className="age-from">
-                    <SelectTwoFields leftFilterData={ageYearFromFilter} rightFilterData={ageMonthFromFilter}/>
+                    {/*<SelectTwoFields leftFilterData={ageYearFromFilter} rightFilterData={ageMonthFromFilter}/>*/}
                 </div>
                 <div className="age-to">
-                    <SelectTwoFields leftFilterData={ageYearToFilter} rightFilterData={ageMonthToFilter}/>
+                    {/*<SelectTwoFields leftFilterData={ageYearToFilter} rightFilterData={ageMonthToFilter}/>*/}
                 </div>
                 <div className="submit-button">
                     <button id="filter" onClick={handleSubmit}
