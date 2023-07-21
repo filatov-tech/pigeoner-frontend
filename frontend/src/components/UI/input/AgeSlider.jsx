@@ -2,6 +2,7 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Slider from '@mui/material/Slider';
+import {createTheme, ThemeProvider} from "@mui/material";
 
 const yearLabels = [
     "0 лет",
@@ -68,19 +69,48 @@ const AgeSlider = ({filterData, onChange}) => {
         ])
     };
 
+    const theme = createTheme({
+        components: {
+            MuiSlider: {
+                styleOverrides: {
+                    root: {
+                        '& .MuiSlider-thumb': {
+                            height: 24,
+                            width: 24,
+                            backgroundColor: '#fff',
+                            border: '2px solid currentColor',
+                            '&:focus, &:hover, &.Mui-active, &.Mui-focusVisible': {
+                                boxShadow: 'inherit',
+                            },
+                        }
+                    }
+                }
+            },
+            MuiTypography: {
+                styleOverrides: {
+                    root: {
+                        lineHeight: 1
+                    }
+                }
+            }
+        }
+    });
+
     return (
-        <Box sx={{ width: '100%' }}>
-            <Typography gutterBottom>
-                {valueLabelFormat(filterData.value)}
-            </Typography>
-            <Slider
-                value={convertToValue(filterData.value)}
-                min={0}
-                step={1}
-                max={119}
-                onChange={handleChange}
-            />
-        </Box>
+        <ThemeProvider theme={theme}>
+            <Box sx={{width: '100%', padding: '0px 22px'}}>
+                <Typography align="center">
+                    {valueLabelFormat(filterData.value)}
+                </Typography>
+                <Slider
+                    value={convertToValue(filterData.value)}
+                    min={0}
+                    step={1}
+                    max={119}
+                    onChange={handleChange}
+                />
+            </Box>
+        </ThemeProvider>
     );
 };
 

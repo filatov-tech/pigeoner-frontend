@@ -5,20 +5,30 @@ import '../../../styles/pigeons-filter.css';
 import ButtonWithPigeons from "../button/ButtonWithPigeons";
 import {outlinedInputClasses} from "@mui/material/OutlinedInput";
 import AgeSlider from "../input/AgeSlider";
+import InputDate from "../input/InputDate";
 
 const PigeonFilterForm = ({submit}) => {
     const filterForm = useRef();
+    const YEAR_TYPE= "yearType";
+    const DATE_TYPE= "dateType";
+    const AGE_TYPE= "ageType";
+
 
     const [ringNumber, setRingNumber] = useState('');
     const [condition, setCondition] = useState('');
     const [dovecote, setDovecote] = useState('');
     const [name, setName] = useState('');
+    const [dateFilterType, setDateFilterType] = useState(YEAR_TYPE);
     const [birthdateFrom, setBirthdateFrom] = useState(null);
     const [birthdateTo, setBirthdateTo] = useState(null);
     const [ageYearFrom, setAgeYearFrom] = useState(0);
     const [ageMonthFrom, setAgeMonthFrom] = useState(0);
     const [ageYearTo, setAgeYearTo] = useState(9);
     const [ageMonthTo, setAgeMonthTo] = useState(11);
+    const [yearFrom, setYearFrom] = useState(null);
+    const [yearTo, setYearTo] = useState(null);
+    const [mainKeeper, setMainKeeper] = useState(0);
+    const [keeper, setKeeper] = useState(0);
     // const [, set] = useState();
 
     const filtersMap = new Map();
@@ -26,12 +36,16 @@ const PigeonFilterForm = ({submit}) => {
     filtersMap.set("condition", setCondition);
     filtersMap.set("dovecote", setDovecote);
     filtersMap.set("name", setName);
+    filtersMap.set("dateFilterType", setDateFilterType);
     filtersMap.set("birthdateFrom", setBirthdateFrom);
     filtersMap.set("birthdateTo", setBirthdateTo);
     filtersMap.set("ageYearFrom", setAgeYearFrom);
     filtersMap.set("ageMonthFrom", setAgeMonthFrom);
     filtersMap.set("ageYearTo", setAgeYearTo);
     filtersMap.set("ageMonthTo", setAgeMonthTo);
+    filtersMap.set("yearFrom", setYearFrom);
+    filtersMap.set("yearTo", setYearTo);
+    filtersMap.set("keeper", setKeeper);
     // filtersMap.set("", );
 
     const conditionOptions = [
@@ -41,18 +55,29 @@ const PigeonFilterForm = ({submit}) => {
         {value: "Умер", label: "Умер"},
     ];
 
+    const filterTypeOptions = [
+        {value: YEAR_TYPE, label: "Год рождения"},
+        {value: DATE_TYPE, label: "Дата рождения"},
+        {value: AGE_TYPE, label: "Возраст"}
+    ]
+
     const [sectionOptions, setSectionOptions] = useState([]);
+    const [keeperOptions, setKeeperOptions] = useState([]);
 
     const ringNumberFilter = new FilterData("ringNumber", ringNumber, "Номер кольца", "Введите номер кольца");
     const conditionFilter = new FilterData("condition", condition, "Состояние", "Состояние птицы", conditionOptions);
     const nameFilter = new FilterData("name", name, "Кличка", "Кличка, если есть");
     const dovecoteFilter = new FilterData("dovecote", dovecote, "Голубятня", "Выберите голубятню", sectionOptions);
-    const birthdateFromFilter = new FilterData("birthdateFrom", birthdateFrom, "Дата рождения: ОТ");
-    const birthdateToFilter = new FilterData("birthdateTo", birthdateTo, "ДО");
-    const ageYearFromFilter = new FilterData("ageYearFrom", ageYearFrom, "Возраст ОТ", "...лет");
-    const ageMonthFromFilter = new FilterData("ageMonthFrom", ageMonthFrom, "", "...мес.");
-    const ageYearToFilter = new FilterData("ageYearTo", ageYearTo, "ДО", "...лет");
-    const ageMonthToFilter = new FilterData("ageMonthTo", ageMonthTo, "", "...мес.");
+    const dateFilterTypeSelect = new FilterData("dateFilterType", dateFilterType, "Тип даты", "", filterTypeOptions);
+    const birthdateFromFilter = new FilterData("birthdateFrom", birthdateFrom, "От");
+    const birthdateToFilter = new FilterData("birthdateTo", birthdateTo, "До");
+    // const ageYearFromFilter = new FilterData("ageYearFrom", ageYearFrom, "От", "...лет");
+    // const ageMonthFromFilter = new FilterData("ageMonthFrom", ageMonthFrom, "От", "...мес.");
+    // const ageYearToFilter = new FilterData("ageYearTo", ageYearTo, "До", "...лет");
+    // const ageMonthToFilter = new FilterData("ageMonthTo", ageMonthTo, "До", "...мес.");
+    const yearFromFilter = new FilterData("yearFrom", yearFrom, "от (год)");
+    const yearToFilter = new FilterData("yearTo", yearTo, "до (год)");
+    const keeperFilter = new FilterData("keeper", keeper, "Владелец", "", keeperOptions)
 
     const handleSubmit = () => {
         const formDataQuery = new URLSearchParams(new FormData(filterForm.current)).toString();
@@ -77,8 +102,11 @@ const PigeonFilterForm = ({submit}) => {
         setBirthdateTo(null);
         setAgeYearFrom(0);
         setAgeMonthFrom(0);
-        setAgeYearTo(1);
-        setAgeMonthTo(0);
+        setAgeYearTo(9);
+        setAgeMonthTo(11);
+        setYearFrom(null);
+        setYearTo(null);
+        setKeeper(mainKeeper);
         submit();
     }
 
@@ -131,11 +159,30 @@ const PigeonFilterForm = ({submit}) => {
         })
     }
 
-    const DOVECOTE_WITH_SECTIONS_HIERARCHY_URL = 'http://localhost:8080/api/v1/sections/hierarchy';
+    const makeOptions = (data) => {
+        const result = [];
+        if (!Array.isArray(data))
+            return data.id;
+        data.forEach(element => result.push({value: element.id, label: element.name}));
+        return result;
+    }
+
+    const DOVECOTE_WITH_SECTIONS_HIERARCHY_URL = '/api/v1/sections/hierarchy';
+    const KEEPER_URL = '/api/v1/keepers';
+    const MAIN_KEEPER_URL = KEEPER_URL + '/main';
     useEffect(()=>{
         fetch(DOVECOTE_WITH_SECTIONS_HIERARCHY_URL)
             .then(res => res.json())
-            .then(json => setSectionOptions(makeHierarchicalView(json)))
+            .then(json => setSectionOptions(makeHierarchicalView(json)));
+        fetch(MAIN_KEEPER_URL)
+            .then(res => res.json())
+            .then(json => {
+                setMainKeeper(json.id);
+                setKeeper(json.id);
+            });
+        fetch(KEEPER_URL)
+            .then(res => res.json())
+            .then(json => setKeeperOptions(makeOptions(json)));
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -150,15 +197,51 @@ const PigeonFilterForm = ({submit}) => {
                     {sectionOptions && <SelectCommon filterData={dovecoteFilter} onChange={handleChange}/>}</div>
                 <div className="name"><InputText filterData={nameFilter} /></div>
                 <div className="date-filters">
-                    <AgeSlider filterData={{value: [ageYearFrom, ageMonthFrom, ageYearTo, ageMonthTo]}} onChange={handleGroupChange}/>
-                    {/*<InputDate filterData={birthdateFromFilter} onChange={handleChange} customStyle={customMuiStyle(startGroupElement)}/>*/}
-                    {/*<InputDate filterData={birthdateToFilter} onChange={handleChange} customStyle={customMuiStyle(endGroupElement)}/>*/}
+                    <div className="date-filters-item" style={{width: '30%', flexGrow: 0}}>
+                        <SelectCommon filterData={dateFilterTypeSelect} onChange={handleChange}
+                                      customStyle={customMuiStyle(
+                                          dateFilterType === AGE_TYPE ? {} : startGroupElement)}/>
+                    </div>
+                    {dateFilterType === YEAR_TYPE &&
+                        <>
+                            <div className="date-filters-item">
+                                <InputDate filterData={yearFromFilter} onChange={handleChange}
+                                           customStyle={customMuiStyle(middleGroupElement)}
+                                           onlyYear/>
+                            </div>
+                            <div className="date-filters-item">
+                                <InputDate filterData={yearToFilter} onChange={handleChange}
+                                           customStyle={customMuiStyle(endGroupElement)} onlyYear/>
+                            </div>
+                        </>
+
+                    }
+                    {dateFilterType === DATE_TYPE &&
+                        <>
+                            <div className="date-filters-item">
+                                <InputDate filterData={birthdateFromFilter}
+                                           onChange={handleChange}
+                                           customStyle={customMuiStyle(middleGroupElement)}/>
+                            </div>
+                            <div className="date-filters-item">
+                                <InputDate filterData={birthdateToFilter}
+                                           onChange={handleChange}
+                                           customStyle={customMuiStyle(endGroupElement)}/>
+                            </div>
+                        </>
+                    }
+                    {dateFilterType === AGE_TYPE &&
+                        <div className="date-filters-item" style={{alignSelf: "flex-end"}}>
+                            <AgeSlider filterData={{value: [ageYearFrom, ageMonthFrom, ageYearTo, ageMonthTo]}}
+                                       onChange={handleGroupChange}/>
+                        </div>
+                    }
                 </div>
                 <div className="age-from">
-                    {/*<SelectTwoFields leftFilterData={ageYearFromFilter} rightFilterData={ageMonthFromFilter}/>*/}
+                    <SelectCommon filterData={keeperFilter} onChange={handleChange}/>
                 </div>
                 <div className="age-to">
-                    {/*<SelectTwoFields leftFilterData={ageYearToFilter} rightFilterData={ageMonthToFilter}/>*/}
+
                 </div>
                 <div className="submit-button">
                     <button id="filter" onClick={handleSubmit}
