@@ -27,7 +27,10 @@
 
 .name { grid-area: name; }
 
-.date-filters { grid-area: date-filters; }
+.date-filters {
+    grid-area: date-filters;
+    display: flex;
+}
 
 .age-from { grid-area: age-from; }
 
@@ -44,6 +47,10 @@
 .new-pigeon-button {
     grid-area: new-pigeon-button;
     justify-self: end;
+}
+
+.date-filters-item {
+    flex-grow: 1;
 }
 
 .two-fields-filter {  display: grid;
