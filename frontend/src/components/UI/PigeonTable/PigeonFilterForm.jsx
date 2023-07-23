@@ -6,7 +6,6 @@ import ButtonWithPigeons from "../button/ButtonWithPigeons";
 import {outlinedInputClasses} from "@mui/material/OutlinedInput";
 import AgeSlider from "../input/AgeSlider";
 import InputDate from "../input/InputDate";
-import RadioGroupFilter from "../radio/RadioGroupFilter";
 
 const PigeonFilterForm = ({submit}) => {
     const filterForm = useRef();
@@ -30,7 +29,8 @@ const PigeonFilterForm = ({submit}) => {
     const [yearTo, setYearTo] = useState(null);
     const [mainKeeper, setMainKeeper] = useState(0);
     const [keeper, setKeeper] = useState(0);
-    const [sex, setSex] = useState('any');
+    const [sex, setSex] = useState('');
+    const [mate, setMate] = useState('');
     // const [, set] = useState();
 
     const filtersMap = new Map();
@@ -49,6 +49,7 @@ const PigeonFilterForm = ({submit}) => {
     filtersMap.set("yearTo", setYearTo);
     filtersMap.set("keeper", setKeeper);
     filtersMap.set("sex", setSex);
+    filtersMap.set("mate", setMate);
     // filtersMap.set("", );
 
     const conditionOptions = [
@@ -65,9 +66,13 @@ const PigeonFilterForm = ({submit}) => {
     ]
 
     const sexOptions = [
-        {value: "any", label: "любой"},
-        {value: "male", label: "самец"},
-        {value: "female", label: "самка"}
+        {value: "male", label: "Самец"},
+        {value: "female", label: "Самка"}
+    ]
+
+    const mateOptions = [
+        {value: "hasMate", label: "Есть пара"},
+        {value: "withoutMate", label: "Нет пары"}
     ]
 
     const [sectionOptions, setSectionOptions] = useState([]);
@@ -88,6 +93,7 @@ const PigeonFilterForm = ({submit}) => {
     const yearToFilter = new FilterData("yearTo", yearTo, "до (год)");
     const keeperFilter = new FilterData("keeper", keeper, "Владелец", "", keeperOptions);
     const sexFilter = new FilterData("sex", sex, "Пол", "", sexOptions);
+    const mateFilter = new FilterData("mate", mate, "Пара", "", mateOptions);
 
     const handleSubmit = () => {
         const formDataQuery = new URLSearchParams(new FormData(filterForm.current)).toString();
@@ -117,7 +123,7 @@ const PigeonFilterForm = ({submit}) => {
         setYearFrom(null);
         setYearTo(null);
         setKeeper(mainKeeper);
-        setSex('any')
+        setSex('')
         submit();
     }
 
@@ -249,10 +255,15 @@ const PigeonFilterForm = ({submit}) => {
                     }
                 </div>
                 <div className="other-filters">
-                    <div className="other-filters-item"><SelectCommon filterData={keeperFilter}
-                                                                      onChange={handleChange}/></div>
-                    <div className="other-filters-item"><RadioGroupFilter filterData={sexFilter}
-                                                                          onChange={handleChange}/></div>
+                    <div className="other-filters-item">
+                        <SelectCommon filterData={keeperFilter} onChange={handleChange}/>
+                    </div>
+                    <div className="other-filters-item">
+                        <SelectCommon filterData={sexFilter} onChange={handleChange}/>
+                    </div>
+                    <div className="other-filters-item">
+                        <SelectCommon filterData={mateFilter} onChange={handleChange}/>
+                    </div>
                 </div>
                 <div className="submit-button">
                     <button id="filter" onClick={handleSubmit}

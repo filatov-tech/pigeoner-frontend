@@ -35,6 +35,7 @@
 .other-filters {
     grid-area: other-filters;
     display: flex;
+    gap: 12px;
 }
 
 .submit-button {
@@ -55,7 +56,7 @@
 }
 
 .other-filters-item {
-
+    flex: 1;
 }
 
 .two-fields-filter {  display: grid;
