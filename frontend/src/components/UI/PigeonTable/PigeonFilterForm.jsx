@@ -217,7 +217,7 @@ const PigeonFilterForm = ({submit}) => {
                     <div className="date-filters-item" style={{width: '30%', flexGrow: 0}}>
                         <SelectCommon filterData={dateFilterTypeSelect} onChange={handleChange}
                                       customStyle={customMuiStyle(
-                                          dateFilterType === AGE_TYPE ? {} : startGroupElement)}/>
+                                          dateFilterType === AGE_TYPE ? {} : startGroupElement)} withoutAny/>
                     </div>
                     {dateFilterType === YEAR_TYPE &&
                         <>
@@ -281,12 +281,13 @@ const PigeonFilterForm = ({submit}) => {
     );
 };
 
-function FilterData(name, value, label, placeholder, options) {
+function FilterData(name, value, label, placeholder, options, parameters) {
     this.name = name;
     this.value = value;
     this.label = label;
     this.placeholder = placeholder;
     this.options = options;
+    this.parameters = parameters;
 }
 
 export default PigeonFilterForm;

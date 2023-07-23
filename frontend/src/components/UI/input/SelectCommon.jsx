@@ -1,7 +1,7 @@
 import React, {useId} from 'react';
 import {createTheme, FormControl, InputLabel, MenuItem, Select, ThemeProvider} from "@mui/material";
 
-const SelectCommon = ({filterData, onChange, customStyle}) => {
+const SelectCommon = ({filterData, onChange, customStyle, withoutAny}) => {
     const selectId = useId();
 
     const handleChange = (event) => {
@@ -26,6 +26,7 @@ const SelectCommon = ({filterData, onChange, customStyle}) => {
                     label={filterData.label}
                     onChange={handleChange}
                 >
+                    {!withoutAny && <MenuItem value=""><em>не важно</em></MenuItem>}
                     {filterData.options.map(option =>
                         <MenuItem value={option.value} key={option.value}>{option.label}</MenuItem>)}
                 </Select>
