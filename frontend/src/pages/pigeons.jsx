@@ -13,15 +13,22 @@ const Pigeons = () => {
     const [filterError, setFilterError] = useState();
     const [hasError, setHasError] = useState(false);
 
-    useEffect(() => {
-        fetch('/api/v1/pigeons')
-            .then(res => res.json())
-            .then(json => setTableData(json));
-    }, []);
+    const GET_PIGEONS_URL = '/api/v1/pigeons';
 
-    function updateTable(formData) {
-        const url = formData ? `/api/v1/pigeons/filter?${formData}` : '/api/v1/pigeons';
-        fetch(url)
+    useEffect(() => loadTable(), []);
+
+    const updateTable = formData => {
+        if (!formData) {
+            loadTable();
+            return;
+        }
+        fetch(GET_PIGEONS_URL + '/filter', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(formData)
+        })
             .then(res => {
                 if (!res.ok) {
                     throw new Error("Test")
@@ -32,6 +39,12 @@ const Pigeons = () => {
                 json => setTableData(json),
                 err => setFilterError(err)
             );
+    }
+
+    const loadTable = () => {
+        fetch(GET_PIGEONS_URL)
+            .then(res => res.json())
+            .then(json => setTableData(json));
     }
 
     function closeAlert() {

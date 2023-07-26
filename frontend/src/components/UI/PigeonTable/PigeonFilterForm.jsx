@@ -12,26 +12,49 @@ const PigeonFilterForm = ({submit}) => {
     const YEAR_TYPE= "yearType";
     const DATE_TYPE= "dateType";
     const AGE_TYPE= "ageType";
+    const YEAR_MAX = 9;
+    const MONTH_MAX = 11;
+    const EMPTY_STRING = '';
+    const ZERO = 0;
 
 
-    const [ringNumber, setRingNumber] = useState('');
-    const [condition, setCondition] = useState('');
-    const [dovecote, setDovecote] = useState('');
-    const [name, setName] = useState('');
+    const [ringNumber, setRingNumber] = useState(EMPTY_STRING);
+    const [condition, setCondition] = useState(EMPTY_STRING);
+    const [dovecote, setDovecote] = useState(EMPTY_STRING);
+    const [name, setName] = useState(EMPTY_STRING);
     const [dateFilterType, setDateFilterType] = useState(YEAR_TYPE);
     const [birthdateFrom, setBirthdateFrom] = useState(null);
     const [birthdateTo, setBirthdateTo] = useState(null);
-    const [ageYearFrom, setAgeYearFrom] = useState(0);
-    const [ageMonthFrom, setAgeMonthFrom] = useState(0);
-    const [ageYearTo, setAgeYearTo] = useState(9);
-    const [ageMonthTo, setAgeMonthTo] = useState(11);
+    const [ageYearFrom, setAgeYearFrom] = useState(ZERO);
+    const [ageMonthFrom, setAgeMonthFrom] = useState(ZERO);
+    const [ageYearTo, setAgeYearTo] = useState(YEAR_MAX);
+    const [ageMonthTo, setAgeMonthTo] = useState(MONTH_MAX);
     const [yearFrom, setYearFrom] = useState(null);
     const [yearTo, setYearTo] = useState(null);
-    const [mainKeeper, setMainKeeper] = useState(0);
-    const [keeper, setKeeper] = useState(0);
-    const [sex, setSex] = useState('');
-    const [mate, setMate] = useState('');
+    const [mainKeeper, setMainKeeper] = useState(EMPTY_STRING);
+    const [keeper, setKeeper] = useState(EMPTY_STRING);
+    const [sex, setSex] = useState(EMPTY_STRING);
+    const [mate, setMate] = useState(EMPTY_STRING);
     // const [, set] = useState();
+
+    const state = {
+        ringNumber: ringNumber,
+        condition: condition,
+        dovecote: dovecote,
+        name: name,
+        dateFilterType: dateFilterType,
+        birthdateFrom: birthdateFrom,
+        birthdateTo: birthdateTo,
+        ageYearFrom: ageYearFrom,
+        ageMonthFrom: ageMonthFrom,
+        ageYearTo: ageYearTo,
+        ageMonthTo: ageMonthTo,
+        yearFrom: yearFrom,
+        yearTo: yearTo,
+        keeper: keeper,
+        sex: sex,
+        mate: mate
+}
 
     const filtersMap = new Map();
     filtersMap.set("ringNumber", setRingNumber);
@@ -85,10 +108,6 @@ const PigeonFilterForm = ({submit}) => {
     const dateFilterTypeSelect = new FilterData("dateFilterType", dateFilterType, "Тип даты", "", filterTypeOptions);
     const birthdateFromFilter = new FilterData("birthdateFrom", birthdateFrom, "От");
     const birthdateToFilter = new FilterData("birthdateTo", birthdateTo, "До");
-    // const ageYearFromFilter = new FilterData("ageYearFrom", ageYearFrom, "От", "...лет");
-    // const ageMonthFromFilter = new FilterData("ageMonthFrom", ageMonthFrom, "От", "...мес.");
-    // const ageYearToFilter = new FilterData("ageYearTo", ageYearTo, "До", "...лет");
-    // const ageMonthToFilter = new FilterData("ageMonthTo", ageMonthTo, "До", "...мес.");
     const yearFromFilter = new FilterData("yearFrom", yearFrom, "от (год)");
     const yearToFilter = new FilterData("yearTo", yearTo, "до (год)");
     const keeperFilter = new FilterData("keeper", keeper, "Владелец", "", keeperOptions);
@@ -96,8 +115,7 @@ const PigeonFilterForm = ({submit}) => {
     const mateFilter = new FilterData("mate", mate, "Пара", "", mateOptions);
 
     const handleSubmit = () => {
-        const formDataQuery = new URLSearchParams(new FormData(filterForm.current)).toString();
-        submit(formDataQuery);
+        submit(state);
     }
 
     const handleChange = (data) => {
@@ -110,20 +128,21 @@ const PigeonFilterForm = ({submit}) => {
     }
 
     const resetFilters = () => {
-        setRingNumber('');
-        setCondition('');
-        setDovecote('');
-        setName('');
+        setRingNumber(EMPTY_STRING);
+        setCondition(EMPTY_STRING);
+        setDovecote(EMPTY_STRING);
+        setName(EMPTY_STRING);
         setBirthdateFrom(null);
         setBirthdateTo(null);
-        setAgeYearFrom(0);
-        setAgeMonthFrom(0);
-        setAgeYearTo(9);
-        setAgeMonthTo(11);
+        setAgeYearFrom(ZERO);
+        setAgeMonthFrom(ZERO);
+        setAgeYearTo(YEAR_MAX);
+        setAgeMonthTo(MONTH_MAX);
         setYearFrom(null);
         setYearTo(null);
         setKeeper(mainKeeper);
-        setSex('')
+        setSex(EMPTY_STRING);
+        setMate(EMPTY_STRING);
         submit();
     }
 
