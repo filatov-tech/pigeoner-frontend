@@ -43,18 +43,27 @@ const PigeonFilterForm = ({submit}) => {
         dovecote: dovecote,
         name: name,
         dateFilterType: dateFilterType,
-        birthdateFrom: birthdateFrom,
-        birthdateTo: birthdateTo,
-        ageYearFrom: ageYearFrom,
-        ageMonthFrom: ageMonthFrom,
-        ageYearTo: ageYearTo,
-        ageMonthTo: ageMonthTo,
-        yearFrom: yearFrom,
-        yearTo: yearTo,
         keeper: keeper,
         sex: sex,
         mate: mate
 }
+
+    const yearTypeState = {
+        yearFrom: yearFrom,
+        yearTo: yearTo
+    }
+
+    const dateTypeState = {
+        birthdateFrom: birthdateFrom,
+        birthdateTo: birthdateTo
+    }
+
+    const ageTypeState = {
+        ageYearFrom: ageYearFrom,
+        ageMonthFrom: ageMonthFrom,
+        ageYearTo: ageYearTo,
+        ageMonthTo: ageMonthTo,
+    }
 
     const filtersMap = new Map();
     filtersMap.set("ringNumber", setRingNumber);
@@ -115,7 +124,23 @@ const PigeonFilterForm = ({submit}) => {
     const mateFilter = new FilterData("mate", mate, "Пара", "", mateOptions);
 
     const handleSubmit = () => {
-        submit(state);
+        let sendingData;
+        switch (dateFilterType) {
+            case YEAR_TYPE:
+                sendingData = {...state, ...yearTypeState};
+                break;
+            case DATE_TYPE:
+                sendingData = {...state, ...dateTypeState};
+                break;
+            case AGE_TYPE:
+                sendingData = {...state, ...ageTypeState};
+                break;
+            default:
+                sendingData = {...state};
+        }
+
+
+        submit(sendingData);
     }
 
     const handleChange = (data) => {
