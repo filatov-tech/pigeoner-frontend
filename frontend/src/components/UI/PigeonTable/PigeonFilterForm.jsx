@@ -7,6 +7,9 @@ import {outlinedInputClasses} from "@mui/material/OutlinedInput";
 import AgeSlider from "../input/AgeSlider";
 import InputDate from "../input/InputDate";
 
+export const KEEPER_URL = '/api/v1/keepers';
+export const MAIN_KEEPER_URL = KEEPER_URL + '/main';
+
 const PigeonFilterForm = ({submit}) => {
     const filterForm = useRef();
     const YEAR_TYPE= "yearType";
@@ -103,8 +106,8 @@ const PigeonFilterForm = ({submit}) => {
     ]
 
     const mateOptions = [
-        {value: "hasMate", label: "Есть пара"},
-        {value: "withoutMate", label: "Нет пары"}
+        {value: true, label: "Есть пара"},
+        {value: false, label: "Нет пары"}
     ]
 
     const [sectionOptions, setSectionOptions] = useState([]);
@@ -152,10 +155,12 @@ const PigeonFilterForm = ({submit}) => {
         data.forEach(filterState => handleChange(filterState));
     }
 
+    const [needReset, setNeedReset] = useState(false);
+
     const resetFilters = () => {
         setRingNumber(EMPTY_STRING);
-        setCondition(EMPTY_STRING);
-        setDovecote(EMPTY_STRING);
+        setCondition(null);
+        setDovecote(null);
         setName(EMPTY_STRING);
         setBirthdateFrom(null);
         setBirthdateTo(null);
@@ -166,10 +171,17 @@ const PigeonFilterForm = ({submit}) => {
         setYearFrom(null);
         setYearTo(null);
         setKeeper(mainKeeper);
-        setSex(EMPTY_STRING);
-        setMate(EMPTY_STRING);
-        submit();
+        setSex(null);
+        setMate(null);
+        setNeedReset(true);
     }
+
+    useEffect(() => {
+        if (needReset) {
+            handleSubmit();
+            setNeedReset(false);
+        }
+    }, [needReset])
 
     let startGroupElement = {
         borderRightColor: "transparent",
@@ -229,8 +241,7 @@ const PigeonFilterForm = ({submit}) => {
     }
 
     const DOVECOTE_WITH_SECTIONS_HIERARCHY_URL = '/api/v1/sections/hierarchy';
-    const KEEPER_URL = '/api/v1/keepers';
-    const MAIN_KEEPER_URL = KEEPER_URL + '/main';
+
     useEffect(()=>{
         fetch(DOVECOTE_WITH_SECTIONS_HIERARCHY_URL)
             .then(res => res.json())

@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { Container, Row, Col } from "react-bootstrap";
 import '../styles/pigeons.css';
-import PigeonFilterForm from "../components/UI/PigeonTable/PigeonFilterForm";
+import PigeonFilterForm, {MAIN_KEEPER_URL} from "../components/UI/PigeonTable/PigeonFilterForm";
 import PigeonTable from "../components/UI/PigeonTable/PigeonTable";
 import TableSkeletonLoader from "../components/UI/loader/TableSkeletonLoader";
 import {Snackbar} from "@mui/material";
@@ -12,10 +12,25 @@ const Pigeons = () => {
     const [tableData, setTableData] = useState();
     const [filterError, setFilterError] = useState();
     const [hasError, setHasError] = useState(false);
+    const [mainKeeper, setMainKeeper] = useState('');
 
     const GET_PIGEONS_URL = '/api/v1/pigeons';
 
-    useEffect(() => loadTable(), []);
+    useEffect(() => {
+        fetch(MAIN_KEEPER_URL)
+            .then(res => res.json())
+            .then(json => {
+                setMainKeeper(json.id);
+            })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    useEffect(() => {
+        if (mainKeeper && mainKeeper !== '') {
+            updateTable({keeper: mainKeeper})
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [mainKeeper])
 
     const updateTable = formData => {
         if (!formData) {
