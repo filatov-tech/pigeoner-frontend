@@ -37,7 +37,7 @@ const PigeonFilterForm = ({submit}) => {
     const [mainKeeper, setMainKeeper] = useState(EMPTY_STRING);
     const [keeper, setKeeper] = useState(EMPTY_STRING);
     const [sex, setSex] = useState(EMPTY_STRING);
-    const [mate, setMate] = useState(EMPTY_STRING);
+    const [hasMate, setHasMate] = useState(EMPTY_STRING);
     // const [, set] = useState();
 
     const state = {
@@ -48,7 +48,7 @@ const PigeonFilterForm = ({submit}) => {
         dateFilterType: dateFilterType,
         keeper: keeper,
         sex: sex,
-        mate: mate
+        hasMate: hasMate
 }
 
     const yearTypeState = {
@@ -84,7 +84,7 @@ const PigeonFilterForm = ({submit}) => {
     filtersMap.set("yearTo", setYearTo);
     filtersMap.set("keeper", setKeeper);
     filtersMap.set("sex", setSex);
-    filtersMap.set("mate", setMate);
+    filtersMap.set("mate", setHasMate);
     // filtersMap.set("", );
 
     const conditionOptions = [
@@ -105,7 +105,7 @@ const PigeonFilterForm = ({submit}) => {
         {value: "female", label: "Самка"}
     ]
 
-    const mateOptions = [
+    const hasMateOptions = [
         {value: true, label: "Есть пара"},
         {value: false, label: "Нет пары"}
     ]
@@ -124,7 +124,7 @@ const PigeonFilterForm = ({submit}) => {
     const yearToFilter = new FilterData("yearTo", yearTo, "до (год)");
     const keeperFilter = new FilterData("keeper", keeper, "Владелец", "", keeperOptions);
     const sexFilter = new FilterData("sex", sex, "Пол", "", sexOptions);
-    const mateFilter = new FilterData("mate", mate, "Пара", "", mateOptions);
+    const mateFilter = new FilterData("mate", hasMate, "Пара", "", hasMateOptions);
 
     const handleSubmit = () => {
         let sendingData;
@@ -172,7 +172,7 @@ const PigeonFilterForm = ({submit}) => {
         setYearTo(null);
         setKeeper(mainKeeper);
         setSex(null);
-        setMate(null);
+        setHasMate(null);
         setNeedReset(true);
     }
 
