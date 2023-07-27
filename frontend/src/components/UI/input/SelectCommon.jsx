@@ -26,7 +26,7 @@ const SelectCommon = ({filterData, onChange, customStyle, withoutAny}) => {
                     label={filterData.label}
                     onChange={handleChange}
                 >
-                    {!withoutAny && <MenuItem value=""><em>не важно</em></MenuItem>}
+                    {!withoutAny && <MenuItem value={null}><em>не важно</em></MenuItem>}
                     {filterData.options.map(option =>
                         <MenuItem value={option.value} key={option.value}>{option.label}</MenuItem>)}
                 </Select>
