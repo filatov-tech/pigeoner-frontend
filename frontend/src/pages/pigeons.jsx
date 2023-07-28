@@ -4,7 +4,6 @@ import '../styles/pigeons.css';
 import PigeonFilterForm, {MAIN_KEEPER_URL} from "../components/UI/PigeonTable/PigeonFilterForm";
 import PigeonTable from "../components/UI/PigeonTable/PigeonTable";
 import TableSkeletonLoader from "../components/UI/loader/TableSkeletonLoader";
-import {Snackbar} from "@mui/material";
 import ErrorSnackbar from "../components/UI/ErrorSnackbar";
 
 const Pigeons = () => {
