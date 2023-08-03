@@ -16,19 +16,23 @@ const TwoColumnTable = ({pigeon}) => {
                 </tr>
                 <tr>
                     <td>Дата рождения</td>
-                    <td>{pigeon.birthday}</td>
+                    <td>{pigeon.birthdate}</td>
                 </tr>
                 <tr>
                     <td>Состояние</td>
-                    <td>{pigeon.status}</td>
+                    <td>{pigeon.condition}</td>
                 </tr>
                 <tr>
-                    <td>Местонахождение</td>
+                    <td>Голубятня</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Точное место</td>
                     <td></td>
                 </tr>
                 <tr>
                     <td>Принадлежность</td>
-                    <td>{pigeon.isNative ? "Свой" : "Чужой"}</td>
+                    <td>{pigeon.isOwn ? "Свой" : "Чужой"}</td>
                 </tr>
                 <tr>
                     <td>Текущая пара</td>
