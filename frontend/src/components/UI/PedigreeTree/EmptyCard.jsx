@@ -3,7 +3,7 @@ import PigeonToPedigreeAddButton from "../button/PigeonToPedigreeAddButton";
 
 const EmptyCard = ({pigeonStub}) => {
     return (
-        <div className="pigeon-card card-empty">
+        <>{pigeonStub && <div className="pigeon-card card-empty">
             <div className={`card no-border ${pigeonStub.cardSize} d-flex`} style={{height: 100 + "%"}}>
                 <div className={`card-header no-border`}>
                     <h5 className="mb-0">Пустой слот</h5>
@@ -12,7 +12,8 @@ const EmptyCard = ({pigeonStub}) => {
                     {pigeonStub.parentId > 0 && <PigeonToPedigreeAddButton />}
                 </div>
             </div>
-        </div>
+        </div>}
+        </>
     );
 };
 

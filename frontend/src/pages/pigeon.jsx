@@ -67,7 +67,7 @@ const Pigeon = () => {
                                         <hr/>
                                     </div>
                                     <div className="pedigree-tree-box">
-                                        <PedigreeTree/>
+                                        <PedigreeTree pigeon={pigeon}/>
                                     </div>
                                 </div>
                                 <div className="flight-container">
