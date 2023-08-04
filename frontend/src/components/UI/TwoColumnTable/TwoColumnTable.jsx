@@ -12,7 +12,7 @@ const TwoColumnTable = ({pigeon}) => {
                 </tr>
                 <tr>
                     <td>Пол</td>
-                    <td>{pigeon.sex}</td>
+                    <td>{pigeon.sex === "male" ? "самец" : "самка"}</td>
                 </tr>
                 <tr>
                     <td>Дата рождения</td>
@@ -24,11 +24,11 @@ const TwoColumnTable = ({pigeon}) => {
                 </tr>
                 <tr>
                     <td>Голубятня</td>
-                    <td></td>
+                    <td>{pigeon.section && pigeon.section.rootName}</td>
                 </tr>
                 <tr>
                     <td>Точное место</td>
-                    <td></td>
+                    <td>{pigeon.section && pigeon.section.fullAddress}</td>
                 </tr>
                 <tr>
                     <td>Принадлежность</td>
