@@ -2,12 +2,24 @@ import React, {useMemo} from 'react';
 import { MaterialReactTable } from "material-react-table";
 import {MRT_Localization_RU} from "material-react-table/locales/ru";
 import {Link} from "react-router-dom";
+import {Tooltip} from "@mui/material";
+import Box from "@mui/material/Box";
 
 const PigeonTable = ({data}) => {
     const addLinkToCell = function () {
         return (({ cell,row }) => {
             return <>{cell.getValue()}<Link to={`/pigeons/${row.original.id}`} className="table-link"></Link></>;
         });
+    }
+
+
+    function addLinkToCellWithTooltip(row, cell, title) {
+        return <Tooltip title={title} placement="left" arrow>
+            <Box>
+                {cell.getValue()}
+                <Link to={`/pigeons/${row.original.id}`} className="table-link"></Link>
+            </Box>
+        </Tooltip>;
     }
 
     const columns = useMemo(() => [
@@ -17,9 +29,9 @@ const PigeonTable = ({data}) => {
             Cell: addLinkToCell()
         },
         {
-            accessorKey: 'color',
-            header: 'Окрас',
-            Cell: addLinkToCell()
+            accessorKey: 'year',
+            header: 'Год',
+            Cell: ({cell, row}) => addLinkToCellWithTooltip(row, cell, row.original.birthdate)
         },
         {
             accessorKey: 'sex',
@@ -28,23 +40,23 @@ const PigeonTable = ({data}) => {
             Cell: addLinkToCell()
         },
         {
-            accessorKey: 'birthday',
-            header: 'Дата рождения',
-            Cell: addLinkToCell()
+            accessorKey: 'section.rootName',
+            header: 'Голубятня',
+            Cell: ({cell, row}) => addLinkToCellWithTooltip(row, cell, row.original.section.fullAddress)
         },
         {
-            accessorKey: 'age',
-            header: 'Возраст',
-            Cell: addLinkToCell()
-        },
-        {
-            accessorKey: 'mate',
+            accessorKey: 'mateRingNumber',
             header: 'Пара',
             Cell: addLinkToCell()
         },
         {
-            accessorKey: 'status',
-            header: 'Статус',
+            accessorKey: 'condition',
+            header: 'Состояние',
+            Cell: addLinkToCell()
+        },
+        {
+            accessorKey: 'color',
+            header: 'Окрас',
             Cell: addLinkToCell()
         },
         ],
