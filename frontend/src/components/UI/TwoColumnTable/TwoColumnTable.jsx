@@ -36,15 +36,15 @@ const TwoColumnTable = ({pigeon}) => {
                 </tr>
                 <tr>
                     <td>Текущая пара</td>
-                    <td>{pigeon.mate ? pigeon.mate : "Пары нет"}</td>
+                    <td>{pigeon.mate ? pigeon.mate.ringNumber : "Пары нет"}</td>
                 </tr>
                 <tr>
                     <td>Отец</td>
-                    <td>{pigeon.fatherId ? pigeon.fatherId : "не определен"}</td>
+                    <td>{pigeon.fatherId ? pigeon.father.ringNumber : "не определен"}</td>
                 </tr>
                 <tr>
                     <td>Мать</td>
-                    <td>{pigeon.motherId ? pigeon.motherId : "не определена"}</td>
+                    <td>{pigeon.motherId ? pigeon.mother.ringNumber : "не определена"}</td>
                 </tr>
             </tbody>
         </Table>
