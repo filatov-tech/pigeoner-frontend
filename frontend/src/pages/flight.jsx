@@ -40,7 +40,7 @@ const Flight = () => {
                                 <div className="flight-header">
                                     <div className="flight-header-box">
                                         <h1>Полет -  {flight.flightType}</h1>
-                                        <div>{flight.locationName}: {flight.distance} км</div>
+                                        <div>{flight.launchPoint.name}: {flight.launchPoint.distance} км</div>
                                         <div>Запуск: <strong>{departureDate}</strong> {departureTime}</div>
                                     </div>
                                     <hr/>

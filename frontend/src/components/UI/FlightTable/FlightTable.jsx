@@ -21,10 +21,6 @@ const FlightTable = ({data}) => {
                 header: 'Время прилета'
             },
             {
-                accessorKey: 'isPassed',
-                header: 'В зачете'
-            },
-            {
                 accessorKey: 'winPoints',
                 header: 'Балл'
             },

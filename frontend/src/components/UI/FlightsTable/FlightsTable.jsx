@@ -13,12 +13,17 @@ const FlightsTable = ({data}) => {
 
     const columns = useMemo(() => [
             {
-                accessorKey: 'locationName',
+                accessorKey: 'flightType',
+                header: 'Тип вылета',
+                Cell: addLinkToCell()
+            },
+            {
+                accessorKey: 'launchPoint.name',
                 header: 'Место выпуска',
                 Cell: addLinkToCell()
             },
             {
-                accessorKey: 'distance',
+                accessorKey: 'launchPoint.distance',
                 header: 'Дистанция, км',
                 Cell: addLinkToCell()
             },
