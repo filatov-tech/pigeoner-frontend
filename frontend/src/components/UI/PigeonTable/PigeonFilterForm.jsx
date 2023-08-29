@@ -1,8 +1,7 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {forwardRef, useEffect, useImperativeHandle, useRef, useState} from 'react';
 import InputText from "../input/InputText";
 import SelectCommon from "../input/SelectCommon";
 import '../../../styles/pigeons-filter.css';
-import ButtonWithPigeons from "../button/ButtonWithPigeons";
 import {outlinedInputClasses} from "@mui/material/OutlinedInput";
 import AgeSlider from "../input/AgeSlider";
 import InputDate from "../input/InputDate";
@@ -10,7 +9,9 @@ import InputDate from "../input/InputDate";
 export const KEEPER_URL = '/api/v1/keepers';
 export const MAIN_KEEPER_URL = KEEPER_URL + '/main';
 
-const PigeonFilterForm = ({submit}) => {
+
+
+const PigeonFilterForm = forwardRef((props, ref) => {
     const filterForm = useRef();
     const YEAR_TYPE= "yearType";
     const DATE_TYPE= "dateType";
@@ -126,6 +127,11 @@ const PigeonFilterForm = ({submit}) => {
     const sexFilter = new FilterData("sex", sex, "Пол", "", sexOptions);
     const mateFilter = new FilterData("mate", hasMate, "Пара", "", hasMateOptions);
 
+    useImperativeHandle(ref, () => ({
+        handleSubmit,
+        resetFilters
+    }));
+
     const handleSubmit = () => {
         let sendingData;
         switch (dateFilterType) {
@@ -143,7 +149,7 @@ const PigeonFilterForm = ({submit}) => {
         }
 
 
-        submit(sendingData);
+        props.submitButton(sendingData);
     }
 
     const handleChange = (data) => {
@@ -320,21 +326,10 @@ const PigeonFilterForm = ({submit}) => {
                         <SelectCommon filterData={mateFilter} onChange={handleChange}/>
                     </div>
                 </div>
-                <div className="submit-button">
-                    <button id="filter" onClick={handleSubmit}
-                            className="btn btn-primary btn-lg"
-                            type="button" style={{background: "rgb(51,122,183)", width: 150 + "px"}}>
-                        Найти
-                    </button>
-                    <button className="btn btn-light btn-lg reset-button" type="reset" onClick={resetFilters}>Сбросить</button>
-                </div>
-                <div className="new-pigeon-button">
-                    <ButtonWithPigeons/>
-                </div>
             </div>
         </form>
     );
-};
+})
 
 function FilterData(name, value, label, placeholder, options, parameters) {
     this.name = name;

@@ -1,10 +1,11 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import { Container, Row, Col } from "react-bootstrap";
 import '../styles/pigeons.css';
 import PigeonFilterForm, {MAIN_KEEPER_URL} from "../components/UI/PigeonTable/PigeonFilterForm";
 import PigeonTable from "../components/UI/PigeonTable/PigeonTable";
 import TableSkeletonLoader from "../components/UI/loader/TableSkeletonLoader";
 import ErrorSnackbar from "../components/UI/ErrorSnackbar";
+import ButtonWithPigeons from "../components/UI/button/ButtonWithPigeons";
 
 const Pigeons = () => {
 
@@ -12,6 +13,8 @@ const Pigeons = () => {
     const [filterError, setFilterError] = useState();
     const [hasError, setHasError] = useState(false);
     const [mainKeeper, setMainKeeper] = useState('');
+
+    const formRef = useRef();
 
     const GET_PIGEONS_URL = '/api/v1/pigeons';
 
@@ -66,14 +69,34 @@ const Pigeons = () => {
         setFilterError(null);
     }
 
+    const handleSubmit = () => {
+        formRef.current.handleSubmit();
+    }
+
+    const resetFilters = () => {
+        formRef.current.resetFilters();
+    }
+
     return (
         <Container>
             <Row>
-                <div className="col-12">
+                <Col>
                     <h1>Голуби</h1>
                     <hr/>
-                    <PigeonFilterForm submit={updateTable}/>
+                    <PigeonFilterForm submitButton={updateTable} ref={formRef}/>
                     {filterError && <ErrorSnackbar message={filterError.message} close={closeAlert}/>}
+                </Col>
+                <div className="col-12 manage-panel">
+                    <button id="filter" onClick={handleSubmit}
+                            className="btn btn-primary btn-lg manage-panel-item"
+                            type="button" style={{background: "rgb(51,122,183)", width: 150 + "px"}}>
+                        Найти
+                    </button>
+                    <button className="btn btn-light btn-lg manage-panel-item" type="reset" onClick={resetFilters}>Сбросить</button>
+                    <div className="manage-panel-item invisible-item"></div>
+                    <div className="manage-panel-item">
+                        <ButtonWithPigeons/>
+                    </div>
                 </div>
             </Row>
             <Row>

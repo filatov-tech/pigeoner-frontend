@@ -1,7 +1,3 @@
-.reset-button {
-    margin-left: 1rem;
-}
-
 .table-box{
     margin-top: 2rem;
     margin-bottom: 2rem;
@@ -10,13 +6,13 @@
 .pigeons-filters {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
     gap: 12px 12px;
+    margin: 12px 0;
     grid-auto-flow: row;
     grid-template-areas:
     "ring condition dovecote name"
-    "date-filters date-filters other-filters other-filters"
-    "submit-button info-zone info-zone new-pigeon-button";
+    "date-filters date-filters other-filters other-filters";
 }
 
 .ring { grid-area: ring; }
@@ -36,19 +32,6 @@
     grid-area: other-filters;
     display: flex;
     gap: 12px;
-}
-
-.submit-button {
-    grid-area: submit-button;
-}
-
-.info-zone {
-    grid-area: info-zone;
-}
-
-.new-pigeon-button {
-    grid-area: new-pigeon-button;
-    justify-self: end;
 }
 
 .date-filters-item {
@@ -74,3 +57,19 @@
 .left-filter { grid-area: left-filter; }
 
 .right-filter { grid-area: right-filter; }
+
+.manage-panel {
+    display: flex;
+    gap: 12px;
+    justify-content: space-between;
+}
+
+.manage-panel-item {
+
+}
+
+.invisible-item {
+    flex-grow: 4;
+}
+
+
