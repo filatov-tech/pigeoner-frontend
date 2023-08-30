@@ -1,9 +1,9 @@
 import React from 'react';
 import '../../../styles/button-with-pigeons.css';
 
-const ButtonWithPigeons = () => {
+const ButtonWithPigeons = ({handleClick}) => {
     return (
-        <button className="button-with-pigeons">Добавить голубя
+        <button className="button-with-pigeons" onClick={handleClick}>Добавить голубя
             <div className="pigeon-1">
                 <svg viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg" transform="scale(-1 1)">
                     <g>
