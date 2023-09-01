@@ -58,7 +58,7 @@ function convertToValue(age) {
     return [startAgeInMonths, endAgeInMonths];
 }
 
-const AgeSlider = ({filterData, onChange}) => {
+const AgeSlider = ({data, onChange}) => {
     const handleChange = (event, newValue) => {
         const ageRange = convertToAge(newValue);
         onChange([
@@ -100,10 +100,10 @@ const AgeSlider = ({filterData, onChange}) => {
         <ThemeProvider theme={theme}>
             <Box sx={{width: '100%', padding: '0px 22px'}}>
                 <Typography align="center">
-                    {valueLabelFormat(filterData.value)}
+                    {valueLabelFormat(data.value)}
                 </Typography>
                 <Slider
-                    value={convertToValue(filterData.value)}
+                    value={convertToValue(data.value)}
                     min={0}
                     step={1}
                     max={119}

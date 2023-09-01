@@ -114,18 +114,18 @@ const PigeonFilterForm = forwardRef((props, ref) => {
     const [sectionOptions, setSectionOptions] = useState([]);
     const [keeperOptions, setKeeperOptions] = useState([]);
 
-    const ringNumberFilter = new FilterData("ringNumber", ringNumber, "Номер кольца", "Введите номер кольца");
-    const conditionFilter = new FilterData("condition", condition, "Состояние", "Состояние птицы", conditionOptions);
-    const nameFilter = new FilterData("name", name, "Кличка", "Кличка, если есть");
-    const dovecoteFilter = new FilterData("dovecote", dovecote, "Голубятня", "Выберите голубятню", sectionOptions);
-    const dateFilterTypeSelect = new FilterData("dateFilterType", dateFilterType, "Тип даты", "", filterTypeOptions);
-    const birthdateFromFilter = new FilterData("birthdateFrom", birthdateFrom, "От");
-    const birthdateToFilter = new FilterData("birthdateTo", birthdateTo, "До");
-    const yearFromFilter = new FilterData("yearFrom", yearFrom, "от (год)");
-    const yearToFilter = new FilterData("yearTo", yearTo, "до (год)");
-    const keeperFilter = new FilterData("keeper", keeper, "Владелец", "", keeperOptions);
-    const sexFilter = new FilterData("sex", sex, "Пол", "", sexOptions);
-    const mateFilter = new FilterData("mate", hasMate, "Пара", "", hasMateOptions);
+    const ringNumberFilter = new InputFieldData("ringNumber", ringNumber, "Номер кольца", "Введите номер кольца");
+    const conditionFilter = new InputFieldData("condition", condition, "Состояние", "Состояние птицы", conditionOptions);
+    const nameFilter = new InputFieldData("name", name, "Кличка", "Кличка, если есть");
+    const dovecoteFilter = new InputFieldData("dovecote", dovecote, "Голубятня", "Выберите голубятню", sectionOptions);
+    const dateFilterTypeSelect = new InputFieldData("dateFilterType", dateFilterType, "Тип даты", "", filterTypeOptions);
+    const birthdateFromFilter = new InputFieldData("birthdateFrom", birthdateFrom, "От");
+    const birthdateToFilter = new InputFieldData("birthdateTo", birthdateTo, "До");
+    const yearFromFilter = new InputFieldData("yearFrom", yearFrom, "от (год)");
+    const yearToFilter = new InputFieldData("yearTo", yearTo, "до (год)");
+    const keeperFilter = new InputFieldData("keeper", keeper, "Владелец", "", keeperOptions);
+    const sexFilter = new InputFieldData("sex", sex, "Пол", "", sexOptions);
+    const mateFilter = new InputFieldData("mate", hasMate, "Пара", "", hasMateOptions);
 
     useImperativeHandle(ref, () => ({
         handleSubmit,
@@ -268,27 +268,27 @@ const PigeonFilterForm = forwardRef((props, ref) => {
         <form ref={filterForm} id="pigeon-filter">
             <div className="pigeons-filters">
                 <div className="ring">
-                    <InputText filterData={ringNumberFilter} onChange={handleChange}/></div>
+                    <InputText data={ringNumberFilter} onChange={handleChange}/></div>
                 <div className="condition">
-                    <SelectCommon filterData={conditionFilter} onChange={handleChange}/></div>
+                    <SelectCommon data={conditionFilter} onChange={handleChange}/></div>
                 <div className="dovecote">
-                    {sectionOptions && <SelectCommon filterData={dovecoteFilter} onChange={handleChange}/>}</div>
-                <div className="name"><InputText filterData={nameFilter} /></div>
+                    {sectionOptions && <SelectCommon data={dovecoteFilter} onChange={handleChange}/>}</div>
+                <div className="name"><InputText data={nameFilter} /></div>
                 <div className="date-filters">
                     <div className="date-filters-item" style={{width: '30%', flexGrow: 0}}>
-                        <SelectCommon filterData={dateFilterTypeSelect} onChange={handleChange}
+                        <SelectCommon data={dateFilterTypeSelect} onChange={handleChange}
                                       customStyle={customMuiStyle(
                                           dateFilterType === AGE_TYPE ? {} : startGroupElement)} withoutAny/>
                     </div>
                     {dateFilterType === YEAR_TYPE &&
                         <>
                             <div className="date-filters-item">
-                                <InputDate filterData={yearFromFilter} onChange={handleChange}
+                                <InputDate data={yearFromFilter} onChange={handleChange}
                                            customStyle={customMuiStyle(middleGroupElement)}
                                            onlyYear/>
                             </div>
                             <div className="date-filters-item">
-                                <InputDate filterData={yearToFilter} onChange={handleChange}
+                                <InputDate data={yearToFilter} onChange={handleChange}
                                            customStyle={customMuiStyle(endGroupElement)} onlyYear/>
                             </div>
                         </>
@@ -297,12 +297,12 @@ const PigeonFilterForm = forwardRef((props, ref) => {
                     {dateFilterType === DATE_TYPE &&
                         <>
                             <div className="date-filters-item">
-                                <InputDate filterData={birthdateFromFilter}
+                                <InputDate data={birthdateFromFilter}
                                            onChange={handleChange}
                                            customStyle={customMuiStyle(middleGroupElement)}/>
                             </div>
                             <div className="date-filters-item">
-                                <InputDate filterData={birthdateToFilter}
+                                <InputDate data={birthdateToFilter}
                                            onChange={handleChange}
                                            customStyle={customMuiStyle(endGroupElement)}/>
                             </div>
@@ -310,20 +310,20 @@ const PigeonFilterForm = forwardRef((props, ref) => {
                     }
                     {dateFilterType === AGE_TYPE &&
                         <div className="date-filters-item" style={{alignSelf: "flex-end"}}>
-                            <AgeSlider filterData={{value: [ageYearFrom, ageMonthFrom, ageYearTo, ageMonthTo]}}
+                            <AgeSlider data={{value: [ageYearFrom, ageMonthFrom, ageYearTo, ageMonthTo]}}
                                        onChange={handleGroupChange}/>
                         </div>
                     }
                 </div>
                 <div className="other-filters">
                     <div className="other-filters-item">
-                        <SelectCommon filterData={keeperFilter} onChange={handleChange}/>
+                        <SelectCommon data={keeperFilter} onChange={handleChange}/>
                     </div>
                     <div className="other-filters-item">
-                        <SelectCommon filterData={sexFilter} onChange={handleChange}/>
+                        <SelectCommon data={sexFilter} onChange={handleChange}/>
                     </div>
                     <div className="other-filters-item">
-                        <SelectCommon filterData={mateFilter} onChange={handleChange}/>
+                        <SelectCommon data={mateFilter} onChange={handleChange}/>
                     </div>
                 </div>
             </div>
@@ -331,7 +331,7 @@ const PigeonFilterForm = forwardRef((props, ref) => {
     );
 })
 
-function FilterData(name, value, label, placeholder, options, parameters) {
+export function InputFieldData(name, value, label, placeholder, options, parameters) {
     this.name = name;
     this.value = value;
     this.label = label;

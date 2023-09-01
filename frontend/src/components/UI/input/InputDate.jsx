@@ -2,10 +2,10 @@ import React from 'react';
 import {DatePicker} from "@mui/x-date-pickers";
 import {createTheme, ThemeProvider} from "@mui/material";
 
-const InputDate = ({filterData, onChange, customStyle, onlyYear}) => {
+const InputDate = ({data, onChange, customStyle, onlyYear}) => {
     const handleChange = (value) => {
         onChange({
-            name: filterData.name,
+            name: data.name,
             value: value
         });
     }
@@ -22,8 +22,8 @@ const InputDate = ({filterData, onChange, customStyle, onlyYear}) => {
     return (
         <ThemeProvider theme={theme}>
             <DatePicker
-                label={filterData.label}
-                value={filterData.value}
+                label={data.label}
+                value={data.value}
                 {...viewProps}
                 onChange={(newValue) => handleChange(newValue)}
             />

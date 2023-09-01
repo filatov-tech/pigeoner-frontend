@@ -1,12 +1,12 @@
 import React, {useId} from 'react';
 import {createTheme, FormControl, InputLabel, MenuItem, Select, ThemeProvider} from "@mui/material";
 
-const SelectCommon = ({filterData, onChange, customStyle, withoutAny}) => {
+const SelectCommon = ({data, onChange, customStyle, withoutAny}) => {
     const selectId = useId();
 
     const handleChange = (event) => {
         onChange({
-            name: filterData.name,
+            name: data.name,
             value: event.target.value
         });
     }
@@ -18,16 +18,16 @@ const SelectCommon = ({filterData, onChange, customStyle, withoutAny}) => {
     return (
         <ThemeProvider theme={theme}>
             <FormControl fullWidth>
-                {filterData.label && <InputLabel id={selectId}>{filterData.label}</InputLabel>}
+                {data.label && <InputLabel id={selectId}>{data.label}</InputLabel>}
                 <Select
                     labelId={selectId}
-                    id={filterData.name}
-                    value={filterData.value}
-                    label={filterData.label}
+                    id={data.name}
+                    value={data.value}
+                    label={data.label}
                     onChange={handleChange}
                 >
                     {!withoutAny && <MenuItem value={null}><em>не важно</em></MenuItem>}
-                    {filterData.options.map(option =>
+                    {data.options.map(option =>
                         <MenuItem value={option.value} key={option.value}>{option.label}</MenuItem>)}
                 </Select>
             </FormControl>

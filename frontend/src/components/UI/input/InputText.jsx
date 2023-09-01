@@ -1,12 +1,12 @@
 import React, {useId} from 'react';
 import {FormControl, TextField} from "@mui/material";
 
-const InputText = ({filterData, onChange}) => {
+const InputText = ({data, onChange}) => {
     const textInputId = useId();
 
     const handleChange = (e) => {
         onChange({
-            name: filterData.name,
+            name: data.name,
             value: e.target.value
         });
     }
@@ -15,8 +15,8 @@ const InputText = ({filterData, onChange}) => {
         <FormControl fullWidth>
             <TextField
                 id={textInputId}
-                label={filterData.label}
-                value={filterData.value}
+                label={data.label}
+                value={data.value}
                 onChange={handleChange}/>
         </FormControl>
     );
