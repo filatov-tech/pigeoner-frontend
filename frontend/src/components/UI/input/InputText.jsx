@@ -1,7 +1,7 @@
 import React, {useId} from 'react';
 import {FormControl, TextField} from "@mui/material";
 
-const InputText = ({data, onChange}) => {
+const InputText = ({data, onChange, ...muiProps}) => {
     const textInputId = useId();
 
     const handleChange = (e) => {
@@ -17,7 +17,9 @@ const InputText = ({data, onChange}) => {
                 id={textInputId}
                 label={data.label}
                 value={data.value}
-                onChange={handleChange}/>
+                onChange={handleChange}
+                {...muiProps}
+            />
         </FormControl>
     );
 };
