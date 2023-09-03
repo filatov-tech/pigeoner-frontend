@@ -8,10 +8,11 @@ import Button from "@mui/material/Button";
 import DialogActions from "@mui/material/DialogActions";
 import {createFilterOptions} from "@mui/material/Autocomplete";
 import Dialog from "@mui/material/Dialog";
+import {KEEPER_URL} from "../../../pages/pigeons";
 
 const filter = createFilterOptions();
 
-const InputKeeperAutocompleteCreatable = ({data, setValue, ...textFieldParams}) => {
+const InputKeeperAutocompleteCreatable = ({data, setValue, updateKeepers, ...textFieldParams}) => {
     const inputId = useId();
 
     const [open, toggleOpen] = useState(false);
@@ -25,9 +26,25 @@ const InputKeeperAutocompleteCreatable = ({data, setValue, ...textFieldParams}) 
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        // TODO: отправка fetch запроса в бэк с созданием ресурса и его получение и последующей установкой в setValue
-        //       а также добавление нового пункта в в общий список, после получения статуса CREATED
-
+        fetch(KEEPER_URL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(dialogValue)
+        })
+            .then(res => {
+                if (res.statusText === "Created") {
+                    updateKeepers();
+                    return res.json();
+                } else {
+                    throw new Error("Не удалось сохранить нового владельца")
+                }
+            })
+            .then(json => {
+                json.label = json.name;
+                setValue(json);
+            })
         handleClose();
     }
 
@@ -98,7 +115,7 @@ const InputKeeperAutocompleteCreatable = ({data, setValue, ...textFieldParams}) 
                             onChange={(event) =>
                                 setDialogValue({
                                     ...dialogValue,
-                                    title: event.target.value,
+                                    label: event.target.value,
                                 })
                             }
                             label="ФИО владельца"

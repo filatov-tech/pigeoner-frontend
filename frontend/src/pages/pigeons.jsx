@@ -35,14 +35,6 @@ const Pigeons = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const makeOptions = (data) => {
-        const result = [];
-        if (!Array.isArray(data))
-            return data.id;
-        data.forEach(element => result.push({value: element.id, label: element.name}));
-        return result;
-    }
-
     useEffect(() => {
         if (mainKeeperId && mainKeeperId !== '') {
             updateTable({keeper: mainKeeperId})
@@ -120,7 +112,7 @@ const Pigeons = () => {
                     <div className="manage-panel-item invisible-item"></div>
                     <div className="manage-panel-item">
                         <ButtonWithPigeons onClick={openSideEditPanel}/>
-                        <PigeonSideEditForm ref={sideEditFormRef} keeperOptions={keeperOptions}  />
+                        <PigeonSideEditForm ref={sideEditFormRef} keeperOptions={keeperOptions} setKeeperOptions={setKeeperOptions} />
                     </div>
                 </div>
             </Row>
@@ -132,5 +124,13 @@ const Pigeons = () => {
         </Container>
     );
 };
+
+export const makeOptions = (data) => {
+    const result = [];
+    if (!Array.isArray(data))
+        return data.id;
+    data.forEach(element => result.push({value: element.id, label: element.name}));
+    return result;
+}
 
 export default Pigeons;

@@ -7,7 +7,7 @@ import {Chip, Divider} from "@mui/material";
 import InputText from "../input/InputText";
 import InputDate from "../input/InputDate";
 import InputKeeperAutocompleteCreatable from "../input/InputKeeperAutocompleteCreatable";
-import {MAIN_KEEPER_URL} from "../../../pages/pigeons";
+import {KEEPER_URL, MAIN_KEEPER_URL, makeOptions} from "../../../pages/pigeons";
 
 const PigeonSideEditForm = (props, ref) => {
 
@@ -53,6 +53,12 @@ const PigeonSideEditForm = (props, ref) => {
         setOpen(openState);
     }
 
+    const updateKeeperOptions = () => {
+        fetch(KEEPER_URL)
+            .then(res => res.json())
+            .then(json => props.setKeeperOptions(makeOptions(json)))
+    }
+
     useImperativeHandle(ref, () => ({
         toggleSideForm
     }))
@@ -71,7 +77,7 @@ const PigeonSideEditForm = (props, ref) => {
                            slotProps={{textField: {variant: "standard", fullWidth: true, margin: "dense"}}}/>
                 <InputText data={nameData} onChange={handleChange} variant="standard" margin="dense"/>
                 {/*<SelectCommon data={keeperData} onChange={handleChange} variant="standard" sx={{margin: "dense"}}/>*/}
-                <InputKeeperAutocompleteCreatable data={keeperData} setValue={setKeeper} variant="standard"/>
+                <InputKeeperAutocompleteCreatable data={keeperData} setValue={setKeeper} updateKeepers={updateKeeperOptions} variant="standard"/>
             </form>
         </SideEditForm>
     );
