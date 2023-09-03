@@ -5,11 +5,7 @@ import '../../../styles/pigeons-filter.css';
 import {outlinedInputClasses} from "@mui/material/OutlinedInput";
 import AgeSlider from "../input/AgeSlider";
 import InputDate from "../input/InputDate";
-
-export const KEEPER_URL = '/api/v1/keepers';
-export const MAIN_KEEPER_URL = KEEPER_URL + '/main';
-
-
+import {MAIN_KEEPER_URL} from "../../../pages/pigeons";
 
 const PigeonFilterForm = forwardRef((props, ref) => {
     const filterForm = useRef();
@@ -20,7 +16,6 @@ const PigeonFilterForm = forwardRef((props, ref) => {
     const MONTH_MAX = 11;
     const EMPTY_STRING = '';
     const ZERO = 0;
-
 
     const [ringNumber, setRingNumber] = useState(EMPTY_STRING);
     const [condition, setCondition] = useState(EMPTY_STRING);
@@ -112,7 +107,7 @@ const PigeonFilterForm = forwardRef((props, ref) => {
     ]
 
     const [sectionOptions, setSectionOptions] = useState([]);
-    const [keeperOptions, setKeeperOptions] = useState([]);
+    // const [keeperOptions, setKeeperOptions] = useState([]);
 
     const ringNumberFilter = new InputFieldData("ringNumber", ringNumber, "Номер кольца", "Введите номер кольца");
     const conditionFilter = new InputFieldData("condition", condition, "Состояние", "Состояние птицы", conditionOptions);
@@ -123,7 +118,7 @@ const PigeonFilterForm = forwardRef((props, ref) => {
     const birthdateToFilter = new InputFieldData("birthdateTo", birthdateTo, "До");
     const yearFromFilter = new InputFieldData("yearFrom", yearFrom, "от (год)");
     const yearToFilter = new InputFieldData("yearTo", yearTo, "до (год)");
-    const keeperFilter = new InputFieldData("keeper", keeper, "Владелец", "", keeperOptions);
+    const keeperFilter = new InputFieldData("keeper", keeper, "Владелец", "", props.keeperOptions);
     const sexFilter = new InputFieldData("sex", sex, "Пол", "", sexOptions);
     const mateFilter = new InputFieldData("mate", hasMate, "Пара", "", hasMateOptions);
 
@@ -238,14 +233,6 @@ const PigeonFilterForm = forwardRef((props, ref) => {
         })
     }
 
-    const makeOptions = (data) => {
-        const result = [];
-        if (!Array.isArray(data))
-            return data.id;
-        data.forEach(element => result.push({value: element.id, label: element.name}));
-        return result;
-    }
-
     const DOVECOTE_WITH_SECTIONS_HIERARCHY_URL = '/api/v1/sections/hierarchy';
 
     useEffect(()=>{
@@ -258,9 +245,6 @@ const PigeonFilterForm = forwardRef((props, ref) => {
                 setMainKeeper(json.id);
                 setKeeper(json.id);
             });
-        fetch(KEEPER_URL)
-            .then(res => res.json())
-            .then(json => setKeeperOptions(makeOptions(json)));
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 

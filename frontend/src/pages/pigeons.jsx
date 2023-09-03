@@ -1,20 +1,25 @@
 import React, {useState, useEffect, useRef} from 'react';
 import { Container, Row, Col } from "react-bootstrap";
 import '../styles/pigeons.css';
-import PigeonFilterForm, {MAIN_KEEPER_URL} from "../components/UI/PigeonTable/PigeonFilterForm";
 import PigeonTable from "../components/UI/PigeonTable/PigeonTable";
 import TableSkeletonLoader from "../components/UI/loader/TableSkeletonLoader";
 import ErrorSnackbar from "../components/UI/ErrorSnackbar";
 import ButtonWithPigeons from "../components/UI/button/ButtonWithPigeons";
+import PigeonSideEditForm from "../components/UI/form/PigeonSideEditForm";
+import PigeonFilterForm from "../components/UI/PigeonTable/PigeonFilterForm";
+
+export const KEEPER_URL = '/api/v1/keepers';
+export const MAIN_KEEPER_URL = KEEPER_URL + '/main';
 
 const Pigeons = () => {
-
     const [tableData, setTableData] = useState();
     const [filterError, setFilterError] = useState();
     const [hasError, setHasError] = useState(false);
-    const [mainKeeper, setMainKeeper] = useState('');
+    const [mainKeeperId, setMainKeeperId] = useState('');
+    const [keeperOptions, setKeeperOptions] = useState([]);
 
     const formRef = useRef();
+    const sideEditFormRef = useRef();
 
     const GET_PIGEONS_URL = '/api/v1/pigeons';
 
@@ -22,17 +27,28 @@ const Pigeons = () => {
         fetch(MAIN_KEEPER_URL)
             .then(res => res.json())
             .then(json => {
-                setMainKeeper(json.id);
-            })
+                setMainKeeperId(json.id);
+            });
+        fetch(KEEPER_URL)
+            .then(res => res.json())
+            .then(json => setKeeperOptions(makeOptions(json)));
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    const makeOptions = (data) => {
+        const result = [];
+        if (!Array.isArray(data))
+            return data.id;
+        data.forEach(element => result.push({value: element.id, label: element.name}));
+        return result;
+    }
+
     useEffect(() => {
-        if (mainKeeper && mainKeeper !== '') {
-            updateTable({keeper: mainKeeper})
+        if (mainKeeperId && mainKeeperId !== '') {
+            updateTable({keeper: mainKeeperId})
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [mainKeeper])
+    }, [mainKeeperId])
 
     const updateTable = formData => {
         if (!formData) {
@@ -77,13 +93,21 @@ const Pigeons = () => {
         formRef.current.resetFilters();
     }
 
+    const openSideEditPanel = () => {
+        sideEditFormRef.current.toggleSideForm(true);
+    }
+
     return (
         <Container>
             <Row>
                 <Col>
                     <h1>Голуби</h1>
                     <hr/>
-                    <PigeonFilterForm submitButton={updateTable} ref={formRef}/>
+                    <PigeonFilterForm
+                        submitButton={updateTable}
+                        ref={formRef}
+                        keeperOptions={keeperOptions}
+                        setKeeperOptions={setKeeperOptions} />
                     {filterError && <ErrorSnackbar message={filterError.message} close={closeAlert}/>}
                 </Col>
                 <div className="col-12 manage-panel">
@@ -95,7 +119,8 @@ const Pigeons = () => {
                     <button className="btn btn-light btn-lg manage-panel-item" type="reset" onClick={resetFilters}>Сбросить</button>
                     <div className="manage-panel-item invisible-item"></div>
                     <div className="manage-panel-item">
-                        <ButtonWithPigeons/>
+                        <ButtonWithPigeons onClick={openSideEditPanel}/>
+                        <PigeonSideEditForm ref={sideEditFormRef} keeperOptions={keeperOptions}  />
                     </div>
                 </div>
             </Row>
