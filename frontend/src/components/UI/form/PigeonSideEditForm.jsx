@@ -1,7 +1,7 @@
 import React, {forwardRef, useEffect, useImperativeHandle} from 'react';
 import {useState} from "react";
 import {InputFieldData} from "../PigeonTable/PigeonFilterForm";
-import SideEditForm from "../SideEditForm";
+import SideEditForm from "./SideEditForm";
 import Typography from "@mui/material/Typography";
 import {Chip, Divider} from "@mui/material";
 import InputText from "../input/InputText";
