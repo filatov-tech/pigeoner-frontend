@@ -31,7 +31,7 @@ const InputKeeperAutocompleteCreatable = ({data, setValue, updateKeepers, ...tex
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(dialogValue)
+            body: JSON.stringify({name: dialogValue.label})
         })
             .then(res => {
                 if (res.statusText === "Created") {
