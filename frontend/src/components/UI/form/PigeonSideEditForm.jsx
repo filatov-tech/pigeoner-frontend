@@ -8,6 +8,7 @@ import InputText from "../input/InputText";
 import InputDate from "../input/InputDate";
 import InputKeeperAutocompleteCreatable from "../input/InputKeeperAutocompleteCreatable";
 import {KEEPER_URL, MAIN_KEEPER_URL, makeOptions} from "../../../pages/pigeons";
+import InputDovecoteAutocompleteCreatable from "../input/InputDovecoteAutocompleteCreatable";
 
 const PigeonSideEditForm = (props, ref) => {
 
@@ -17,11 +18,13 @@ const PigeonSideEditForm = (props, ref) => {
     const [birthdate, setBirthdate] = useState(null);
     const [name, setName] = useState("");
     const [keeper, setKeeper] = useState({});
+    const [dovecote, setDovecote] = useState(null);
 
     const ringNumberData = new InputFieldData("ringNumber", ringNumber, "Номер кольца");
     const birthdateData = new InputFieldData("birthdate", birthdate, "Дата рождения");
     const nameData = new InputFieldData("name", name, "Кличка");
     const keeperData = new InputFieldData("keeper", keeper, "Владелец", "", props.keeperOptions);
+    const dovecoteData = new InputFieldData("dovecote", dovecote, "Голубятня");
 
     // TODO: Убрать эту чушь
     const setStateMap = new Map();
@@ -76,8 +79,9 @@ const PigeonSideEditForm = (props, ref) => {
                 <InputDate data={birthdateData} onChange={handleChange}
                            slotProps={{textField: {variant: "standard", fullWidth: true, margin: "dense"}}}/>
                 <InputText data={nameData} onChange={handleChange} variant="standard" margin="dense"/>
-                {/*<SelectCommon data={keeperData} onChange={handleChange} variant="standard" sx={{margin: "dense"}}/>*/}
+                <InputDovecoteAutocompleteCreatable data={dovecoteData} setValue={setDovecote} variant="standard" />
                 <InputKeeperAutocompleteCreatable data={keeperData} setValue={setKeeper} updateKeepers={updateKeeperOptions} variant="standard"/>
+
             </form>
         </SideEditForm>
     );
