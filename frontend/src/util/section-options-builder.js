@@ -24,3 +24,34 @@ function addSectionOption(hierarchicalObject, levelPrefix, sectionList) {
         addSectionOption(childSection, nextLevelPrefix, sectionList);
     })
 }
+
+export function addHierarchicalLabel(object, parentObject) {
+    if (!parentObject) return object;
+
+    object.prefix = parentObject.prefix + prefixElement;
+    object.label = `${object.prefix} ${object.name}`
+    return object;
+}
+
+export function addHierarchicalLabelsTo(data) {
+    if (data.length === 0) return {};
+
+    const rootLevel = '';
+    data.forEach(section => {
+        addLabelTo(section, rootLevel);
+    })
+
+    return data;
+}
+
+function addLabelTo(section, levelPrefix) {
+    section.prefix = levelPrefix;
+    section.label = `${levelPrefix}  ${section.name}`;
+
+    if (section.children.length === 0) return;
+
+    const nextLevelPrefix = levelPrefix + prefixElement;
+    section.children.forEach(childSection => {
+        addLabelTo(childSection, nextLevelPrefix);
+    })
+}
