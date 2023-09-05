@@ -26,7 +26,7 @@ class DovecoteAccordion extends React.Component {
     }
 
     initComponent() {
-        fetch('http://localhost:8080/api/v1/sections/')
+        fetch('http://localhost:8080/api/v1/sections/hierarchical-with-pigeons')
             .then(resp => resp.json())
             .then(
                 result => {
