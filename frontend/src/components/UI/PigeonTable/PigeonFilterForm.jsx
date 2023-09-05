@@ -6,6 +6,7 @@ import {outlinedInputClasses} from "@mui/material/OutlinedInput";
 import AgeSlider from "../input/AgeSlider";
 import InputDate from "../input/InputDate";
 import {MAIN_KEEPER_URL} from "../../../pages/pigeons";
+import {makeHierarchicalViewOf} from "../../../util/section-options-builder";
 
 const PigeonFilterForm = forwardRef((props, ref) => {
     const filterForm = useRef();
@@ -210,35 +211,12 @@ const PigeonFilterForm = forwardRef((props, ref) => {
         })
     }
 
-    function makeHierarchicalView(data) {
-        if (data.length === 0) return [];
-
-        const rootLevel = '';
-        let optionsForDovecoteFilter = [];
-        data.forEach(section => {
-            addSectionOption(section, rootLevel, optionsForDovecoteFilter)
-        })
-        return optionsForDovecoteFilter;
-    }
-
-    const prefixElement = '\xa0\xa0\u23B9\xa0\xa0\xa0';
-    function addSectionOption(hierarchicalObject, levelPrefix, sectionList) {
-        sectionList.push({value: hierarchicalObject.id, label: `${levelPrefix} ${hierarchicalObject.name}`});
-
-        if (hierarchicalObject.children.length === 0) return;
-
-        const nextLevelPrefix = levelPrefix + prefixElement;
-        hierarchicalObject.children.forEach(childSection => {
-            addSectionOption(childSection, nextLevelPrefix, sectionList);
-        })
-    }
-
     const DOVECOTE_WITH_SECTIONS_HIERARCHY_URL = '/api/v1/sections/hierarchy';
 
     useEffect(()=>{
         fetch(DOVECOTE_WITH_SECTIONS_HIERARCHY_URL)
             .then(res => res.json())
-            .then(json => setSectionOptions(makeHierarchicalView(json)));
+            .then(json => setSectionOptions(makeHierarchicalViewOf(json)));
         fetch(MAIN_KEEPER_URL)
             .then(res => res.json())
             .then(json => {
