@@ -22,7 +22,7 @@ const InputDovecoteAutocompleteCreatable = ({data, setValue, ...inputFieldParams
     const [sectionsOptions, setSectionsOptions] = useState([]);
 
     const handleClose = () => {
-        setValue('');
+        setDialogValue({id: "", name: "", sectionType: "", parentId:"", label: ""});
         toggleOpen(false);
     }
 

@@ -18,7 +18,7 @@ const InputKeeperAutocompleteCreatable = ({data, setValue, updateKeepers, ...tex
     const [open, toggleOpen] = useState(false);
 
     const handleClose = () => {
-        setValue({label:""});
+        setDialogValue({label:""});
         toggleOpen(false);
     }
 
