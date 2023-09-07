@@ -6,9 +6,9 @@ import Typography from "@mui/material/Typography";
 import {Chip, Divider} from "@mui/material";
 import InputText from "../input/InputText";
 import InputDate from "../input/InputDate";
-import InputKeeperAutocompleteCreatable from "../input/InputKeeperAutocompleteCreatable";
+import InputKeeperAutocompleteCreatable from "../input/Autocomplete/InputKeeperAutocompleteCreatable";
 import {KEEPER_URL, MAIN_KEEPER_URL, makeOptions} from "../../../pages/pigeons";
-import InputDovecoteAutocompleteCreatable from "../input/InputDovecoteAutocompleteCreatable";
+import InputDovecoteAutocompleteCreatable from "../input/Autocomplete/InputDovecoteAutocompleteCreatable";
 import ControlledRadioGroup from "../radio/ControlledRadioGroup";
 
 const PigeonSideEditForm = (props, ref) => {

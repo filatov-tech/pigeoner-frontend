@@ -1,7 +1,6 @@
 import React, {useEffect, useId, useState} from 'react';
-import {addHierarchicalLabel, addHierarchicalLabelsTo} from "../../../util/section-options-builder";
-import {flatten} from "../../../util/utils";
-import {KEEPER_URL} from "../../../pages/pigeons";
+import {addHierarchicalLabel, addHierarchicalLabelsTo} from "../../../../util/section-options-builder";
+import {flatten} from "../../../../util/utils";
 import Autocomplete, {createFilterOptions} from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
