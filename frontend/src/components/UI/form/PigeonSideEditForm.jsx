@@ -10,6 +10,7 @@ import InputKeeperAutocompleteCreatable from "../input/Autocomplete/InputKeeperA
 import {KEEPER_URL, MAIN_KEEPER_URL, makeOptions} from "../../../pages/pigeons";
 import InputDovecoteAutocompleteCreatable from "../input/Autocomplete/InputDovecoteAutocompleteCreatable";
 import ControlledRadioGroup from "../radio/ControlledRadioGroup";
+import InputColorAutocompleteCreatable from "../input/Autocomplete/InputColorAutocompleteCreatable";
 
 const PigeonSideEditForm = (props, ref) => {
 
@@ -21,6 +22,7 @@ const PigeonSideEditForm = (props, ref) => {
     const [keeper, setKeeper] = useState({});
     const [dovecote, setDovecote] = useState(null);
     const [sex, setSex] = useState("");
+    const [color, setColor] = useState("");
 
     const ringNumberData = new InputFieldData("ringNumber", ringNumber, "Номер кольца");
     const birthdateData = new InputFieldData("birthdate", birthdate, "Дата рождения");
@@ -31,6 +33,7 @@ const PigeonSideEditForm = (props, ref) => {
         {value: "MALE", label: "Самец"},
         {value: "FEMALE", label: "Самка"}
     ])
+    const colorData = new InputFieldData("color", color, "Окрас");
 
     // TODO: Убрать эту чушь
     const setStateMap = new Map();
@@ -91,6 +94,7 @@ const PigeonSideEditForm = (props, ref) => {
                     <Chip label="Физ. параметры"/>
                 </Divider>
                 <ControlledRadioGroup data={sexData} onChange={setSex} />
+                <InputColorAutocompleteCreatable data={colorData} onChange={setColor} variant="standard" />
 
             </form>
         </SideEditForm>
