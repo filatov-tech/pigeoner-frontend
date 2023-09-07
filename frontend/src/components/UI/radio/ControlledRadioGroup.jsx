@@ -18,7 +18,7 @@ const ControlledRadioGroup = ({data, onChange}) => {
                     aria-labelledby={radioGroupId}
                     name={data.name}
                     value={data.value}
-                    onChange={() => onChange()}
+                    onChange={(event) => onChange(event.target.value)}
                 >
                     {data.options.map(option =>
                         <FormControlLabel value={option.value} control={<Radio size="small"/>} label={option.label}/>
