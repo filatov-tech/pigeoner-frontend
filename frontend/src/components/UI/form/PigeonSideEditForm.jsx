@@ -9,6 +9,7 @@ import InputDate from "../input/InputDate";
 import InputKeeperAutocompleteCreatable from "../input/InputKeeperAutocompleteCreatable";
 import {KEEPER_URL, MAIN_KEEPER_URL, makeOptions} from "../../../pages/pigeons";
 import InputDovecoteAutocompleteCreatable from "../input/InputDovecoteAutocompleteCreatable";
+import ControlledRadioGroup from "../radio/ControlledRadioGroup";
 
 const PigeonSideEditForm = (props, ref) => {
 
@@ -19,12 +20,17 @@ const PigeonSideEditForm = (props, ref) => {
     const [name, setName] = useState("");
     const [keeper, setKeeper] = useState({});
     const [dovecote, setDovecote] = useState(null);
+    const [sex, setSex] = useState("");
 
     const ringNumberData = new InputFieldData("ringNumber", ringNumber, "Номер кольца");
     const birthdateData = new InputFieldData("birthdate", birthdate, "Дата рождения");
     const nameData = new InputFieldData("name", name, "Кличка");
     const keeperData = new InputFieldData("keeper", keeper, "Владелец", "", props.keeperOptions);
     const dovecoteData = new InputFieldData("dovecote", dovecote, "Голубятня");
+    const sexData = new InputFieldData("sex", sex, "Пол", "", [
+        {value: "MALE", label: "Самец"},
+        {value: "FEMALE", label: "Самка"}
+    ])
 
     // TODO: Убрать эту чушь
     const setStateMap = new Map();
@@ -44,7 +50,7 @@ const PigeonSideEditForm = (props, ref) => {
                 json.label = json.name;
                 setKeeper(json)
             });
-
+        setSex("MALE");
     }, [])
 
     const handleChange = (data) => {
@@ -81,6 +87,10 @@ const PigeonSideEditForm = (props, ref) => {
                 <InputText data={nameData} onChange={handleChange} variant="standard" margin="dense"/>
                 <InputDovecoteAutocompleteCreatable data={dovecoteData} setValue={setDovecote} variant="standard" />
                 <InputKeeperAutocompleteCreatable data={keeperData} setValue={setKeeper} updateKeepers={updateKeeperOptions} variant="standard"/>
+                <Divider sx={{marginTop: "30px", marginBottom: "15px"}}>
+                    <Chip label="Физ. параметры"/>
+                </Divider>
+                <ControlledRadioGroup data={sexData} onChange={setSex} />
 
             </form>
         </SideEditForm>
