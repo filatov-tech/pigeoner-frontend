@@ -100,7 +100,7 @@ const Pigeons = () => {
                         ref={formRef}
                         keeperOptions={keeperOptions}
                         setKeeperOptions={setKeeperOptions} />
-                    {filterError && <ErrorSnackbar message={filterError.message} close={closeAlert}/>}
+                    {filterError && <ErrorSnackbar message={filterError.message} onClose={closeAlert}/>}
                 </Col>
                 <div className="col-12 manage-panel">
                     <button id="filter" onClick={handleSubmit}
