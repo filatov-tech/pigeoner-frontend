@@ -1,51 +1,18 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {createFilterOptions} from "@mui/material/Autocomplete";
 import {useId} from "react";
 import {Autocomplete} from "@mui/material";
 import TextField from "@mui/material/TextField";
-import Dialog from "@mui/material/Dialog";
-import DialogTitle from "@mui/material/DialogTitle";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import Button from "@mui/material/Button";
-import DialogActions from "@mui/material/DialogActions";
+import ColorEditDialog from "../../form/dialog/ColorEditDialog";
 
 const filter = createFilterOptions();
-const COLOR_URL = "/api/v1/color"
+export const COLOR_URL = "/api/v1/color"
 
 const InputColorAutocompleteCreatable = ({data, onChange, ...textFieldParams}) => {
     const inputId = useId();
+    const dialogRef = useRef();
 
-    const [open, toggleOpen] = useState(false);
     const [colorOptions, setColorOptions] = useState([]);
-
-    const handleClose = () => {
-        setDialogValue({name: ""});
-        toggleOpen(false);
-    }
-
-    const [dialogValue, setDialogValue] = useState({name:""});
-
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        fetch(COLOR_URL, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(dialogValue)
-        })
-            .then(res => {
-                if (res.statusText === "Created") {
-                    fetchColors();
-                    return res.json();
-                } else {
-                    throw new Error("Не удалось сохранить нового владельца")
-                }
-            })
-            .then(json => onChange(json))
-        handleClose();
-    }
 
     useEffect(()=> {
         fetchColors()
@@ -65,16 +32,10 @@ const InputColorAutocompleteCreatable = ({data, onChange, ...textFieldParams}) =
                     if (typeof newValue === 'string') {
                         // timeout to avoid instant validation of the dialog's form.
                         setTimeout(() => {
-                            toggleOpen(true);
-                            setDialogValue({
-                                name: newValue
-                            });
+                            dialogRef.current.openWithValue(newValue);
                         });
                     } else if (newValue && newValue.inputValue) {
-                        toggleOpen(true);
-                        setDialogValue({
-                            name: newValue.inputValue
-                        });
+                        dialogRef.current.openWithValue(newValue.inputValue);
                     } else {
                         onChange(newValue);
                     }
@@ -109,33 +70,7 @@ const InputColorAutocompleteCreatable = ({data, onChange, ...textFieldParams}) =
                 freeSolo
                 renderInput={(params) => <TextField {...params} {...textFieldParams} label={data.label} margin="dense" />}
             />
-            <Dialog open={open} onClose={handleClose}>
-                <form onSubmit={handleSubmit}>
-                    <DialogTitle>Добавить новый окрас</DialogTitle>
-                    <DialogContent>
-                        <DialogContentText>
-                            Если вы не нашли нужный вариант окраса, вы можете создать здесь новый.
-                            Для этого введите название для нового окраса:
-                        </DialogContentText>
-                        <TextField
-                            autoFocus
-                            id="name"
-                            value={dialogValue.name}
-                            onChange={(event) => {
-                                setDialogValue({name: event.target.value})
-                            }}
-                            label="Название окраса"
-                            type="text"
-                            margin="normal"
-                            variant="outlined"
-                        />
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={handleClose}>Отмена</Button>
-                        <Button type="submit">Сохранить</Button>
-                    </DialogActions>
-                </form>
-            </Dialog>
+            <ColorEditDialog ref={dialogRef} onChange={onChange} onSubmit={[fetchColors]} />
         </React.Fragment>
     );
 };
