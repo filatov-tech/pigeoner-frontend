@@ -6,7 +6,6 @@ import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import TextField from "@mui/material/TextField";
-import {Alert} from "@mui/material";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
 import ErrorSnackbar from "../../ErrorSnackbar";
@@ -16,11 +15,13 @@ const ColorEditDialog = (props, ref) => {
     const [open, toggleOpen] = useState(false);
     const [dialogValue, setDialogValue] = useState({name:""});
 
-    const [errors, setErrors] = useState();
+    const [error, setError] = useState();
     const [nameError, setNameError] = useState();
 
     const handleClose = () => {
         setDialogValue({name: ""});
+        setError(null);
+        setNameError(null);
         toggleOpen(false);
     }
 
@@ -49,12 +50,17 @@ const ColorEditDialog = (props, ref) => {
             if (response.ok) {
                 const created = await response.json();
                 props.onChange(created);
+                setError(null);
+                setNameError(null);
                 if (props.onSubmit) {
                     props.onSubmit.forEach((callback) => callback());
                 }
             } else {
                 const apiError = await response.json();
-                setErrors(apiError.errors);
+                setError(apiError);
+                if (apiError.fields.name) {
+                    setNameError(apiError.fields.name);
+                }
                 return;
             }
         } catch (err) {
@@ -64,43 +70,40 @@ const ColorEditDialog = (props, ref) => {
     }
 
     const closeErrorAlert = () => {
-        setErrors(null);
+        setError(null);
     }
 
     return (
-        <React.Fragment>
-            <Dialog open={open} onClose={handleClose}>
-                <form onSubmit={handleSubmit}>
-                    <DialogTitle>Новый окрас</DialogTitle>
-                    <DialogContent>
-                        <DialogContentText>
-                            Если вы не нашли нужный вариант окраса, вы можете создать здесь новый.
-                            Для этого введите название для нового окраса:
-                        </DialogContentText>
-                        <TextField
-                            autoFocus
-                            id="name"
-                            value={dialogValue.name}
-                            onChange={(event) => {
-                                setDialogValue({name: event.target.value})
-                            }}
-                            label="Название окраса"
-                            type="text"
-                            margin="normal"
-                            variant="outlined"
-                        />
-                        {nameError && <Alert severity="error">
-                            {nameError.message}
-                        </Alert>}
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={handleClose}>Отмена</Button>
-                        <Button type="submit">Сохранить</Button>
-                    </DialogActions>
-                </form>
-            </Dialog>
-            {errors && <ErrorSnackbar message={errors.message} onClose={closeErrorAlert}/>}
-        </React.Fragment>
+        <Dialog open={open} onClose={handleClose}>
+            <form onSubmit={handleSubmit}>
+                <DialogTitle>Новый окрас</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        Если вы не нашли нужный вариант окраса, вы можете создать здесь новый.
+                        Для этого введите название для нового окраса:
+                    </DialogContentText>
+                    <TextField
+                        autoFocus
+                        id="name"
+                        value={dialogValue.name}
+                        onChange={(event) => {
+                            setDialogValue({name: event.target.value})
+                        }}
+                        label="Название окраса"
+                        type="text"
+                        error={error}
+                        helperText={nameError ? nameError.shortMessage : " "}
+                        margin="normal"
+                        variant="outlined"
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose}>Отмена</Button>
+                    <Button type="submit">Сохранить</Button>
+                </DialogActions>
+            </form>
+            {error && <ErrorSnackbar message={error.message} onClose={closeErrorAlert}/>}
+        </Dialog>
     );
 };
 
