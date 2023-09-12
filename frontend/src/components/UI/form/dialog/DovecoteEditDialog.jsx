@@ -74,7 +74,6 @@ const DovecoteEditDialog = (props, ref) => {
                 setNameError(apiError.fields.name);
                 setSectionTypeError(apiError.fields.sectionType);
                 setParentError(apiError.fields.parent)
-                //error handling
                 return;
             }
         } catch (err) {
@@ -99,7 +98,7 @@ const DovecoteEditDialog = (props, ref) => {
         setError(null);
     }
 
-    const printHelperText = (error) => {
+    const getHelperText = (error) => {
         if (!error) {
             return " ";
         }
@@ -135,7 +134,7 @@ const DovecoteEditDialog = (props, ref) => {
                         }}
                         label="Название"
                         error={nameError}
-                        helperText={printHelperText(nameError)}
+                        helperText={getHelperText(nameError)}
                         type="text"
                         variant="outlined"
                         sx={{flex:"3 0"}}
@@ -159,7 +158,7 @@ const DovecoteEditDialog = (props, ref) => {
                             <MenuItem value={sectionType.room}>Секция</MenuItem>
                             <MenuItem value={sectionType.nest}>Гнездо</MenuItem>
                         </Select>
-                        <FormHelperText>{printHelperText(sectionTypeError)}</FormHelperText>
+                        <FormHelperText>{getHelperText(sectionTypeError)}</FormHelperText>
                     </FormControl>
                     <FormControl variant="outlined" sx={{flex:"1 0 100%"}} error={parentError}>
                         <InputLabel id="dovecote">Родительская секция</InputLabel>
@@ -181,7 +180,7 @@ const DovecoteEditDialog = (props, ref) => {
                                 <MenuItem dense value={section.id} key={section.id}>{section.label}</MenuItem>
                             )}
                         </Select>
-                        <FormHelperText>{printHelperText(parentError)}</FormHelperText>
+                        <FormHelperText>{getHelperText(parentError)}</FormHelperText>
                     </FormControl>
                 </DialogContent>
                 <DialogActions>
