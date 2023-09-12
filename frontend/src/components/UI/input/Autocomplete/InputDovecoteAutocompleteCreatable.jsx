@@ -1,78 +1,28 @@
-import React, {useEffect, useId, useState} from 'react';
-import {addHierarchicalLabel, addHierarchicalLabelsTo} from "../../../../util/section-options-builder";
+import React, {useEffect, useId, useRef, useState} from 'react';
+import {addHierarchicalLabelsTo} from "../../../../util/section-options-builder";
 import {flatten} from "../../../../util/utils";
 import Autocomplete, {createFilterOptions} from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
-import Dialog from "@mui/material/Dialog";
-import DialogTitle from "@mui/material/DialogTitle";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import {FormControl, InputLabel, MenuItem, Select} from "@mui/material";
-import Button from "@mui/material/Button";
-import DialogActions from "@mui/material/DialogActions";
+import DovecoteEditDialog from "../../form/dialog/DovecoteEditDialog";
 
 export const HIERARCHICAL_SECTIONS_URL = "/api/v1/sections/hierarchical";
 
 const filter = createFilterOptions();
 
-const InputDovecoteAutocompleteCreatable = ({data, setValue, ...inputFieldParams}) => {
+const InputDovecoteAutocompleteCreatable = ({data, onChange, ...inputFieldParams}) => {
     const inputId = useId();
+    const dialogRef = useRef();
 
-    const [open, toggleOpen] = useState(false);
     const [sectionsOptions, setSectionsOptions] = useState([]);
 
-    const handleClose = () => {
-        setDialogValue({id: "", name: "", sectionType: "", parentId:"", label: ""});
-        toggleOpen(false);
-    }
-
-    const sectionType = {
-        dovecote: "DOVECOTE",
-        room: "ROOM",
-        nest: "NEST"
-    }
-
-    const sectionTypeOptions = [
-        {value: sectionType.dovecote, label: "Голубятня"},
-        {value: sectionType.room, label: "Секция"},
-        {value: sectionType.nest, label: "Гнездо"},
-    ]
-
     useEffect(()=> {
-        fetch(HIERARCHICAL_SECTIONS_URL)
-            .then(res => res.json())
-            .then(json => setSectionsOptions(flatten(addHierarchicalLabelsTo(json))))
+        updateSectionsOptions();
     }, []);
 
-    const updateSectionOptions = () => {
+    const updateSectionsOptions = () => {
         fetch(HIERARCHICAL_SECTIONS_URL)
             .then(res => res.json())
             .then(json => setSectionsOptions(flatten(addHierarchicalLabelsTo(json))))
-    }
-
-    const [dialogValue, setDialogValue] = useState({id: "", name: "", sectionType: "", parentId:"", label: ""});
-
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        fetch("/api/v1/sections", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(dialogValue)
-        })
-            .then(res => {
-                if (res.statusText === "Created") {
-                    return res.json();
-                } else {
-                    throw new Error("Не удалось сохранить новую голубятню или её часть")
-                }
-            })
-            .then(json => {
-                updateSectionOptions();
-                setValue(addHierarchicalLabel(json, sectionsOptions.find(section => section.id === json.parentId)));
-            })
-        handleClose();
     }
 
     return (
@@ -82,21 +32,11 @@ const InputDovecoteAutocompleteCreatable = ({data, setValue, ...inputFieldParams
                 onChange={(event, newValue) => {
                     if (typeof newValue === 'string') {
                         // timeout to avoid instant validation of the dialog's form.
-                        setTimeout(() => {
-                            toggleOpen(true);
-                            setDialogValue({
-                                name: newValue,
-                                label: newValue
-                            });
-                        });
+                        setTimeout(() => {dialogRef.current.openWithValue(newValue)});
                     } else if (newValue && newValue.inputValue) {
-                        toggleOpen(true);
-                        setDialogValue({
-                            name: newValue.inputValue,
-                            label: newValue.inputValue
-                        });
+                        dialogRef.current.openWithValue(newValue.inputValue);
                     } else {
-                        setValue(newValue);
+                        onChange(newValue);
                     }
                 }}
                 filterOptions={(options, params) => {
@@ -129,73 +69,7 @@ const InputDovecoteAutocompleteCreatable = ({data, setValue, ...inputFieldParams
                 freeSolo
                 renderInput={(params) => <TextField {...params} {...inputFieldParams} label={data.label} margin="dense" />}
             />
-            <Dialog open={open} onClose={handleClose} >
-                <form onSubmit={handleSubmit}>
-                    <DialogTitle>Добавить новую голубятню или секцию</DialogTitle>
-                    <DialogContent sx={{display:"flex",flexWrap:"wrap", gap:"12px", alignItems:"stretch"}}>
-                        <DialogContentText sx={{flex:"1 0 100%"}}>
-                            Здесь вы можете создать новую голубятню, внутреннюю секцию или гнездо
-                        </DialogContentText>
-                        <TextField
-                            autoFocus
-                            id="name"
-                            value={dialogValue.name}
-                            onChange={(event) =>
-                                setDialogValue({
-                                    ...dialogValue,
-                                    name: event.target.value,
-                                })
-                            }
-                            label="Название"
-                            type="text"
-                            variant="outlined"
-                            sx={{flex:"3 0"}}
-                        />
-                        <FormControl variant="outlined" sx={{flex:"2 0"}}>
-                            <InputLabel id="sectionType">Тип</InputLabel>
-                            <Select
-                                id="sectionType"
-                                value={dialogValue.sectionType}
-                                label="Тип"
-                                onChange={(event) =>
-                                    setDialogValue({
-                                        ...dialogValue,
-                                        sectionType: event.target.value,
-                                    })
-                                }
-                            >
-                                <MenuItem value={sectionType.dovecote}>Голубятня</MenuItem>
-                                <MenuItem value={sectionType.room}>Секция</MenuItem>
-                                <MenuItem value={sectionType.nest}>Гнездо</MenuItem>
-                            </Select>
-                        </FormControl>
-                        <FormControl variant="outlined" sx={{flex:"1 0 100%"}}>
-                            <InputLabel id="dovecote">Родительская секция</InputLabel>
-                            <Select
-                                id="dovecote"
-                                value={dialogValue.parentId}
-                                label="Родительская секция"
-                                onChange={(event) =>
-                                    setDialogValue({
-                                        ...dialogValue,
-                                        parentId: event.target.value,
-                                    })
-                                }
-                                renderValue={(value) => sectionsOptions.find(section => section.id === value).name}
-                            >
-                                <MenuItem dense value={null}>-</MenuItem>
-                                {sectionsOptions.map(section =>
-                                    <MenuItem dense value={section.id} key={section.id}>{section.label}</MenuItem>
-                                )}
-                            </Select>
-                        </FormControl>
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={handleClose}>Отмена</Button>
-                        <Button type="submit">Сохранить</Button>
-                    </DialogActions>
-                </form>
-            </Dialog>
+            <DovecoteEditDialog ref={dialogRef} onChange={onChange} onSubmit={[updateSectionsOptions]}/>
         </React.Fragment>
     );
 };
