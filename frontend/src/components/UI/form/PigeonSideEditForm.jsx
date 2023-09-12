@@ -91,7 +91,7 @@ const PigeonSideEditForm = (props, ref) => {
                            slotProps={{textField: {variant: "standard", fullWidth: true, margin: "dense"}}}/>
                 <InputText data={nameData} onChange={handleChange} variant="standard" margin="dense"/>
                 <InputDovecoteAutocompleteCreatable data={dovecoteData} onChange={setDovecote} variant="standard" />
-                <InputKeeperAutocompleteCreatable data={keeperData} setValue={setKeeper} updateKeepers={updateKeeperOptions} variant="standard"/>
+                <InputKeeperAutocompleteCreatable data={keeperData} onChange={setKeeper} updateKeepers={updateKeeperOptions} variant="standard"/>
                 <Divider sx={{marginTop: "30px", marginBottom: "15px"}}>
                     <Chip label="Физ. параметры"/>
                 </Divider>
