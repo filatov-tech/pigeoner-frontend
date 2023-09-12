@@ -90,7 +90,7 @@ const PigeonSideEditForm = (props, ref) => {
                 <InputDate data={birthdateData} onChange={handleChange}
                            slotProps={{textField: {variant: "standard", fullWidth: true, margin: "dense"}}}/>
                 <InputText data={nameData} onChange={handleChange} variant="standard" margin="dense"/>
-                <InputDovecoteAutocompleteCreatable data={dovecoteData} setValue={setDovecote} variant="standard" />
+                <InputDovecoteAutocompleteCreatable data={dovecoteData} onChange={setDovecote} variant="standard" />
                 <InputKeeperAutocompleteCreatable data={keeperData} setValue={setKeeper} updateKeepers={updateKeeperOptions} variant="standard"/>
                 <Divider sx={{marginTop: "30px", marginBottom: "15px"}}>
                     <Chip label="Физ. параметры"/>
