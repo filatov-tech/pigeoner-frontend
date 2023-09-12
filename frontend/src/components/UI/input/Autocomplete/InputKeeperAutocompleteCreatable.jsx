@@ -1,52 +1,14 @@
-import React, {useId, useState} from 'react';
+import React, {useId, useRef} from 'react';
 import {Autocomplete} from "@mui/material";
 import TextField from "@mui/material/TextField";
-import DialogTitle from "@mui/material/DialogTitle";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import Button from "@mui/material/Button";
-import DialogActions from "@mui/material/DialogActions";
 import {createFilterOptions} from "@mui/material/Autocomplete";
-import Dialog from "@mui/material/Dialog";
-import {KEEPER_URL} from "../../../../pages/pigeons";
+import KeeperEditDialog from "../../form/dialog/KeeperEditDialog";
 
 const filter = createFilterOptions();
 
-const InputKeeperAutocompleteCreatable = ({data, setValue, updateKeepers, ...textFieldParams}) => {
+const InputKeeperAutocompleteCreatable = ({data, onChange, updateKeepers, ...textFieldParams}) => {
     const inputId = useId();
-
-    const [open, toggleOpen] = useState(false);
-
-    const handleClose = () => {
-        setDialogValue({label:""});
-        toggleOpen(false);
-    }
-
-    const [dialogValue, setDialogValue] = useState({label:""});
-
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        fetch(KEEPER_URL, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({name: dialogValue.label})
-        })
-            .then(res => {
-                if (res.statusText === "Created") {
-                    updateKeepers();
-                    return res.json();
-                } else {
-                    throw new Error("Не удалось сохранить нового владельца")
-                }
-            })
-            .then(json => {
-                json.label = json.name;
-                setValue(json);
-            })
-        handleClose();
-    }
+    const dialogRef = useRef();
 
     return (
         <React.Fragment>
@@ -56,18 +18,12 @@ const InputKeeperAutocompleteCreatable = ({data, setValue, updateKeepers, ...tex
                     if (typeof newValue === 'string') {
                         // timeout to avoid instant validation of the dialog's form.
                         setTimeout(() => {
-                            toggleOpen(true);
-                            setDialogValue({
-                                label: newValue
-                            });
+                            dialogRef.current.openWithValue(newValue);
                         });
                     } else if (newValue && newValue.inputValue) {
-                        toggleOpen(true);
-                        setDialogValue({
-                            label: newValue.inputValue
-                        });
+                        dialogRef.current.openWithValue(newValue.inputValue);
                     } else {
-                        setValue(newValue);
+                        onChange(newValue);
                     }
                 }}
                 filterOptions={(options, params) => {
@@ -100,35 +56,7 @@ const InputKeeperAutocompleteCreatable = ({data, setValue, updateKeepers, ...tex
                 freeSolo
                 renderInput={(params) => <TextField {...params} {...textFieldParams} label={data.label} margin="dense" />}
             />
-            <Dialog open={open} onClose={handleClose} >
-                <form onSubmit={handleSubmit}>
-                    <DialogTitle>Добавить нового владельца</DialogTitle>
-                    <DialogContent>
-                        <DialogContentText>
-                            Создайте нового владельца, введя фамилию и инициалы
-                        </DialogContentText>
-                        <TextField
-                            autoFocus
-                            margin="dense"
-                            id="name"
-                            value={dialogValue.label}
-                            onChange={(event) =>
-                                setDialogValue({
-                                    ...dialogValue,
-                                    label: event.target.value,
-                                })
-                            }
-                            label="ФИО владельца"
-                            type="text"
-                            variant="standard"
-                        />
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={handleClose}>Отмена</Button>
-                        <Button type="submit">Сохранить</Button>
-                    </DialogActions>
-                </form>
-            </Dialog>
+            <KeeperEditDialog ref={dialogRef} onChange={onChange} onSubmit={[updateKeepers]} />
         </React.Fragment>
     );
 };
