@@ -10,7 +10,7 @@ import PigeonFilterForm from "../components/UI/PigeonTable/PigeonFilterForm";
 
 export const KEEPER_URL = '/api/v1/keepers';
 export const MAIN_KEEPER_URL = KEEPER_URL + '/main';
-export const GET_PIGEONS_URL = '/api/v1/pigeons';
+export const PIGEONS_URL = '/api/v1/pigeons';
 
 const Pigeons = () => {
     const [tableData, setTableData] = useState();
@@ -41,12 +41,12 @@ const Pigeons = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [mainKeeperId])
 
-    const updateTable = formData => {
+    const updateTable = (formData) => {
         if (!formData) {
             loadTable();
             return;
         }
-        fetch(GET_PIGEONS_URL + '/filter', {
+        fetch(PIGEONS_URL + '/filter', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -66,7 +66,7 @@ const Pigeons = () => {
     }
 
     const loadTable = () => {
-        fetch(GET_PIGEONS_URL)
+        fetch(PIGEONS_URL)
             .then(res => res.json())
             .then(json => setTableData(json));
     }

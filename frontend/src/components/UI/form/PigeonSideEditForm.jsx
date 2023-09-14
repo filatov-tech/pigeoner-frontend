@@ -7,7 +7,7 @@ import {Chip, Divider, Stack} from "@mui/material";
 import InputText from "../input/InputText";
 import InputDate from "../input/InputDate";
 import InputKeeperAutocompleteCreatable from "../input/Autocomplete/InputKeeperAutocompleteCreatable";
-import {GET_PIGEONS_URL, KEEPER_URL, MAIN_KEEPER_URL, makeOptions} from "../../../pages/pigeons";
+import {PIGEONS_URL, KEEPER_URL, MAIN_KEEPER_URL, makeOptions} from "../../../pages/pigeons";
 import InputDovecoteAutocompleteCreatable, {
     HIERARCHICAL_SECTIONS_URL
 } from "../input/Autocomplete/InputDovecoteAutocompleteCreatable";
@@ -70,7 +70,7 @@ const PigeonSideEditForm = (props, ref) => {
                 json.label = json.name;
                 setKeeper(json)
             });
-        fetch(GET_PIGEONS_URL)
+        fetch(PIGEONS_URL)
             .then(resp => resp.json())
             .then(json => setPigeons(json));
         setSex("MALE");
