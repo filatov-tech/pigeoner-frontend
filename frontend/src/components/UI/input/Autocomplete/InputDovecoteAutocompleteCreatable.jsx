@@ -1,6 +1,4 @@
-import React, {useEffect, useId, useRef, useState} from 'react';
-import {addHierarchicalLabelsTo} from "../../../../util/section-options-builder";
-import {flatten} from "../../../../util/utils";
+import React, {useId, useRef} from 'react';
 import Autocomplete, {createFilterOptions} from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import DovecoteEditDialog from "../../form/dialog/DovecoteEditDialog";
@@ -9,21 +7,9 @@ export const HIERARCHICAL_SECTIONS_URL = "/api/v1/sections/hierarchical";
 
 const filter = createFilterOptions();
 
-const InputDovecoteAutocompleteCreatable = ({data, onChange, ...inputFieldParams}) => {
+const InputDovecoteAutocompleteCreatable = ({data, onChange, onSubmit, ...inputFieldParams}) => {
     const inputId = useId();
     const dialogRef = useRef();
-
-    const [sectionsOptions, setSectionsOptions] = useState([]);
-
-    useEffect(()=> {
-        updateSectionsOptions();
-    }, []);
-
-    const updateSectionsOptions = () => {
-        fetch(HIERARCHICAL_SECTIONS_URL)
-            .then(res => res.json())
-            .then(json => setSectionsOptions(flatten(addHierarchicalLabelsTo(json))))
-    }
 
     return (
         <React.Fragment>
@@ -52,7 +38,7 @@ const InputDovecoteAutocompleteCreatable = ({data, onChange, ...inputFieldParams
                     return filtered;
                 }}
                 id={inputId}
-                options={sectionsOptions}
+                options={data.options}
                 getOptionLabel={(option) => {
                     if (typeof option === 'string') {
                         return option;
@@ -69,7 +55,7 @@ const InputDovecoteAutocompleteCreatable = ({data, onChange, ...inputFieldParams
                 freeSolo
                 renderInput={(params) => <TextField {...params} {...inputFieldParams} label={data.label} margin="dense" />}
             />
-            <DovecoteEditDialog ref={dialogRef} onChange={onChange} onSubmit={[updateSectionsOptions]}/>
+            <DovecoteEditDialog ref={dialogRef} onChange={onChange} onSubmit={[onSubmit]}/>
         </React.Fragment>
     );
 };
