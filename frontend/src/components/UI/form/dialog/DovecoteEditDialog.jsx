@@ -9,7 +9,7 @@ import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import {addHierarchicalLabel, addHierarchicalLabelsTo} from "../../../../util/section-options-builder";
 import {HIERARCHICAL_SECTIONS_URL} from "../../input/Autocomplete/InputDovecoteAutocompleteCreatable";
-import {flatten} from "../../../../util/utils";
+import {flatten, getHelperText} from "../../../../util/utils";
 import ErrorSnackbar from "../../ErrorSnackbar";
 
 const DovecoteEditDialog = (props, ref) => {
@@ -96,17 +96,6 @@ const DovecoteEditDialog = (props, ref) => {
 
     const closeErrorAlert = () => {
         setError(null);
-    }
-
-    const getHelperText = (error) => {
-        if (!error) {
-            return " ";
-        }
-        if (error.shortMessage) {
-            return error.shortMessage;
-        } else {
-            return error.messages[0];
-        }
     }
 
     useImperativeHandle(ref, ()=> ({

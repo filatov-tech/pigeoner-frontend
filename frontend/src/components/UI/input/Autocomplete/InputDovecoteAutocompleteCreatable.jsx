@@ -2,12 +2,13 @@ import React, {useId, useRef} from 'react';
 import Autocomplete, {createFilterOptions} from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import DovecoteEditDialog from "../../form/dialog/DovecoteEditDialog";
+import {getHelperText} from "../../../../util/utils";
 
 export const HIERARCHICAL_SECTIONS_URL = "/api/v1/sections/hierarchical";
 
 const filter = createFilterOptions();
 
-const InputDovecoteAutocompleteCreatable = ({data, onChange, onSubmit, ...inputFieldParams}) => {
+const InputDovecoteAutocompleteCreatable = ({data, onChange, onSubmit, error, ...inputFieldParams}) => {
     const inputId = useId();
     const dialogRef = useRef();
 
@@ -53,7 +54,13 @@ const InputDovecoteAutocompleteCreatable = ({data, onChange, onSubmit, ...inputF
                 handleHomeEndKeys
                 renderOption={(props, option) => <li {...props}>{option.label}</li>}
                 freeSolo
-                renderInput={(params) => <TextField {...params} {...inputFieldParams} label={data.label} margin="dense" />}
+                renderInput={(params) => <TextField
+                    {...params}
+                    {...inputFieldParams}
+                    label={data.label}
+                    error={error}
+                    helperText={getHelperText(error)}
+                    margin="dense" />}
             />
             <DovecoteEditDialog ref={dialogRef} onChange={onChange} onSubmit={[onSubmit]}/>
         </React.Fragment>
