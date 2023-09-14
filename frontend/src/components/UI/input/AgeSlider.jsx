@@ -61,12 +61,10 @@ function convertToValue(age) {
 const AgeSlider = ({data, onChange}) => {
     const handleChange = (event, newValue) => {
         const ageRange = convertToAge(newValue);
-        onChange([
-            {name: "ageYearFrom", value: ageRange[0]},
-            {name: "ageMonthFrom", value: ageRange[1]},
-            {name: "ageYearTo", value: ageRange[2]},
-            {name: "ageMonthTo", value: ageRange[3]}
-        ])
+        onChange.onAgeYearFromChange(ageRange[0]);
+        onChange.onAgeMonthFromChange(ageRange[1]);
+        onChange.onAgeYearToChange(ageRange[2]);
+        onChange.onAgeMonthToChange(ageRange[3]);
     };
 
     const theme = createTheme({

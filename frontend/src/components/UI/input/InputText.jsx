@@ -4,20 +4,13 @@ import {FormControl, TextField} from "@mui/material";
 const InputText = ({data, onChange, ...muiProps}) => {
     const textInputId = useId();
 
-    const handleChange = (e) => {
-        onChange({
-            name: data.name,
-            value: e.target.value
-        });
-    }
-
     return (
         <FormControl fullWidth>
             <TextField
                 id={textInputId}
                 label={data.label}
                 value={data.value}
-                onChange={handleChange}
+                onChange={(e) => onChange(e.target.value)}
                 {...muiProps}
             />
         </FormControl>

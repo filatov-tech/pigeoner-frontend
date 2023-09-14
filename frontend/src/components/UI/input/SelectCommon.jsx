@@ -4,13 +4,6 @@ import {createTheme, FormControl, InputLabel, MenuItem, Select, ThemeProvider} f
 const SelectCommon = ({data, onChange, customStyle, withoutAny, variant, ...muiProps}) => {
     const selectId = useId();
 
-    const handleChange = (event) => {
-        onChange({
-            name: data.name,
-            value: event.target.value
-        });
-    }
-
     const theme = createTheme({
         components: customStyle || {}
     });
@@ -24,7 +17,7 @@ const SelectCommon = ({data, onChange, customStyle, withoutAny, variant, ...muiP
                     id={data.name}
                     value={data.value}
                     label={data.label}
-                    onChange={handleChange}
+                    onChange={(e) => onChange(e.target.value)}
                     {...muiProps}
                 >
                     {!withoutAny && <MenuItem value={null}><em>не важно</em></MenuItem>}

@@ -64,10 +64,10 @@ const PigeonSideEditForm = (props, ref) => {
         setSex("MALE");
     }, [])
 
-    const handleChange = (data) => {
-        const updateStateFunction = setStateMap.get(data.name);
-        updateStateFunction(data.value);
-    }
+    // const handleChange = (data) => {
+    //     const updateStateFunction = setStateMap.get(data.name);
+    //     updateStateFunction(data.value);
+    // }
 
     const toggleSideForm = (openState) => {
         setOpen(openState);
@@ -92,10 +92,10 @@ const PigeonSideEditForm = (props, ref) => {
                 <Divider>
                     <Chip label="Основные данные"/>
                 </Divider>
-                <InputText data={ringNumberData} onChange={handleChange} required variant="standard" margin="dense"/>
-                <InputDate data={birthdateData} onChange={handleChange}
+                <InputText data={ringNumberData} onChange={setRingNumber} required variant="standard" margin="dense"/>
+                <InputDate data={birthdateData} onChange={setBirthdate}
                            slotProps={{textField: {variant: "standard", fullWidth: true, margin: "dense"}}}/>
-                <InputText data={nameData} onChange={handleChange} variant="standard" margin="dense"/>
+                <InputText data={nameData} onChange={setName} variant="standard" margin="dense"/>
                 <InputDovecoteAutocompleteCreatable data={dovecoteData} onChange={setDovecote} variant="standard" />
                 <InputKeeperAutocompleteCreatable data={keeperData} onChange={setKeeper} updateKeepers={updateKeeperOptions} variant="standard"/>
                 <Divider sx={{marginTop: "30px", marginBottom: "15px"}}>

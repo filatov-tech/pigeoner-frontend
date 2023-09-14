@@ -65,25 +65,6 @@ const PigeonFilterForm = forwardRef((props, ref) => {
         ageMonthTo: ageMonthTo,
     }
 
-    const filtersMap = new Map();
-    filtersMap.set("ringNumber", setRingNumber);
-    filtersMap.set("condition", setCondition);
-    filtersMap.set("dovecote", setDovecote);
-    filtersMap.set("name", setName);
-    filtersMap.set("dateFilterType", setDateFilterType);
-    filtersMap.set("birthdateFrom", setBirthdateFrom);
-    filtersMap.set("birthdateTo", setBirthdateTo);
-    filtersMap.set("ageYearFrom", setAgeYearFrom);
-    filtersMap.set("ageMonthFrom", setAgeMonthFrom);
-    filtersMap.set("ageYearTo", setAgeYearTo);
-    filtersMap.set("ageMonthTo", setAgeMonthTo);
-    filtersMap.set("yearFrom", setYearFrom);
-    filtersMap.set("yearTo", setYearTo);
-    filtersMap.set("keeper", setKeeper);
-    filtersMap.set("sex", setSex);
-    filtersMap.set("mate", setHasMate);
-    // filtersMap.set("", );
-
     const conditionOptions = [
         {value: "Здоров", label: "Здоров"},
         {value: "Болен", label: "Болен"},
@@ -143,18 +124,14 @@ const PigeonFilterForm = forwardRef((props, ref) => {
             default:
                 sendingData = {...state};
         }
-
-
         props.submitButton(sendingData);
     }
 
-    const handleChange = (data) => {
-        const updateFilterState = filtersMap.get(data.name);
-        updateFilterState(data.value);
-    };
-
-    const handleGroupChange = (data) => {
-        data.forEach(filterState => handleChange(filterState));
+    const onChangeGroup = {
+        onAgeYearFromChange: setAgeYearFrom,
+        onAgeMonthFromChange: setAgeMonthFrom,
+        onAgeYearToChange: setAgeYearTo,
+        onAgeMonthToChange: setAgeMonthTo,
     }
 
     const [needReset, setNeedReset] = useState(false);
@@ -230,27 +207,27 @@ const PigeonFilterForm = forwardRef((props, ref) => {
         <form ref={filterForm} id="pigeon-filter">
             <div className="pigeons-filters">
                 <div className="ring">
-                    <InputText data={ringNumberFilter} onChange={handleChange}/></div>
+                    <InputText data={ringNumberFilter} onChange={setRingNumber}/></div>
                 <div className="condition">
-                    <SelectCommon data={conditionFilter} onChange={handleChange}/></div>
+                    <SelectCommon data={conditionFilter} onChange={setCondition}/></div>
                 <div className="dovecote">
-                    {sectionOptions && <SelectCommon data={dovecoteFilter} onChange={handleChange}/>}</div>
+                    {sectionOptions && <SelectCommon data={dovecoteFilter} onChange={setDovecote}/>}</div>
                 <div className="name"><InputText data={nameFilter} /></div>
                 <div className="date-filters">
                     <div className="date-filters-item" style={{width: '30%', flexGrow: 0}}>
-                        <SelectCommon data={dateFilterTypeSelect} onChange={handleChange}
+                        <SelectCommon data={dateFilterTypeSelect} onChange={setDateFilterType}
                                       customStyle={customMuiStyle(
                                           dateFilterType === AGE_TYPE ? {} : startGroupElement)} withoutAny/>
                     </div>
                     {dateFilterType === YEAR_TYPE &&
                         <>
                             <div className="date-filters-item">
-                                <InputDate data={yearFromFilter} onChange={handleChange}
+                                <InputDate data={yearFromFilter} onChange={setYearFrom}
                                            customStyle={customMuiStyle(middleGroupElement)}
                                            onlyYear/>
                             </div>
                             <div className="date-filters-item">
-                                <InputDate data={yearToFilter} onChange={handleChange}
+                                <InputDate data={yearToFilter} onChange={setYearTo}
                                            customStyle={customMuiStyle(endGroupElement)} onlyYear/>
                             </div>
                         </>
@@ -260,12 +237,12 @@ const PigeonFilterForm = forwardRef((props, ref) => {
                         <>
                             <div className="date-filters-item">
                                 <InputDate data={birthdateFromFilter}
-                                           onChange={handleChange}
+                                           onChange={setBirthdateFrom}
                                            customStyle={customMuiStyle(middleGroupElement)}/>
                             </div>
                             <div className="date-filters-item">
                                 <InputDate data={birthdateToFilter}
-                                           onChange={handleChange}
+                                           onChange={setBirthdateTo}
                                            customStyle={customMuiStyle(endGroupElement)}/>
                             </div>
                         </>
@@ -273,19 +250,19 @@ const PigeonFilterForm = forwardRef((props, ref) => {
                     {dateFilterType === AGE_TYPE &&
                         <div className="date-filters-item" style={{alignSelf: "flex-end"}}>
                             <AgeSlider data={{value: [ageYearFrom, ageMonthFrom, ageYearTo, ageMonthTo]}}
-                                       onChange={handleGroupChange}/>
+                                       onChange={onChangeGroup}/>
                         </div>
                     }
                 </div>
                 <div className="other-filters">
                     <div className="other-filters-item">
-                        <SelectCommon data={keeperFilter} onChange={handleChange}/>
+                        <SelectCommon data={keeperFilter} onChange={setKeeper}/>
                     </div>
                     <div className="other-filters-item">
-                        <SelectCommon data={sexFilter} onChange={handleChange}/>
+                        <SelectCommon data={sexFilter} onChange={setSex}/>
                     </div>
                     <div className="other-filters-item">
-                        <SelectCommon data={mateFilter} onChange={handleChange}/>
+                        <SelectCommon data={mateFilter} onChange={setHasMate}/>
                     </div>
                 </div>
             </div>

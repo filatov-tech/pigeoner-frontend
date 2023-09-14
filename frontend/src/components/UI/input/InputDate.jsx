@@ -3,13 +3,6 @@ import {DatePicker} from "@mui/x-date-pickers";
 import {createTheme, ThemeProvider} from "@mui/material";
 
 const InputDate = ({data, onChange, customStyle, onlyYear, ...muiProps}) => {
-    const handleChange = (value) => {
-        onChange({
-            name: data.name,
-            value: value
-        });
-    }
-
     const viewProps = {};
     if (onlyYear) {
         viewProps.views = ["year"];
@@ -26,7 +19,7 @@ const InputDate = ({data, onChange, customStyle, onlyYear, ...muiProps}) => {
                 value={data.value}
                 {...viewProps}
                 {...muiProps}
-                onChange={(newValue) => handleChange(newValue)}
+                onChange={(newValue) => onChange(newValue)}
             />
         </ThemeProvider>
     );
