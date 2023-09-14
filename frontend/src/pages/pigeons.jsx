@@ -10,6 +10,7 @@ import PigeonFilterForm from "../components/UI/PigeonTable/PigeonFilterForm";
 
 export const KEEPER_URL = '/api/v1/keepers';
 export const MAIN_KEEPER_URL = KEEPER_URL + '/main';
+export const GET_PIGEONS_URL = '/api/v1/pigeons';
 
 const Pigeons = () => {
     const [tableData, setTableData] = useState();
@@ -20,8 +21,6 @@ const Pigeons = () => {
 
     const formRef = useRef();
     const sideEditFormRef = useRef();
-
-    const GET_PIGEONS_URL = '/api/v1/pigeons';
 
     useEffect(() => {
         fetch(MAIN_KEEPER_URL)
@@ -105,7 +104,7 @@ const Pigeons = () => {
                 <div className="col-12 manage-panel">
                     <button id="filter" onClick={handleSubmit}
                             className="btn btn-primary btn-lg manage-panel-item"
-                            type="button" style={{background: "rgb(51,122,183)", width: 150 + "px"}}>
+                            type="button" style={{background: "#337ab7", width: 150 + "px"}}>
                         Найти
                     </button>
                     <button className="btn btn-light btn-lg manage-panel-item" type="reset" onClick={resetFilters}>Сбросить</button>
