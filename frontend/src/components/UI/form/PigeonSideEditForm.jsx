@@ -11,6 +11,7 @@ import {KEEPER_URL, MAIN_KEEPER_URL, makeOptions} from "../../../pages/pigeons";
 import InputDovecoteAutocompleteCreatable from "../input/Autocomplete/InputDovecoteAutocompleteCreatable";
 import ControlledRadioGroup from "../radio/ControlledRadioGroup";
 import InputColorAutocompleteCreatable from "../input/Autocomplete/InputColorAutocompleteCreatable";
+import SelectCommon from "../input/SelectCommon";
 
 const PigeonSideEditForm = (props, ref) => {
 
@@ -23,6 +24,7 @@ const PigeonSideEditForm = (props, ref) => {
     const [dovecote, setDovecote] = useState(null);
     const [sex, setSex] = useState("");
     const [color, setColor] = useState("");
+    const [condition, setCondition] = useState("");
 
     const ringNumberData = new InputFieldData("ringNumber", ringNumber, "Номер кольца");
     const birthdateData = new InputFieldData("birthdate", birthdate, "Дата рождения");
@@ -32,8 +34,14 @@ const PigeonSideEditForm = (props, ref) => {
     const sexData = new InputFieldData("sex", sex, "Пол", "", [
         {value: "MALE", label: "Самец"},
         {value: "FEMALE", label: "Самка"}
-    ])
+    ]);
     const colorData = new InputFieldData("color", color, "Окрас");
+    const conditionData = new InputFieldData("condition", condition, "Состояние", "", [
+        {value: "HEALTH", label: "Здоров"},
+        {value: "DISEASED", label: "Болен"},
+        {value: "DEAD", label: "Умер"},
+        {value: "LOST", label: "Потерян"}
+    ]);
 
     // TODO: Убрать эту чушь
     const setStateMap = new Map();
@@ -60,8 +68,6 @@ const PigeonSideEditForm = (props, ref) => {
         const updateStateFunction = setStateMap.get(data.name);
         updateStateFunction(data.value);
     }
-
-
 
     const toggleSideForm = (openState) => {
         setOpen(openState);
@@ -97,7 +103,7 @@ const PigeonSideEditForm = (props, ref) => {
                 </Divider>
                 <ControlledRadioGroup data={sexData} onChange={setSex} />
                 <InputColorAutocompleteCreatable data={colorData} onChange={setColor} variant="standard" />
-
+                <SelectCommon data={conditionData} onChange={setCondition} withoutAny variant={"standard"}/>
             </form>
         </SideEditForm>
     );
