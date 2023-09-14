@@ -1,7 +1,7 @@
 import React, {useId} from 'react';
 import {createTheme, FormControl, InputLabel, MenuItem, Select, ThemeProvider} from "@mui/material";
 
-const SelectCommon = ({data, onChange, customStyle, withoutAny, ...muiProps}) => {
+const SelectCommon = ({data, onChange, customStyle, withoutAny, variant, ...muiProps}) => {
     const selectId = useId();
 
     const handleChange = (event) => {
@@ -17,7 +17,7 @@ const SelectCommon = ({data, onChange, customStyle, withoutAny, ...muiProps}) =>
 
     return (
         <ThemeProvider theme={theme}>
-            <FormControl fullWidth>
+            <FormControl fullWidth variant={variant}>
                 {data.label && <InputLabel id={selectId}>{data.label}</InputLabel>}
                 <Select
                     labelId={selectId}
