@@ -122,9 +122,9 @@ const PigeonSideEditForm = (props, ref) => {
                 <Divider sx={{marginTop: "30px"}}>
                     <Chip label="Связи" sx={{fontSize:"1.2rem"}} />
                 </Divider>
-                <InputPigeonAutocomplete data={fatherData} variant="standard" margin="dense" />
-                <InputPigeonAutocomplete data={motherData} variant="standard" margin="dense" />
-                <InputPigeonAutocomplete data={mateData} variant="standard" margin="dense" />
+                <InputPigeonAutocomplete data={fatherData} onChange={setFather} variant="standard" margin="dense" />
+                <InputPigeonAutocomplete data={motherData} onChange={setMother} variant="standard" margin="dense" />
+                <InputPigeonAutocomplete data={mateData} onChange={setMate} variant="standard" margin="dense" />
                 <Stack direction="row" spacing={4} mt={6} mb={4}>
                     <Button
                         variant="outlined"

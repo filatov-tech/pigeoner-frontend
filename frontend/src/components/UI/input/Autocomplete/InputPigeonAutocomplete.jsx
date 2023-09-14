@@ -15,7 +15,7 @@ const GroupItems = styled('ul')({
     padding: 0,
 });
 
-const InputPigeonAutocomplete = ({data, variant, margin}) => {
+const InputPigeonAutocomplete = ({data, onChange, variant, margin}) => {
     const id = useId();
     const options = data.options.map(pigeon => {
         if (!pigeon.isOwn) {
@@ -32,6 +32,10 @@ const InputPigeonAutocomplete = ({data, variant, margin}) => {
         <Autocomplete
             id={id}
             options={options}
+            value={data.value}
+            onChange={(event, newValue) => {
+                onChange(newValue);
+            }}
             groupBy={(pigeon) => pigeon.address}
             getOptionLabel={(pigeon) => {
                 const ringNumber = pigeon.ringNumber;
