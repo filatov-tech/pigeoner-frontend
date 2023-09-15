@@ -96,6 +96,9 @@ const PigeonSideEditForm = (props, ref) => {
             const apiError = await response.json();
             setError(apiError);
             if (apiError.fields) {
+                for (const [key, value] of Object.entries(apiError.fields)) {
+                    value.disable = disableErrorByFieldName;
+                }
                 setFieldErrorData(apiError.fields);
             }
         }
@@ -133,6 +136,10 @@ const PigeonSideEditForm = (props, ref) => {
             .then(json => setSectionsOptions(flatten(addHierarchicalLabelsTo(json))))
     }
 
+    const disableErrorByFieldName = (fieldName) => {
+        setFieldErrorData({...fieldErrorData, [fieldName]: null})
+    }
+
     const clearForm = () => {
         setRingNumber("");
         setBirthdate(null);
@@ -164,24 +171,67 @@ const PigeonSideEditForm = (props, ref) => {
                 <Divider>
                     <Chip label="Основные данные" sx={{fontSize:"1.2rem"}} />
                 </Divider>
-                <InputText data={ringNumberData} onChange={setRingNumber} error={fieldErrorData.ringNumber} required variant="standard" margin="dense"/>
-                <InputDate data={birthdateData} onChange={setBirthdate}
-                           slotProps={{textField: {variant: "standard", fullWidth: true, margin: "dense"}}}/>
-                <InputText data={nameData} onChange={setName} error={fieldErrorData.name} variant="standard" margin="dense"/>
-                <InputDovecoteAutocompleteCreatable data={dovecoteData} onChange={setDovecote} onSubmit={updateSectionsOptions} variant="standard" />
-                <InputKeeperAutocompleteCreatable data={keeperData} onChange={setKeeper} updateKeepers={updateKeeperOptions} variant="standard"/>
+                <InputText
+                    data={ringNumberData}
+                    onChange={setRingNumber}
+                    error={fieldErrorData.ringNumber}
+                    required
+                    variant="standard" />
+                <InputDate
+                    data={birthdateData}
+                    onChange={setBirthdate}
+                    error={fieldErrorData.birthdate}
+                    slotProps={{textField: {variant: "standard", fullWidth: true}}}/>
+                <InputText
+                    data={nameData}
+                    onChange={setName}
+                    error={fieldErrorData.name}
+                    variant="standard" />
+                <InputDovecoteAutocompleteCreatable
+                    data={dovecoteData}
+                    onChange={setDovecote}
+                    error={fieldErrorData.section}
+                    onSubmit={updateSectionsOptions}
+                    variant="standard" />
+                <InputKeeperAutocompleteCreatable
+                    data={keeperData}
+                    onChange={setKeeper}
+                    error={fieldErrorData.keeper}
+                    updateKeepers={updateKeeperOptions}
+                    variant="standard"/>
                 <Divider sx={{marginTop: "30px", marginBottom: "15px"}}>
                     <Chip label="Физ. параметры" sx={{fontSize:"1.2rem"}}/>
                 </Divider>
                 <ControlledRadioGroup data={sexData} onChange={setSex} />
-                <InputColorAutocompleteCreatable data={colorData} onChange={setColor} variant="standard" />
-                <SelectCommon data={conditionData} onChange={setCondition} withoutAny variant={"standard"} sx={{marginTop: "16px", marginBottom: "8px"}}/>
+                <InputColorAutocompleteCreatable
+                    data={colorData}
+                    onChange={setColor}
+                    error={fieldErrorData.color}
+                    variant="standard" />
+                <SelectCommon
+                    data={conditionData}
+                    onChange={setCondition}
+                    withoutAny
+                    variant={"standard"}
+                    sx={{marginTop: "16px", marginBottom: "8px"}}/>
                 <Divider sx={{marginTop: "30px"}}>
                     <Chip label="Связи" sx={{fontSize:"1.2rem"}} />
                 </Divider>
-                <InputPigeonAutocomplete data={fatherData} onChange={setFather} variant="standard" margin="dense" />
-                <InputPigeonAutocomplete data={motherData} onChange={setMother} variant="standard" margin="dense" />
-                <InputPigeonAutocomplete data={mateData} onChange={setMate} variant="standard" margin="dense" />
+                <InputPigeonAutocomplete
+                    data={fatherData}
+                    onChange={setFather}
+                    error={fieldErrorData.father}
+                    variant="standard" />
+                <InputPigeonAutocomplete
+                    data={motherData}
+                    onChange={setMother}
+                    error={fieldErrorData.mother}
+                    variant="standard" />
+                <InputPigeonAutocomplete
+                    data={mateData}
+                    onChange={setMate}
+                    error={fieldErrorData.mate}
+                    variant="standard" />
                 <Stack direction="row" spacing={4} mt={6} mb={4}>
                     <Button
                         variant="outlined"
