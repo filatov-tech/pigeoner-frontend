@@ -12,7 +12,6 @@ const PigeonTable = ({data}) => {
         });
     }
 
-
     function addLinkToCellWithTooltip(row, cell, title) {
         return <Tooltip title={title} placement="left" arrow>
             <Box>
@@ -31,7 +30,12 @@ const PigeonTable = ({data}) => {
         {
             accessorKey: 'year',
             header: 'Год',
-            Cell: ({cell, row}) => addLinkToCellWithTooltip(row, cell, row.original.birthdate)
+            Cell: ({cell, row}) => {
+                const birthdate = row.original.birthdate;
+                return birthdate ?
+                    addLinkToCellWithTooltip(row, cell, birthdate) :
+                    addLinkToCell;
+            }
         },
         {
             accessorKey: 'sex',
@@ -42,7 +46,14 @@ const PigeonTable = ({data}) => {
         {
             accessorKey: 'section.rootName',
             header: 'Голубятня',
-            Cell: ({cell, row}) => addLinkToCellWithTooltip(row, cell, row.original.section.fullAddress)
+            Cell: ({cell, row}) => {
+                const fullAddress = row.original.section ? row.original.section.fullAddress : null;
+                if (fullAddress) {
+                    return addLinkToCellWithTooltip(row, cell, fullAddress);
+                } else {
+                    return addLinkToCell();
+                }
+            }
         },
         {
             accessorKey: 'mateRingNumber',
