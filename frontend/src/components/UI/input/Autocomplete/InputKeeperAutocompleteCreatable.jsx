@@ -3,10 +3,11 @@ import {Autocomplete} from "@mui/material";
 import TextField from "@mui/material/TextField";
 import {createFilterOptions} from "@mui/material/Autocomplete";
 import KeeperEditDialog from "../../form/dialog/KeeperEditDialog";
+import {getHelperText} from "../../../../util/utils";
 
 const filter = createFilterOptions();
 
-const InputKeeperAutocompleteCreatable = ({data, onChange, updateKeepers, ...textFieldParams}) => {
+const InputKeeperAutocompleteCreatable = ({data, onChange, updateKeepers, error, ...textFieldParams}) => {
     const inputId = useId();
     const dialogRef = useRef();
 
@@ -54,7 +55,13 @@ const InputKeeperAutocompleteCreatable = ({data, onChange, updateKeepers, ...tex
                 handleHomeEndKeys
                 renderOption={(props, option) => <li {...props}>{option.label}</li>}
                 freeSolo
-                renderInput={(params) => <TextField {...params} {...textFieldParams} label={data.label} margin="dense" />}
+                renderInput={(params) =>
+                    <TextField
+                        {...params}
+                        {...textFieldParams}
+                        error={error}
+                        helperText={getHelperText(error)}
+                        label={data.label}/>}
             />
             <KeeperEditDialog ref={dialogRef} onChange={onChange} onSubmit={[updateKeepers]} />
         </React.Fragment>

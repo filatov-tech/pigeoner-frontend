@@ -59,8 +59,7 @@ const InputDovecoteAutocompleteCreatable = ({data, onChange, onSubmit, error, ..
                     {...inputFieldParams}
                     label={data.label}
                     error={error}
-                    helperText={getHelperText(error)}
-                    margin="dense" />}
+                    helperText={getHelperText(error)} />}
             />
             <DovecoteEditDialog ref={dialogRef} onChange={onChange} onSubmit={[onSubmit]}/>
         </React.Fragment>

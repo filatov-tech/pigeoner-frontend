@@ -1,6 +1,7 @@
 import React, {useId} from 'react';
 import { styled, lighten } from '@mui/system';
 import {Autocomplete, TextField} from "@mui/material";
+import {getHelperText} from "../../../../util/utils";
 
 const GroupHeader = styled('div')(({ theme }) => ({
     position: 'sticky',
@@ -15,7 +16,7 @@ const GroupItems = styled('ul')({
     padding: 0,
 });
 
-const InputPigeonAutocomplete = ({data, onChange, variant, margin}) => {
+const InputPigeonAutocomplete = ({data, onChange, error, variant, margin}) => {
     const id = useId();
     const options = data.options.map(pigeon => {
         if (!pigeon.isOwn) {
@@ -42,7 +43,14 @@ const InputPigeonAutocomplete = ({data, onChange, variant, margin}) => {
                 const name = pigeon.name ? ` (${pigeon.name})` : "";
                 return ringNumber + name;
             }}
-            renderInput={(params) => <TextField {...params} variant={variant} margin={margin} label={data.label} />}
+            renderInput={(params) =>
+                <TextField
+                    {...params}
+                    variant={variant}
+                    margin={margin}
+                    error={error}
+                    helperText={getHelperText(error)}
+                    label={data.label} />}
             renderGroup={(params) => (
                 <li key={params.key}>
                     <GroupHeader>{params.group}</GroupHeader>

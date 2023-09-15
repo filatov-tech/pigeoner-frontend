@@ -4,11 +4,12 @@ import {useId} from "react";
 import {Autocomplete} from "@mui/material";
 import TextField from "@mui/material/TextField";
 import ColorEditDialog from "../../form/dialog/ColorEditDialog";
+import {getHelperText} from "../../../../util/utils";
 
 const filter = createFilterOptions();
 export const COLOR_URL = "/api/v1/color"
 
-const InputColorAutocompleteCreatable = ({data, onChange, ...textFieldParams}) => {
+const InputColorAutocompleteCreatable = ({data, onChange, error, ...textFieldParams}) => {
     const inputId = useId();
     const dialogRef = useRef();
 
@@ -68,7 +69,13 @@ const InputColorAutocompleteCreatable = ({data, onChange, ...textFieldParams}) =
                 handleHomeEndKeys
                 renderOption={(props, option) => <li {...props}>{option.name}</li>}
                 freeSolo
-                renderInput={(params) => <TextField {...params} {...textFieldParams} label={data.label} margin="dense" />}
+                renderInput={(params) =>
+                    <TextField
+                        {...params}
+                        {...textFieldParams}
+                        error={error}
+                        helperText={getHelperText(error)}
+                        label={data.label} />}
             />
             <ColorEditDialog ref={dialogRef} onChange={onChange} onSubmit={[fetchColors]} />
         </React.Fragment>
