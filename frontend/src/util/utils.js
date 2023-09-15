@@ -17,3 +17,14 @@ function pushRecursively(hierarchicalObject, array) {
         pushRecursively(child, array);
     })
 }
+
+export function getHelperText(errorData) {
+    if (!errorData) {
+        return " ";
+    }
+    if (errorData.shortMessage) {
+        return errorData.shortMessage;
+    } else {
+        return errorData.messages[0];
+    }
+}
