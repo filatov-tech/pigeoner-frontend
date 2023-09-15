@@ -18,6 +18,7 @@ const KeeperEditDialog = (props, ref) => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        event.stopPropagation();
         try {
             const response = await fetch(KEEPER_URL, {
                 method: "POST",

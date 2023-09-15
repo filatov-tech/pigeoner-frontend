@@ -51,7 +51,7 @@ const DovecoteEditDialog = (props, ref) => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-
+        event.stopPropagation();
         try {
             const response = await fetch("/api/v1/sections", {
                 method: "POST",

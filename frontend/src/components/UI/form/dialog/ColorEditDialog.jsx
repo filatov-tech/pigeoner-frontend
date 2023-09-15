@@ -38,7 +38,7 @@ const ColorEditDialog = (props, ref) => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-
+        event.stopPropagation();
         try {
             const response = await fetch(COLOR_URL, {
                 method: "POST",
