@@ -11,7 +11,10 @@ const InputText = ({data, onChange, error, ...muiProps}) => {
                 id={textInputId}
                 label={data.label}
                 value={data.value}
-                onChange={(e) => onChange(e.target.value)}
+                onChange={(e) => {
+                    error && error.disable(data.name);
+                    onChange(e.target.value);
+                }}
                 error={error}
                 helperText={getHelperText(error)}
                 {...muiProps}
