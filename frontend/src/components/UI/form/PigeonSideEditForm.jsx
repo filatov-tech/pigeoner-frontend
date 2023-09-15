@@ -19,22 +19,24 @@ import {flatten} from "../../../util/utils";
 import {addHierarchicalLabelsTo} from "../../../util/section-options-builder";
 import {CloseOutlined, DoneOutlined} from "@mui/icons-material";
 import Button from "@mui/material/Button";
+import ErrorSnackbar from "../ErrorSnackbar";
 
 const PigeonSideEditForm = (props, ref) => {
 
     const [isOpen, setOpen] = useState();
+    const [mainKeeper, setMainKeeper] = useState(null);
 
     const [ringNumber, setRingNumber] = useState("");
     const [birthdate, setBirthdate] = useState(null);
-    const [name, setName] = useState("");
-    const [keeper, setKeeper] = useState({});
+    const [name, setName] = useState(null);
+    const [keeper, setKeeper] = useState(null);
     const [dovecote, setDovecote] = useState(null);
-    const [sex, setSex] = useState("");
-    const [color, setColor] = useState("");
-    const [condition, setCondition] = useState("");
-    const [father, setFather] = useState("");
-    const [mother, setMother] = useState("");
-    const [mate, setMate] = useState("");
+    const [sex, setSex] = useState(null);
+    const [color, setColor] = useState(null);
+    const [condition, setCondition] = useState(null);
+    const [father, setFather] = useState(null);
+    const [mother, setMother] = useState(null);
+    const [mate, setMate] = useState(null);
 
     const [pigeons, setPigeons] = useState([]);
     const [sectionsOptions, setSectionsOptions] = useState([]);
@@ -59,8 +61,44 @@ const PigeonSideEditForm = (props, ref) => {
     const motherData = new InputFieldData("mother", mother, "Мать", "", pigeons);
     const mateData = new InputFieldData("mate", mate, "Пара", "", pigeons);
 
-    const handleSubmit = () => {
+    const [error, setError] = useState(null);
+    const [fieldErrorData, setFieldErrorData] = useState({});
 
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const pigeon = {
+            ringNumber: ringNumber,
+            birthdate: birthdate,
+            name: name,
+            keeperId: keeper && keeper.id,
+            sectionId: dovecote && dovecote.id,
+            sex: sex,
+            color: color && color.name,
+            condition: condition,
+            fatherId: father && father.id,
+            motherId: father && mother.id,
+            mateId: mate && mate.id
+        };
+        const response = await fetch(PIGEONS_URL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(pigeon)
+        });
+        if (response.ok) {
+            clearForm();
+            setError(null);
+            setFieldErrorData({});
+            toggleSideForm(false);
+            props.handleSubmit();
+        } else {
+            const apiError = await response.json();
+            setError(apiError);
+            if (apiError.fields) {
+                setFieldErrorData(apiError.fields);
+            }
+        }
     }
 
     useEffect(()=>{
@@ -68,7 +106,8 @@ const PigeonSideEditForm = (props, ref) => {
             .then(res => res.json())
             .then(json => {
                 json.label = json.name;
-                setKeeper(json)
+                setKeeper(json);
+                setMainKeeper(json);
             });
         fetch(PIGEONS_URL)
             .then(resp => resp.json())
@@ -94,6 +133,24 @@ const PigeonSideEditForm = (props, ref) => {
             .then(json => setSectionsOptions(flatten(addHierarchicalLabelsTo(json))))
     }
 
+    const clearForm = () => {
+        setRingNumber("");
+        setBirthdate(null);
+        setName(null);
+        setKeeper(mainKeeper);
+        setDovecote(null);
+        setSex("MALE");
+        setColor(null);
+        setCondition("");
+        setFather(null);
+        setMother(null);
+        setMate(null);
+    }
+
+    const closeErrorAlert = () => {
+        setError(null);
+    }
+
     useImperativeHandle(ref, () => ({
         toggleSideForm
     }))
@@ -107,10 +164,10 @@ const PigeonSideEditForm = (props, ref) => {
                 <Divider>
                     <Chip label="Основные данные" sx={{fontSize:"1.2rem"}} />
                 </Divider>
-                <InputText data={ringNumberData} onChange={setRingNumber} required variant="standard" margin="dense"/>
+                <InputText data={ringNumberData} onChange={setRingNumber} error={fieldErrorData.ringNumber} required variant="standard" margin="dense"/>
                 <InputDate data={birthdateData} onChange={setBirthdate}
                            slotProps={{textField: {variant: "standard", fullWidth: true, margin: "dense"}}}/>
-                <InputText data={nameData} onChange={setName} variant="standard" margin="dense"/>
+                <InputText data={nameData} onChange={setName} error={fieldErrorData.name} variant="standard" margin="dense"/>
                 <InputDovecoteAutocompleteCreatable data={dovecoteData} onChange={setDovecote} onSubmit={updateSectionsOptions} variant="standard" />
                 <InputKeeperAutocompleteCreatable data={keeperData} onChange={setKeeper} updateKeepers={updateKeeperOptions} variant="standard"/>
                 <Divider sx={{marginTop: "30px", marginBottom: "15px"}}>
@@ -129,6 +186,8 @@ const PigeonSideEditForm = (props, ref) => {
                     <Button
                         variant="outlined"
                         size="large"
+                        type="button"
+                        onClick={clearForm}
                         sx={{
                             borderColor:"#337ab7",
                             color:"#337ab7",
@@ -142,6 +201,7 @@ const PigeonSideEditForm = (props, ref) => {
                     <Button
                         variant="contained"
                         size="large"
+                        type="submit"
                         sx={{
                             backgroundColor:"#337ab7",
                             borderColor:"#337ab7",
@@ -154,6 +214,7 @@ const PigeonSideEditForm = (props, ref) => {
                     </Button>
                 </Stack>
             </form>
+            {error && <ErrorSnackbar message={error.message} onClose={closeErrorAlert}/>}
         </SideEditForm>
     );
 };
