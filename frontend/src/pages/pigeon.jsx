@@ -67,7 +67,7 @@ const Pigeon = () => {
                                         <hr/>
                                     </div>
                                     <div className="pedigree-tree-box">
-                                        {pigeon && <PedigreeTree pigeon={pigeon}/>}
+                                        <PedigreeTree pigeon={pigeon}/>
                                     </div>
                                 </div>
                                 <div className="flight-container">
