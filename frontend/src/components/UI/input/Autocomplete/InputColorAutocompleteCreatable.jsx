@@ -30,6 +30,7 @@ const InputColorAutocompleteCreatable = ({data, onChange, error, ...textFieldPar
             <Autocomplete
                 value={data.value}
                 onChange={(event, newValue) => {
+                    error && error.disable(data.name);
                     if (typeof newValue === 'string') {
                         // timeout to avoid instant validation of the dialog's form.
                         setTimeout(() => {

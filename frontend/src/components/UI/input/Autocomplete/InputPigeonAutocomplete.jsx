@@ -35,6 +35,7 @@ const InputPigeonAutocomplete = ({data, onChange, error, variant, margin}) => {
             options={options}
             value={data.value}
             onChange={(event, newValue) => {
+                error && error.disable(data.name);
                 onChange(newValue);
             }}
             groupBy={(pigeon) => pigeon.address}

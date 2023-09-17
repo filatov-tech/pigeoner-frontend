@@ -137,7 +137,9 @@ const PigeonSideEditForm = (props, ref) => {
     }
 
     const disableErrorByFieldName = (fieldName) => {
-        setFieldErrorData({...fieldErrorData, [fieldName]: null})
+        setFieldErrorData(prevState => {
+            return {...prevState, [fieldName]: null};
+        })
     }
 
     const clearForm = () => {
