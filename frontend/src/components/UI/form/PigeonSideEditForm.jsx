@@ -55,7 +55,8 @@ const PigeonSideEditForm = (props, ref) => {
         {value: "HEALTH", label: "Здоров"},
         {value: "DISEASED", label: "Болен"},
         {value: "DEAD", label: "Умер"},
-        {value: "LOST", label: "Потерян"}
+        {value: "LOST", label: "Потерян"},
+        {value: "UNKNOWN", label: "Неизвестно"}
     ]);
     const fatherData = new InputFieldData("father", father, "Отец", "", pigeons);
     const motherData = new InputFieldData("mother", mother, "Мать", "", pigeons);
