@@ -33,7 +33,7 @@ const PigeonSideEditForm = (props, ref) => {
     const [dovecote, setDovecote] = useState(null);
     const [sex, setSex] = useState(null);
     const [color, setColor] = useState(null);
-    const [condition, setCondition] = useState(null);
+    const [condition, setCondition] = useState("HEALTH");
     const [father, setFather] = useState(null);
     const [mother, setMother] = useState(null);
     const [mate, setMate] = useState(null);
@@ -151,7 +151,7 @@ const PigeonSideEditForm = (props, ref) => {
         setDovecote(null);
         setSex("MALE");
         setColor(null);
-        setCondition("");
+        setCondition("HEALTH");
         setFather(null);
         setMother(null);
         setMate(null);
