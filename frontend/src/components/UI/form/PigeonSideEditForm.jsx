@@ -214,6 +214,7 @@ const PigeonSideEditForm = (props, ref) => {
                 <SelectCommon
                     data={conditionData}
                     onChange={setCondition}
+                    error={fieldErrorData.condition}
                     withoutAny
                     variant={"standard"}
                     sx={{marginTop: "16px", marginBottom: "8px"}}/>
