@@ -212,7 +212,7 @@ const PigeonFilterForm = forwardRef((props, ref) => {
                     <SelectCommon data={conditionFilter} onChange={setCondition}/></div>
                 <div className="dovecote">
                     {sectionOptions && <SelectCommon data={dovecoteFilter} onChange={setDovecote}/>}</div>
-                <div className="name"><InputText data={nameFilter} /></div>
+                <div className="name"><InputText data={nameFilter} onChange={setName} /></div>
                 <div className="date-filters">
                     <div className="date-filters-item" style={{width: '30%', flexGrow: 0}}>
                         <SelectCommon data={dateFilterTypeSelect} onChange={setDateFilterType}
