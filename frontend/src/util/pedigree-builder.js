@@ -30,7 +30,6 @@ export function getMappedPigeonData(pigeon) {
         pigeonsMap.set(gridElement, processedPigeon);
         updateQueuesAndDeepLevel(processedPigeon);
     }
-    console.log(pigeonsMap);
     return pigeonsMap;
 }
 
