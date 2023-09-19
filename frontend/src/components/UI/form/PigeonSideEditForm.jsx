@@ -20,6 +20,7 @@ import {addHierarchicalLabelsTo} from "../../../util/section-options-builder";
 import {CloseOutlined, DoneOutlined} from "@mui/icons-material";
 import Button from "@mui/material/Button";
 import ErrorSnackbar from "../ErrorSnackbar";
+import ImageUpload from "../ImageUpload";
 
 const PigeonSideEditForm = (props, ref) => {
 
@@ -37,6 +38,9 @@ const PigeonSideEditForm = (props, ref) => {
     const [father, setFather] = useState(null);
     const [mother, setMother] = useState(null);
     const [mate, setMate] = useState(null);
+    const [images, setImages] = useState([]);
+
+    const [previewImages, setPreviewImages] = useState([]);
 
     const [pigeons, setPigeons] = useState([]);
     const [sectionsOptions, setSectionsOptions] = useState([]);
@@ -80,12 +84,13 @@ const PigeonSideEditForm = (props, ref) => {
             motherId: father && mother.id,
             mateId: mate && mate.id
         };
+        const formData = new FormData();
+        formData.append("pigeon", new Blob([JSON.stringify(pigeon)], {type: "application/json"}));
+        images.forEach(image => formData.append("images", image));
+
         const response = await fetch(PIGEONS_URL, {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(pigeon)
+            body: formData
         });
         if (response.ok) {
             clearForm();
@@ -155,6 +160,8 @@ const PigeonSideEditForm = (props, ref) => {
         setFather(null);
         setMother(null);
         setMate(null);
+        setImages([]);
+        setPreviewImages([]);
     }
 
     const closeErrorAlert = () => {
@@ -171,7 +178,7 @@ const PigeonSideEditForm = (props, ref) => {
                 <Typography variant="h4" align="center" gutterBottom>
                     Новый голубь
                 </Typography>
-                <Divider>
+                <Divider sx={{marginBottom: "15px"}}>
                     <Chip label="Основные данные" sx={{fontSize:"1.2rem"}} />
                 </Divider>
                 <InputText
@@ -236,6 +243,14 @@ const PigeonSideEditForm = (props, ref) => {
                     onChange={setMate}
                     error={fieldErrorData.mate}
                     variant="standard" />
+                <Divider sx={{marginTop: "30px"}}>
+                    <Chip label="Фото" sx={{fontSize:"1.2rem"}} />
+                </Divider>
+                <ImageUpload
+                    images={images}
+                    setImages={setImages}
+                    previewImages={previewImages}
+                    setPreviewImages={setPreviewImages} />
                 <Stack direction="row" spacing={4} mt={6} mb={4}>
                     <Button
                         variant="outlined"

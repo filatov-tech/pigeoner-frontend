@@ -1,10 +1,8 @@
-import React, {useState} from 'react';
-import Container from "@mui/material/Container";
+import React from 'react';
 import Button from "@mui/material/Button";
 import {AddAPhoto, CheckCircle, CheckCircleOutline, DeleteOutline} from "@mui/icons-material";
-import {Chip, IconButton, ImageList, ImageListItem, ImageListItemBar, Tooltip, tooltipClasses} from "@mui/material";
+import {IconButton, ImageList, ImageListItem, ImageListItemBar, Tooltip, tooltipClasses} from "@mui/material";
 import { styled } from '@mui/material/styles';
-
 
 const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -29,12 +27,7 @@ const LightTooltip = styled(({ className, ...props }) => (
     },
 }));
 
-const ImageUpload = () => {
-    const [images, setImages] = useState([]);
-    const [previewImages, setPreviewImages] = useState([]);
-    const [imageInfo, setImageInfo] = useState();
-    const [message, setMessage] = useState("");
-
+const ImageUpload = ({images, setImages, previewImages, setPreviewImages}) => {
     const selectImage = (event) => {
         const imagesFiles = Array.from(event.target.files);
         imagesFiles.forEach(image => {
@@ -45,13 +38,6 @@ const ImageUpload = () => {
                 return [...previewImages, {image: URL.createObjectURL(image), isMain: false}];
             })
         })
-
-        // setImages(images => {
-        //     return [...images, event.target.files[0]];
-        // })
-        // setPreviewImages(previewImages => {
-        //     return [...previewImages, URL.createObjectURL(event.target.files[0])];
-        // })
     }
 
     const handleRemoveImage = (index) => {
@@ -61,40 +47,15 @@ const ImageUpload = () => {
 
     const handleChangeMain = (index) => {
         const images = previewImages.map((image, i) => {
-            return {...image, isMain: index === i}
+            return {...image, isMain: index === i ? !image.isMain : false}
         });
         setPreviewImages(images);
     }
 
-    const upload = async (image) => {
-        const formData = new FormData();
-        formData.append("image", image);
-        try {
-            const response = await fetch("/api/v1/image", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "multipart/form-data"
-                },
-                body: formData
-            });
-            if (response.ok) {
-                setMessage(response.data.message);
-                const images = await getImages();
-                setImageInfo(images.data);
-            }
-        } catch (e) {
-            // setImage(undefined);
-            setMessage("Изображение не может быть загружено");
-        }
-    }
-
-    const getImages = async () => {
-        return await fetch("/api/v1/image");
-    }
-
     return (
-            <ImageList cols={previewImages.length > 0 ? 2 : 1} sx={{margin: "20px 0"}} rowHeight={150} gap={10}>
-                {previewImages && previewImages.map((item, index) =>
+        <React.Fragment>
+            {previewImages && <ImageList cols={previewImages.length > 0 ? 2 : 1} sx={{margin: "20px 0"}} rowHeight={150} gap={10}>
+                {previewImages.map((item, index) =>
                     <ImageListItem key={index}>
                         <ImageListItemBar
                             actionIcon={
@@ -126,19 +87,20 @@ const ImageUpload = () => {
                     <Button
                         component="label"
                         sx={{
-                        height: "100%",
-                        border: "thin dashed",
-                        borderColor: "rgba(0,0,0,0.4)",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center"
+                            height: "100%",
+                            border: "thin dashed",
+                            borderColor: "rgba(0,0,0,0.4)",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center"
                         }}
                     >
                         <VisuallyHiddenInput type="file" multiple accept="image/png, image/jpeg" onChange={selectImage} />
                         <AddAPhoto fontSize="large" sx={{color: "rgba(0,0,0,0.6)"}} />
                     </Button>
                 </ImageListItem>
-            </ImageList>
+            </ImageList>}
+        </React.Fragment>
     );
 };
 
