@@ -39,6 +39,7 @@ const PigeonSideEditForm = (props, ref) => {
     const [mother, setMother] = useState(null);
     const [mate, setMate] = useState(null);
     const [images, setImages] = useState([]);
+    const [mainImage, setMainImage] = useState(null);
 
     const [previewImages, setPreviewImages] = useState([]);
 
@@ -82,7 +83,8 @@ const PigeonSideEditForm = (props, ref) => {
             condition: condition,
             fatherId: father && father.id,
             motherId: father && mother.id,
-            mateId: mate && mate.id
+            mateId: mate && mate.id,
+            mainImageFileName: mainImage
         };
         const formData = new FormData();
         formData.append("pigeon", new Blob([JSON.stringify(pigeon)], {type: "application/json"}));
@@ -247,8 +249,8 @@ const PigeonSideEditForm = (props, ref) => {
                     <Chip label="Фото" sx={{fontSize:"1.2rem"}} />
                 </Divider>
                 <ImageUpload
-                    images={images}
                     setImages={setImages}
+                    setMainImage={setMainImage}
                     previewImages={previewImages}
                     setPreviewImages={setPreviewImages} />
                 <Stack direction="row" spacing={4} mt={6} mb={4}>

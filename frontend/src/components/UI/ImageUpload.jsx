@@ -27,7 +27,7 @@ const LightTooltip = styled(({ className, ...props }) => (
     },
 }));
 
-const ImageUpload = ({images, setImages, previewImages, setPreviewImages}) => {
+const ImageUpload = ({setImages, setMainImage, previewImages, setPreviewImages}) => {
     const selectImage = (event) => {
         const imagesFiles = Array.from(event.target.files);
         imagesFiles.forEach(image => {
@@ -35,7 +35,7 @@ const ImageUpload = ({images, setImages, previewImages, setPreviewImages}) => {
                 return [...images, image];
             })
             setPreviewImages(previewImages => {
-                return [...previewImages, {image: URL.createObjectURL(image), isMain: false}];
+                return [...previewImages, {image: URL.createObjectURL(image), fileName: image.name, isMain: false}];
             })
         })
     }
@@ -50,6 +50,7 @@ const ImageUpload = ({images, setImages, previewImages, setPreviewImages}) => {
             return {...image, isMain: index === i ? !image.isMain : false}
         });
         setPreviewImages(images);
+        setMainImage(images[index].fileName);
     }
 
     return (
