@@ -5,21 +5,22 @@ import PedigreeTree from "../components/UI/PedigreeTree/PedigreeTree";
 import "../styles/pigeon.css";
 import '../styles/custom-styles.css';
 import TwoColumnTable from "../components/UI/TwoColumnTable/TwoColumnTable";
-import pigeonSmallImageStub from "../images/pigeon-small-image-stub.png";
 import pigeonImageStub from "../images/pigeon-image-stub.png";
-import arrowUp from "../images/arrow-up.png";
-import arrowDown from "../images/arrow-down.png";
-
-
+import FsLightbox from "fslightbox-react";
 
 const Pigeon = () => {
     let { id } = useParams();
     const [pigeon, setPigeon] = useState();
+    const [images, setImages] = useState([]);
+    const [openImageViewer, toggleImageViewer] = useState(false);
 
     useEffect(() => {
         fetch(`/api/v1/pigeons/${id}/with-ancestors`)
             .then(res => res.json())
-            .then(json => setPigeon(json))
+            .then(json => setPigeon(json));
+        fetch(`/api/v1/pigeon/${id}/image`)
+            .then(res => res.json())
+            .then(json => setImages(json));
     },[id]);
     
     return (
@@ -39,26 +40,17 @@ const Pigeon = () => {
                                         <TwoColumnTable pigeon={pigeon}/>
                                     </div>
                                     <div className="pigeon-photo">
-                                        <div className="image-box">
-                                            <div className="main-image">
-                                                <img src={pigeonImageStub} alt="pigeon-stub"/>
-                                            </div>
-                                            <div className="up-list">
-                                                <img src={arrowUp} alt="arrow-up" width={100}/>
-                                            </div>
-                                            <div className="first-additional-image">
-                                                <img src={pigeonSmallImageStub} alt="small-stub"/>
-                                            </div>
-                                            <div className="second-additional-image">
-                                                <img src={pigeonSmallImageStub} alt="small-stub"/>
-                                            </div>
-                                            <div className="third-additional-image">
-                                                <img src={pigeonSmallImageStub} alt="small-stub"/>
-                                            </div>
-                                            <div className="down-list">
-                                                <img src={arrowDown} alt="arrow-down" width={100}/>
-                                            </div>
-                                        </div>
+                                        <img
+                                            src={images[0] ? images[0] : pigeonImageStub}
+                                            alt="Pigeon main photo"
+                                            onClick={() => toggleImageViewer(!openImageViewer)}
+                                            style={{height: "100%", width: "100%"}}
+                                        />
+                                        {images && <FsLightbox
+                                            toggler={openImageViewer}
+                                            sources={images}
+                                            type="image"
+                                        />}
                                     </div>
                                 </div>
                                 <div className="pedigree-container">
