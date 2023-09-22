@@ -20,7 +20,7 @@ hr {
 }
 
 .main-info {  display: grid;
-    grid-template-columns: 0.8fr 1.2fr;
+    grid-template-columns: 0.9fr 1.1fr;
     grid-template-rows: 0.2fr 1.8fr;
     gap: 2px 5px;
     grid-auto-flow: row;
