@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {useParams} from "react-router-dom";
 import {Col, Container, Row} from "react-bootstrap";
 import PedigreeTree from "../components/UI/PedigreeTree/PedigreeTree";
@@ -7,6 +7,8 @@ import '../styles/custom-styles.css';
 import TwoColumnTable from "../components/UI/TwoColumnTable/TwoColumnTable";
 import pigeonImageStub from "../images/pigeon-image-stub.png";
 import FsLightbox from "fslightbox-react";
+import {Button} from "@mui/joy";
+import PigeonSideEditForm from "../components/UI/form/PigeonSideEditForm";
 
 const Pigeon = () => {
     let { id } = useParams();
@@ -14,13 +16,22 @@ const Pigeon = () => {
     const [images, setImages] = useState([]);
     const [openImageViewer, toggleImageViewer] = useState(false);
 
+    const sideEditFormRef = useRef();
+
+    const openEditForm = () => {
+        sideEditFormRef.current.toggleSideForm(true);
+    }
+
     useEffect(() => {
         fetch(`/api/v1/pigeons/${id}/with-ancestors`)
             .then(res => res.json())
             .then(json => setPigeon(json));
         fetch(`/api/v1/pigeon/${id}/image`)
             .then(res => res.json())
-            .then(json => setImages(json));
+            .then(json => {
+                setImages(json);
+                setPigeon(pigeon => ({...pigeon, images: json}));
+            });
     },[id]);
     
     return (
@@ -38,6 +49,11 @@ const Pigeon = () => {
                                     </div>
                                     <div className="pigeon-data">
                                         <TwoColumnTable pigeon={pigeon}/>
+                                        <Button variant="soft" size="lg" onClick={openEditForm}>Изменить данные</Button>
+                                        <PigeonSideEditForm
+                                            pigeon={pigeon}
+                                            ref={sideEditFormRef}
+                                        />
                                     </div>
                                     <div className="pigeon-photo">
                                         <img
@@ -46,7 +62,7 @@ const Pigeon = () => {
                                             onClick={() => toggleImageViewer(!openImageViewer)}
                                             style={{height: "100%", width: "100%"}}
                                         />
-                                        {images && <FsLightbox
+                                        {images[0] && <FsLightbox
                                             toggler={openImageViewer}
                                             sources={images}
                                             type="image"
