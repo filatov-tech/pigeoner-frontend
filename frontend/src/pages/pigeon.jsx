@@ -22,6 +22,10 @@ const Pigeon = () => {
         sideEditFormRef.current.toggleSideForm(true);
     }
 
+    const handleSubmit = () => {
+        fetchPigeon();
+    }
+
     const fetchPigeon = async () => {
         try {
             const response = await fetch(`/api/v1/pigeons/${id}/with-ancestors`);
@@ -73,6 +77,7 @@ const Pigeon = () => {
                                         </Button>
                                         <PigeonSideEditForm
                                             pigeon={pigeon}
+                                            handleSubmit={handleSubmit}
                                             ref={sideEditFormRef}
                                         />
                                     </div>

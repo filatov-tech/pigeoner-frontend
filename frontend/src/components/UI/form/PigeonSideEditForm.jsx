@@ -29,6 +29,7 @@ const PigeonSideEditForm = (props, ref) => {
     const [editMode] = useState(!!props.pigeon)
     const [initialized, setInitialized] = useState(false);
 
+    const [pigeonId, setPigeonId] = useState(null);
     const [ringNumber, setRingNumber] = useState("");
     const [birthdate, setBirthdate] = useState(null);
     const [name, setName] = useState(null);
@@ -82,6 +83,7 @@ const PigeonSideEditForm = (props, ref) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const pigeon = {
+            id: pigeonId,
             ringNumber: ringNumber,
             birthdate: birthdate,
             name: name,
@@ -91,20 +93,17 @@ const PigeonSideEditForm = (props, ref) => {
             color: color && color.name,
             condition: condition,
             fatherId: father && father.id,
-            motherId: father && mother.id,
+            motherId: mother && mother.id,
             mateId: mate && mate.id,
             mainImageFileName: mainImage
         };
-        const formData = new FormData();
-        formData.append("pigeon", new Blob([JSON.stringify(pigeon)], {type: "application/json"}));
-        images.forEach(image => formData.append("images", image));
 
-        const response = await fetch(PIGEONS_URL, {
-            method: "POST",
-            body: formData
-        });
+        const fetchData = prepareFetchData(pigeon);
+        const response = await fetch(fetchData.url, fetchData.options);
         if (response.ok) {
-            clearForm();
+            if (!editMode) {
+                clearForm();
+            }
             setError(null);
             setFieldErrorData({});
             toggleSideForm(false);
@@ -121,7 +120,35 @@ const PigeonSideEditForm = (props, ref) => {
         }
     }
 
+    const prepareFetchData = (pigeon) => {
+        let formData;
+        let jsonType;
+
+        if (images && images.length > 0) {
+            formData = new FormData();
+            formData.append("pigeon", new Blob([JSON.stringify(pigeon)], {type: "application/json"}));
+            images.forEach(image => formData.append("images", image));
+        } else {
+            jsonType = "application/json";
+            formData = JSON.stringify(pigeon);
+        }
+        const fetchOptions = {
+            method: editMode ? "PUT" : "POST",
+            body: formData
+        }
+        if (jsonType) {
+            const headers = new Headers();
+            headers.set("Content-Type", jsonType);
+            fetchOptions.headers = headers;
+        }
+        return {
+            url: `${PIGEONS_URL}${pigeonId ? "/" + pigeonId : ""}`,
+            options: fetchOptions
+        }
+    }
+
     function initFormWith(pigeon) {
+        setPigeonId(pigeon.id);
         setRingNumber(pigeon.ringNumber);
         setBirthdate(pigeon.birthdate ? dayjs(pigeon.birthdate) : null);
         setName(pigeon.name);
@@ -133,7 +160,7 @@ const PigeonSideEditForm = (props, ref) => {
         setFather(pigeon.father);
         setMother(pigeon.mother);
         setMate(pigeon.mate);
-        setImages(pigeon.images);
+        setImages(pigeon.images ? pigeon.images : []);
         setPreviewImages(previewImages => {
             const newPreviews = [];
             pigeon.images && pigeon.images.forEach(image => {
