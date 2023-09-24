@@ -27,7 +27,9 @@ const LightTooltip = styled(({ className, ...props }) => (
     },
 }));
 
-const ImageUpload = ({setImages, setMainImage, previewImages, setPreviewImages}) => {
+const ImageUpload = ({images, setImages, setMainImage, previewImages, setPreviewImages}) => {
+
+
     const selectImage = (event) => {
         const imagesFiles = Array.from(event.target.files);
         imagesFiles.forEach(image => {

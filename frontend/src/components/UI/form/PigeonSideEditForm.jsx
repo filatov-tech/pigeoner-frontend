@@ -21,11 +21,13 @@ import {CloseOutlined, DoneOutlined} from "@mui/icons-material";
 import Button from "@mui/material/Button";
 import ErrorSnackbar from "../ErrorSnackbar";
 import ImageUpload from "../ImageUpload";
+import dayjs from 'dayjs';
 
 const PigeonSideEditForm = (props, ref) => {
 
     const [isOpen, setOpen] = useState();
-    const [mainKeeper, setMainKeeper] = useState(null);
+    const [editMode] = useState(!!props.pigeon)
+    const [initialized, setInitialized] = useState(false);
 
     const [ringNumber, setRingNumber] = useState("");
     const [birthdate, setBirthdate] = useState(null);
@@ -45,11 +47,18 @@ const PigeonSideEditForm = (props, ref) => {
 
     const [pigeons, setPigeons] = useState([]);
     const [sectionsOptions, setSectionsOptions] = useState([]);
+    const [keeperOptions, setKeeperOptions] = useState([])
+    const [mainKeeper, setMainKeeper] = useState(null);
 
     const ringNumberData = new InputFieldData("ringNumber", ringNumber, "Номер кольца");
     const birthdateData = new InputFieldData("birthdate", birthdate, "Дата рождения");
     const nameData = new InputFieldData("name", name, "Кличка");
-    const keeperData = new InputFieldData("keeper", keeper, "Владелец", "", props.keeperOptions);
+    const keeperData = new InputFieldData(
+        "keeper",
+        keeper,
+        "Владелец",
+        "",
+        props.keeperOptions ? props.keeperOptions : keeperOptions);
     const dovecoteData = new InputFieldData("dovecote", dovecote, "Голубятня", "", sectionsOptions);
     const sexData = new InputFieldData("sex", sex, "Пол", "", [
         {value: "MALE", label: "Самец"},
@@ -112,7 +121,31 @@ const PigeonSideEditForm = (props, ref) => {
         }
     }
 
-    useEffect(()=>{
+    function initFormWith(pigeon) {
+        setRingNumber(pigeon.ringNumber);
+        setBirthdate(pigeon.birthdate ? dayjs(pigeon.birthdate) : null);
+        setName(pigeon.name);
+        setKeeper({value: pigeon.keeperId, label: pigeon.keeperName});
+        setDovecote(sectionsOptions.find(section => section.id === pigeon.sectionId));
+        setSex(pigeon.sex.toUpperCase());
+        setColor(pigeon.color);
+        setCondition(conditionData.options.find(item => item.label === pigeon.condition).value);
+        setFather(pigeon.father);
+        setMother(pigeon.mother);
+        setMate(pigeon.mate);
+        setImages(pigeon.images);
+        setPreviewImages(previewImages => {
+            const newPreviews = [];
+            pigeon.images && pigeon.images.forEach(image => {
+                newPreviews.push({image: image, fileName: image.name, isMain: false})
+            })
+            return [...previewImages, ...newPreviews]
+        });
+
+        setInitialized(true);
+    }
+
+    useEffect( ()=>{
         fetch(MAIN_KEEPER_URL)
             .then(res => res.json())
             .then(json => {
@@ -123,10 +156,21 @@ const PigeonSideEditForm = (props, ref) => {
         fetch(PIGEONS_URL)
             .then(resp => resp.json())
             .then(json => setPigeons(json));
-        setSex("MALE");
-        updateSectionsOptions();
+        updateSectionsOptions()
+        if (!props.keeperOptions) {
+            fetch(KEEPER_URL)
+                .then(res => res.json())
+                .then(json => setKeeperOptions(makeOptions(json)))
+        }
         fatherData.sectionsOptions = sectionsOptions;
+        setSex("MALE");
     }, [])
+
+    useEffect(()=> {
+        if (sectionsOptions.length > 0 && editMode && !initialized) {
+            initFormWith(props.pigeon);
+        }
+    }, [sectionsOptions])
 
     const toggleSideForm = (openState) => {
         setOpen(openState);
@@ -135,7 +179,7 @@ const PigeonSideEditForm = (props, ref) => {
     const updateKeeperOptions = () => {
         fetch(KEEPER_URL)
             .then(res => res.json())
-            .then(json => props.setKeeperOptions(makeOptions(json)))
+            .then(json => props.keeperOptions ? props.setKeeperOptions(makeOptions(json)) : setKeeperOptions(makeOptions(json)))
     }
 
     const updateSectionsOptions = () => {
@@ -178,7 +222,9 @@ const PigeonSideEditForm = (props, ref) => {
         <SideEditForm  open={isOpen} onClose={() => toggleSideForm(false)} >
             <form onSubmit={handleSubmit}>
                 <Typography variant="h4" align="center" gutterBottom>
-                    Новый голубь
+                    {editMode
+                        ? `Голубь ${ringNumber}`
+                        : "Новый голубь"}
                 </Typography>
                 <Divider sx={{marginBottom: "15px"}}>
                     <Chip label="Основные данные" sx={{fontSize:"1.2rem"}} />
@@ -249,6 +295,7 @@ const PigeonSideEditForm = (props, ref) => {
                     <Chip label="Фото" sx={{fontSize:"1.2rem"}} />
                 </Divider>
                 <ImageUpload
+                    images={editMode ? props.pigeon.images : undefined}
                     setImages={setImages}
                     setMainImage={setMainImage}
                     previewImages={previewImages}

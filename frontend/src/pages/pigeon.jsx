@@ -22,21 +22,35 @@ const Pigeon = () => {
         sideEditFormRef.current.toggleSideForm(true);
     }
 
+    const fetchPigeon = async () => {
+        try {
+            const response = await fetch(`/api/v1/pigeons/${id}/with-ancestors`);
+            if (response.ok) {
+                const json = await response.json();
+                if (json.imageNumber && json.imageNumber > 0) {
+                    const responseWithImages = await fetch(`/api/v1/pigeon/${id}/image`);
+                    if (responseWithImages.ok) {
+                        const images = await responseWithImages.json();
+                        setImages(images);
+                        json.images = images;
+                    } else {
+                        console.log("Не удалось загрузить фото")
+                    }
+                }
+                setPigeon(json);
+            }
+        } catch (e) {
+            console.log("Ошибка при загрузке голубя", e)
+        }
+    }
+
     useEffect(() => {
-        fetch(`/api/v1/pigeons/${id}/with-ancestors`)
-            .then(res => res.json())
-            .then(json => setPigeon(json));
-        fetch(`/api/v1/pigeon/${id}/image`)
-            .then(res => res.json())
-            .then(json => {
-                setImages(json);
-                setPigeon(pigeon => ({...pigeon, images: json}));
-            });
+        fetchPigeon();
     },[id]);
-    
+
     return (
         <>
-            {pigeon
+            {(pigeon && pigeon.id)
                 ?
                 <Container>
                     <Row>
@@ -49,7 +63,14 @@ const Pigeon = () => {
                                     </div>
                                     <div className="pigeon-data">
                                         <TwoColumnTable pigeon={pigeon}/>
-                                        <Button variant="soft" size="lg" onClick={openEditForm}>Изменить данные</Button>
+                                        <Button
+                                            variant="soft"
+                                            size="lg"
+                                            onClick={openEditForm}
+                                            sx={{width: "100%"}}
+                                        >
+                                            Изменить данные
+                                        </Button>
                                         <PigeonSideEditForm
                                             pigeon={pigeon}
                                             ref={sideEditFormRef}
@@ -60,7 +81,7 @@ const Pigeon = () => {
                                             src={images[0] ? images[0] : pigeonImageStub}
                                             alt="Pigeon main photo"
                                             onClick={() => toggleImageViewer(!openImageViewer)}
-                                            style={{height: "100%", width: "100%"}}
+                                            style={{height: "auto", width: "60%"}}
                                         />
                                         {images[0] && <FsLightbox
                                             toggler={openImageViewer}
