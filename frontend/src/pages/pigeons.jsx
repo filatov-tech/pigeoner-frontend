@@ -111,7 +111,12 @@ const Pigeons = () => {
                     <div className="manage-panel-item invisible-item"></div>
                     <div className="manage-panel-item">
                         <ButtonWithPigeons onClick={openSideEditPanel}/>
-                        <PigeonSideEditForm ref={sideEditFormRef} handleSubmit={handleSubmit} keeperOptions={keeperOptions} setKeeperOptions={setKeeperOptions} />
+                        <PigeonSideEditForm
+                            ref={sideEditFormRef}
+                            handleSubmit={handleSubmit}
+                            keeperOptions={keeperOptions}
+                            setKeeperOptions={setKeeperOptions}
+                        />
                     </div>
                 </div>
             </Row>

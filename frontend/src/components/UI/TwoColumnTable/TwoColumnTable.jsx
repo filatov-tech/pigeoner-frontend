@@ -1,50 +1,50 @@
 import React from 'react';
-import {Table} from "react-bootstrap";
+import Table from "@mui/joy/Table";
 import '../../../styles/pigeon.css';
 
 const TwoColumnTable = ({pigeon}) => {
     return (
-        <Table striped bordered>
+        <Table variant="soft" borderAxis="xBetween" sx={{marginBottom: "20px"}}>
             <tbody>
                 <tr>
-                    <td className="name-column">Кличка</td>
+                    <th scope="row" className="name-column">Кличка</th>
                     <td>{pigeon.name}</td>
                 </tr>
                 <tr>
-                    <td>Пол</td>
+                    <th scope="row">Пол</th>
                     <td>{pigeon.sex === "male" ? "самец" : "самка"}</td>
                 </tr>
                 <tr>
-                    <td>Дата рождения</td>
+                    <th scope="row">Дата рождения</th>
                     <td>{pigeon.birthdate}</td>
                 </tr>
                 <tr>
-                    <td>Состояние</td>
+                    <th scope="row">Состояние</th>
                     <td>{pigeon.condition}</td>
                 </tr>
                 <tr>
-                    <td>Голубятня</td>
+                    <th scope="row">Голубятня</th>
                     <td>{pigeon.section && pigeon.section.rootName}</td>
                 </tr>
                 <tr>
-                    <td>Точное место</td>
+                    <th scope="row">Точное место</th>
                     <td>{pigeon.section && pigeon.section.fullAddress}</td>
                 </tr>
                 <tr>
-                    <td>Принадлежность</td>
+                    <th scope="row">Принадлежность</th>
                     <td>{pigeon.isOwn ? "Свой" : "Чужой"}</td>
                 </tr>
                 <tr>
-                    <td>Текущая пара</td>
-                    <td>{pigeon.mate ? pigeon.mate.ringNumber : "Пары нет"}</td>
+                    <th scope="row">Текущая пара</th>
+                    <td>{pigeon.mate && pigeon.mate.ringNumber}</td>
                 </tr>
                 <tr>
-                    <td>Отец</td>
-                    <td>{pigeon.fatherId ? pigeon.father.ringNumber : "не определен"}</td>
+                    <th scope="row">Отец</th>
+                    <td>{pigeon.fatherId && pigeon.father.ringNumber}</td>
                 </tr>
                 <tr>
-                    <td>Мать</td>
-                    <td>{pigeon.motherId ? pigeon.mother.ringNumber : "не определена"}</td>
+                    <th scope="row">Мать</th>
+                    <td>{pigeon.motherId && pigeon.mother.ringNumber}</td>
                 </tr>
             </tbody>
         </Table>

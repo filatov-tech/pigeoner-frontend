@@ -3,7 +3,7 @@ hr {
 }
 
 .name-column {
-    width: 45%;
+    width: 35%;
 }
 
 /* grid */
@@ -20,7 +20,7 @@ hr {
 }
 
 .main-info {  display: grid;
-    grid-template-columns: 0.9fr 1.1fr;
+    grid-template-columns: 0.8fr 1.2fr;
     grid-template-rows: 0.2fr 1.8fr;
     gap: 2px 5px;
     grid-auto-flow: row;
@@ -34,7 +34,11 @@ hr {
 
 .pigeon-data { grid-area: pigeon-data; }
 
-.pigeon-photo { grid-area: pigeon-photo; }
+.pigeon-photo {
+    grid-area: pigeon-photo;
+    display: flex;
+    justify-content: center;
+}
 
 .pedigree-container {  display: grid;
     grid-template-columns: 1fr;
