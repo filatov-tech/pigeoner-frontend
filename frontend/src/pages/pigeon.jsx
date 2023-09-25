@@ -15,6 +15,7 @@ const Pigeon = () => {
     const [pigeon, setPigeon] = useState();
     const [images, setImages] = useState([]);
     const [openImageViewer, toggleImageViewer] = useState(false);
+    const [imagesUrl, setImagesUrl] = useState([]);
 
     const sideEditFormRef = useRef();
 
@@ -32,9 +33,22 @@ const Pigeon = () => {
             if (response.ok) {
                 const json = await response.json();
                 if (json.imageNumber && json.imageNumber > 0) {
-                    const responseWithImages = await fetch(`/api/v1/pigeon/${id}/image`);
-                    if (responseWithImages.ok) {
-                        const images = await responseWithImages.json();
+                    const imagesListResponse = await fetch(`/api/v1/pigeon/${id}/image`);
+                    if (imagesListResponse.ok) {
+                        const imagesUrlList = await imagesListResponse.json();
+                        setImagesUrl(imagesUrlList);
+                        const imagesPromises = imagesUrlList.map(async imageUrl => {
+                            const imageResponse = await fetch(imageUrl);
+                            if (imageResponse.ok) {
+                                const blob = await imageResponse.blob();
+                                return new File(
+                                    [blob],
+                                    imageUrl.toString().substring(imageUrl.lastIndexOf('/') + 1),
+                                    {type: blob.type}
+                                );
+                            }
+                        })
+                        const images = await Promise.all(imagesPromises);
                         setImages(images);
                         json.images = images;
                     } else {
@@ -83,14 +97,14 @@ const Pigeon = () => {
                                     </div>
                                     <div className="pigeon-photo">
                                         <img
-                                            src={images[0] ? images[0] : pigeonImageStub}
-                                            alt="Pigeon main photo"
+                                            src={imagesUrl[0] ? imagesUrl[0] : pigeonImageStub}
+                                            alt="Pigeon main"
                                             onClick={() => toggleImageViewer(!openImageViewer)}
                                             style={{height: "auto", width: "60%"}}
                                         />
                                         {images[0] && <FsLightbox
                                             toggler={openImageViewer}
-                                            sources={images}
+                                            sources={imagesUrl}
                                             type="image"
                                         />}
                                     </div>

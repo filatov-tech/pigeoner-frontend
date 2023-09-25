@@ -164,7 +164,7 @@ const PigeonSideEditForm = (props, ref) => {
         setPreviewImages(previewImages => {
             const newPreviews = [];
             pigeon.images && pigeon.images.forEach(image => {
-                newPreviews.push({image: image, fileName: image.name, isMain: false})
+                newPreviews.push({image: URL.createObjectURL(image), fileName: image.name, isMain: false})
             })
             return [...previewImages, ...newPreviews]
         });
