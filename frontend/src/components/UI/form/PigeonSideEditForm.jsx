@@ -17,7 +17,7 @@ import SelectCommon from "../input/SelectCommon";
 import InputPigeonAutocomplete from "../input/Autocomplete/InputPigeonAutocomplete";
 import {flatten} from "../../../util/utils";
 import {addHierarchicalLabelsTo} from "../../../util/section-options-builder";
-import {CloseOutlined, DoneOutlined} from "@mui/icons-material";
+import {CloseOutlined, DoneOutlined, RestoreOutlined} from "@mui/icons-material";
 import Button from "@mui/material/Button";
 import ErrorSnackbar from "../ErrorSnackbar";
 import ImageUpload from "../ImageUpload";
@@ -102,7 +102,7 @@ const PigeonSideEditForm = (props, ref) => {
         const response = await fetch(fetchData.url, fetchData.options);
         if (response.ok) {
             if (!editMode) {
-                clearForm();
+                resetForm();
             }
             setError(null);
             setFieldErrorData({});
@@ -221,7 +221,15 @@ const PigeonSideEditForm = (props, ref) => {
         })
     }
 
-    const clearForm = () => {
+    const resetForm = () => {
+        setImages([]);
+        setPreviewImages([]);
+
+        if (editMode) {
+            initFormWith(props.pigeon);
+            return;
+        }
+
         setRingNumber("");
         setBirthdate(null);
         setName(null);
@@ -233,8 +241,7 @@ const PigeonSideEditForm = (props, ref) => {
         setFather(null);
         setMother(null);
         setMate(null);
-        setImages([]);
-        setPreviewImages([]);
+
     }
 
     const closeErrorAlert = () => {
@@ -332,7 +339,7 @@ const PigeonSideEditForm = (props, ref) => {
                         variant="outlined"
                         size="large"
                         type="button"
-                        onClick={clearForm}
+                        onClick={resetForm}
                         sx={{
                             borderColor:"#337ab7",
                             color:"#337ab7",
@@ -340,8 +347,14 @@ const PigeonSideEditForm = (props, ref) => {
                                 borderColor:"#337ab7"
                             }
                         }}
-                        startIcon={<CloseOutlined fontSize="large" color="#337ab7"/>}>
-                        Очистить
+                        startIcon={
+                            editMode
+                                ?
+                                <RestoreOutlined size="large" color="#337ab7"/>
+                                :
+                                <CloseOutlined fontSize="large" color="#337ab7"/>
+                        }>
+                        {editMode ? "Вернуть" : "Очистить"}
                     </Button>
                     <Button
                         variant="contained"
