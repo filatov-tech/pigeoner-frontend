@@ -133,7 +133,7 @@ export const makeOptions = (data) => {
     const result = [];
     if (!Array.isArray(data))
         return data.id;
-    data.forEach(element => result.push({value: element.id, label: element.name}));
+    data.forEach(element => result.push({...element, value: element.id, label: element.name}));
     return result;
 }
 
