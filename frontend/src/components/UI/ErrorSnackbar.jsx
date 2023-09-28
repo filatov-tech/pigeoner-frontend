@@ -1,15 +1,15 @@
 import React, {useState} from 'react';
 import {Alert, Snackbar} from "@mui/material";
 
-const ErrorSnackbar = ({message, onClose}) => {
+const ErrorSnackbar = ({message, onClose, ...snackbarProps}) => {
     const [open, setOpen] = useState(true);
     const handleClose = () => {
         setOpen(false);
-        onClose();
+        onClose && onClose();
     }
 
     return (
-        <Snackbar open={open} autoHideDuration={4000} onClose={handleClose}>
+        <Snackbar open={open} autoHideDuration={4000} onClose={handleClose} {...snackbarProps}>
             <Alert onClose={handleClose} severity="error" sx={{width: '100%'}}>
                 {message}
             </Alert>
