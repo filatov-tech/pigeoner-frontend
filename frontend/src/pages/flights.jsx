@@ -6,17 +6,31 @@ import TableSkeletonLoader from "../components/UI/loader/TableSkeletonLoader";
 import {Button} from "@mui/joy";
 import {Add} from "@mui/icons-material";
 import FlightSideEditForm from "../components/UI/form/FlightSideEditForm";
+import {flightTypes} from "./flight";
+
+export const FLIGHTS_URL = "/api/v1/flights";
 
 const Flights = () => {
     const sideFormRef = useRef();
 
     const [tableData, setTableData] = useState();
 
+    const fetchFlights = async () => {
+        try {
+            const response = await fetch(FLIGHTS_URL);
+            if (response.ok) {
+                const flights = await response.json();
+                setTableData(flights.map(flight => {
+                    return {...flight, flightType: flightTypes[flight.flightType]}
+                }));
+            }
+        } catch (e) {
+            throw new Error("Ошибка при загрузке вылетов", e);
+        }
+    }
 
     useEffect(() => {
-        fetch('/api/v1/flights')
-            .then(res => res.json())
-            .then(json => setTableData(json));
+        fetchFlights()
     }, [])
 
     return (
@@ -42,7 +56,7 @@ const Flights = () => {
                             >
                                 Добавить Вылет
                             </Button>
-                            <FlightSideEditForm ref={sideFormRef} />
+                            <FlightSideEditForm ref={sideFormRef} onSubmit={fetchFlights} />
                         </div>
                     </div>
                 </Col>

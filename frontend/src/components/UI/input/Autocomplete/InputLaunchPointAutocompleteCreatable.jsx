@@ -11,7 +11,7 @@ import {Add, DeleteOutline, Edit} from "@mui/icons-material";
 const filter = createFilterOptions();
 export const LAUNCH_POINTS_URL = "/api/v1/launch-point";
 
-const InputLaunchPointAutocompleteCreatable = ({data, onChange, error, showError, ...textFieldParams}) => {
+const InputLaunchPointAutocompleteCreatable = ({data, onChange, error, showError, onLoad, ...textFieldParams}) => {
     const inputId = useId();
     const dialogRef = useRef();
 
@@ -26,6 +26,7 @@ const InputLaunchPointAutocompleteCreatable = ({data, onChange, error, showError
                 const launchPoints = await response.json();
                 launchPoints.push({name: "Добавить новую точку", newLaunchPointTrigger: true});
                 setLaunchPointOptions(makeOptions(launchPoints));
+                onLoad(true);
             }
         } catch (e) {
             throw new Error("Ошибка при загрузке точек вылета", e);

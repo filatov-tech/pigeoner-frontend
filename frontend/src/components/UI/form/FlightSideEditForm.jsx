@@ -5,22 +5,26 @@ import {Chip, Divider} from "@mui/material";
 import {InputFieldData} from "../PigeonTable/PigeonFilterForm";
 import InputLaunchPointAutocompleteCreatable from "../input/Autocomplete/InputLaunchPointAutocompleteCreatable";
 import ErrorSnackbar from "../ErrorSnackbar";
-
-export const flightTypes = {
-    CUP: "Кубковое соревнование",
-    COMPETITION: "Соревнование",
-    TRAINING: "Тренировка",
-    JUNIOR_COMPETITION: "Юниорское соревнование"
-}
+import InputDateTime from "../input/InputDateTime";
+import SelectCommon from "../input/SelectCommon";
+import {Stack} from "@mui/joy";
+import Button from "@mui/material/Button";
+import {CloseOutlined, DoneOutlined, RestoreOutlined} from "@mui/icons-material";
+import dayjs from "dayjs";
+import {FLIGHTS_URL} from "../../../pages/flights";
 
 const FlightSideEditForm = (props, ref) => {
     const [open, setOpen] = useState(false);
-    const [editMode, setEditMode] = useState(null);
+    const [editMode, setEditMode] = useState(!!props.flight);
+    const [initialized, setInitialized] = useState(false);
     const [formError, setFormError] = useState(null);
+    const [fieldErrorData, setFieldErrorData] = useState({});
+    const [loadedLaunchPointField, setLoadedLaunchPointField] = useState(false);
 
+    const [flightId, setFlightId] = useState(null);
     const [launchPoint, setLaunchPoint] = useState(null);
     const [departureDateTime, setDepartureDateTime] = useState(null);
-    const [flightType, setFlightType] = useState(null);
+    const [flightType, setFlightType] = useState("");
 
     const launchPointData = new InputFieldData(
         "launchPoint",
@@ -35,7 +39,7 @@ const FlightSideEditForm = (props, ref) => {
     const flightTypeData = new InputFieldData(
         "flightType",
         flightType,
-        "Тип вылета",
+        "Тип вылета *",
         "",
         [
             {value: "CUP", label: "Кубковое соревнование"},
@@ -45,13 +49,70 @@ const FlightSideEditForm = (props, ref) => {
         ]
     )
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-
+        const flight = {
+            id: flightId,
+            launchPointId: launchPoint && launchPoint.id,
+            departure: departureDateTime,
+            flightType: flightType
+        }
+        try {
+            const url = editMode ? `${FLIGHTS_URL}/${flightId}` : FLIGHTS_URL
+            const response = await fetch(url, {
+                method: editMode ? "PUT" : "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(flight)
+            });
+            if (response.ok) {
+                setFormError(null);
+                setFieldErrorData({});
+                setOpen(false);
+                props.onSubmit();
+            } else {
+                const apiError = await response.json();
+                setFormError(apiError);
+                if (apiError.fields) {
+                    for (const [key, value] of Object.entries(apiError.fields)) {
+                        value.disable = disableErrorByFieldName;
+                    }
+                    setFieldErrorData(apiError.fields);
+                }
+            }
+        } catch (e) {
+            throw new Error("Ошибка при сохранении данных вылета", e)
+        }
     }
 
     const showError = (error) => {
         setFormError(error)
+    }
+
+    const resetForm = () => {
+        if (editMode) {
+            initFormWith(props.flight);
+            return;
+        }
+        setLaunchPoint(null);
+        setDepartureDateTime(null);
+        setFlightType("");
+    }
+
+    const initFormWith = (flight) => {
+        setFlightId(flight.id)
+        setLaunchPoint(flight.launchPoint);
+        setDepartureDateTime(flight.departure ? dayjs(flight.departure) : null);
+        setFlightType(flight.flightType);
+
+        setInitialized(true);
+    }
+
+    const disableErrorByFieldName = (fieldName) => {
+        setFieldErrorData(prevState => {
+            return {...prevState, [fieldName]: null};
+        })
     }
 
     useEffect(() => {
@@ -61,36 +122,98 @@ const FlightSideEditForm = (props, ref) => {
         return () => clearTimeout(timer);
     }, [formError]);
 
+    useEffect(() => {
+        if (loadedLaunchPointField && editMode && !initialized) {
+            initFormWith(props.flight);
+        }
+    }, [loadedLaunchPointField]);
+
     useImperativeHandle(ref, ()=>({
         setOpen
     }))
 
     return (
-        <React.Fragment><SideEditForm open={open} onClose={() => setOpen(false)}>
-            <form onSubmit={handleSubmit}>
-                <Typography variant="h4" align="center" gutterBottom>
-                    {editMode
-                        ? `Вылет`
-                        : "Новый вылет"}
-                </Typography>
-                <Divider sx={{marginBottom: "15px"}}>
-                    <Chip label="Данные вылета" sx={{fontSize: "1.2rem"}}/>
-                </Divider>
-                {/*    autocomplete, datepicker, select    */}
-                <InputLaunchPointAutocompleteCreatable
-                    data={launchPointData}
-                    onChange={setLaunchPoint}
-                    error={null}
-                    showError={showError}
-                    variant="standard"
-                />
-            </form>
-        </SideEditForm>
+        <React.Fragment>
+            <SideEditForm open={open} onClose={() => setOpen(false)}>
+                <form onSubmit={handleSubmit}>
+                    <Typography variant="h4" align="center" gutterBottom>
+                        {editMode
+                            ? `Вылет`
+                            : "Новый вылет"}
+                    </Typography>
+                    <Divider sx={{marginBottom: "50px"}}>
+                        <Chip label="Данные вылета" sx={{fontSize: "1.2rem"}}/>
+                    </Divider>
+                    {/*    autocomplete, datepicker, select    */}
+                    <InputLaunchPointAutocompleteCreatable
+                        data={launchPointData}
+                        onChange={setLaunchPoint}
+                        error={null}
+                        showError={showError}
+                        onLoad={setLoadedLaunchPointField}
+                        variant="standard"
+                        required
+                    />
+                    <InputDateTime
+                        data={departureDateTimeData}
+                        onChange={setDepartureDateTime}
+                        error={fieldErrorData.departure}
+                        slotProps={{textField: {variant: "standard", fullWidth: true, required: true}}}
+                    />
+                    <SelectCommon
+                        data={flightTypeData}
+                        onChange={setFlightType}
+                        error={fieldErrorData.flightType}
+                        withoutAny
+                        required
+                        variant={"standard"}
+                        sx={{marginTop: "16px", marginBottom: "8px"}}
+                    />
+                    <Stack direction="row" spacing={4} mt={4} mb={4}>
+                        <Button
+                            variant="outlined"
+                            size="large"
+                            type="button"
+                            onClick={resetForm}
+                            sx={{
+                                borderColor:"#337ab7",
+                                color:"#337ab7",
+                                '&:hover': {
+                                    borderColor:"#337ab7"
+                                }
+                            }}
+                            startIcon={
+                                editMode
+                                    ?
+                                    <RestoreOutlined size="large" color="#337ab7"/>
+                                    :
+                                    <CloseOutlined fontSize="large" color="#337ab7"/>
+                            }>
+                            {editMode ? "Вернуть" : "Очистить"}
+                        </Button>
+                        <Button
+                            variant="contained"
+                            size="large"
+                            type="submit"
+                            sx={{
+                                backgroundColor:"#337ab7",
+                                borderColor:"#337ab7",
+                                '&:hover': {
+                                    backgroundColor:"#286093"
+                                }
+                            }}
+                            endIcon={<DoneOutlined fontSize="large"/>}>
+                            Сохранить
+                        </Button>
+                    </Stack>
+                </form>
+            </SideEditForm>
             {formError && <ErrorSnackbar
                 message={formError.message}
                 anchorOrigin={{horizontal: "left", vertical: "bottom"}}
-                sx={{zIndex:1400}}
-            />}</React.Fragment>
+                sx={{zIndex: 1400}}
+            />}
+        </React.Fragment>
     );
 };
 
