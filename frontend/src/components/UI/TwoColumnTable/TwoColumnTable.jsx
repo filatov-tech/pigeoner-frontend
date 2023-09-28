@@ -36,15 +36,36 @@ const TwoColumnTable = ({pigeon}) => {
                 </tr>
                 <tr>
                     <th scope="row">Текущая пара</th>
-                    <td>{pigeon.mate && pigeon.mate.ringNumber}</td>
+                    <td>
+                        {pigeon.mate &&
+                            `${pigeon.mate.ringNumber}
+                                ${pigeon.mate.name
+                                ? ` - ${pigeon.mate.name}`
+                                : ""}`
+                        }
+                    </td>
                 </tr>
                 <tr>
                     <th scope="row">Отец</th>
-                    <td>{pigeon.fatherId && pigeon.father.ringNumber}</td>
+                    <td>
+                        {pigeon.fatherId &&
+                        `${pigeon.father.ringNumber}
+                            ${pigeon.father.name
+                            ? ` - ${pigeon.father.name}`
+                            : ""}`
+                        }
+                    </td>
                 </tr>
                 <tr>
                     <th scope="row">Мать</th>
-                    <td>{pigeon.motherId && pigeon.mother.ringNumber}</td>
+                    <td>
+                        {pigeon.motherId &&
+                            `${pigeon.mother.ringNumber}
+                                ${pigeon.mother.name
+                                ? ` - ${pigeon.mother.name}`
+                                : ""}`
+                        }
+                    </td>
                 </tr>
             </tbody>
         </Table>
