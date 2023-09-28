@@ -23,6 +23,11 @@ const PigeonTable = ({data}) => {
 
     const columns = useMemo(() => [
         {
+            accessorKey: 'name',
+            header: 'Кличка',
+            Cell: addLinkToCell()
+        },
+        {
             accessorKey: 'ringNumber',
             header: 'Кольцо',
             Cell: addLinkToCell()
@@ -34,7 +39,7 @@ const PigeonTable = ({data}) => {
                 const birthdate = row.original.birthdate;
                 return birthdate ?
                     addLinkToCellWithTooltip(row, cell, birthdate) :
-                    addLinkToCell;
+                    addLinkToCell();
             }
         },
         {
