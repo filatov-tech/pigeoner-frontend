@@ -24,7 +24,9 @@ export function getHelperText(errorData) {
     }
     if (errorData.shortMessage) {
         return errorData.shortMessage;
-    } else {
+    } else if (errorData.messages && errorData.messages[0]) {
         return errorData.messages[0];
+    } else {
+        return errorData.message;
     }
 }
