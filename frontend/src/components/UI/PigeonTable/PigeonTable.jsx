@@ -10,7 +10,10 @@ import {Female, Male} from "@mui/icons-material";
 const PigeonTable = ({data, isLoading}) => {
     const addLinkToCell = function () {
         return (({ cell,row }) => {
-            return <>{cell.getValue()}<Link to={`/pigeons/${row.original.id}`} className="table-link"></Link></>;
+            return <>
+                {cell.getValue()}
+                <Link to={`/pigeons/${row.original.id}`} className="table-link"></Link>
+            </>;
         });
     }
 
@@ -39,9 +42,9 @@ const PigeonTable = ({data, isLoading}) => {
             header: 'Год',
             Cell: ({cell, row}) => {
                 const birthdate = row.original.birthdate;
-                return birthdate ?
-                    addLinkToCellWithTooltip(row, cell, birthdate) :
-                    addLinkToCell();
+                return birthdate
+                    ? addLinkToCellWithTooltip(row, cell, birthdate)
+                    : addLinkToCell();
             }
         },
         {
