@@ -52,7 +52,7 @@ const LaunchPointEditDialog = (props, ref) => {
                 return;
             }
         } catch (e) {
-            throw new Error("Ошибка при создании новой точки запуска", e);
+            throw new Error("Ошибка при сохранении данных точки запуска", e);
         }
         handleClose()
     }

@@ -38,7 +38,7 @@ const Flight = () => {
                 setDepartureTime(`${date.getHours()}:${date.getMinutes()}`);
             }
         } catch (e) {
-            throw new Error("Ошибка при загрузке вылета", e);
+            throw new Error("Ошибка при загрузке данных вылета", e);
         }
     }
 
