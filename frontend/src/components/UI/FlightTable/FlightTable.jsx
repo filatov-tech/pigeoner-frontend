@@ -2,6 +2,8 @@ import {React, useMemo} from 'react';
 import {MaterialReactTable} from "material-react-table";
 import {MRT_Localization_RU} from "material-react-table/locales/ru";
 import {Link} from "react-router-dom";
+import dayjs from "dayjs";
+import {Tooltip} from "@mui/joy";
 
 const FlightTable = ({data}) => {
     const columns = useMemo(() => [
@@ -18,7 +20,15 @@ const FlightTable = ({data}) => {
             },
             {
                 accessorKey: 'arrivalTime',
-                header: 'Время прилета'
+                header: 'Время финиша',
+                Cell: ({ cell,row }) => {
+                    const rawArrivalTime = dayjs(cell.getValue());
+                    const time = rawArrivalTime.format("HH:mm:ss.SSS");
+                    const date = rawArrivalTime.format("DD.MM.YYYY");
+                    return <Tooltip title={date} placement="left" variant="plain">
+                        <span>{time}</span>
+                    </Tooltip>;
+                }
             },
             {
                 accessorKey: 'winPoints',
