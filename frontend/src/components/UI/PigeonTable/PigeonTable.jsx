@@ -7,7 +7,7 @@ import Box from "@mui/material/Box";
 import {Sex} from "../../../pages/pigeons";
 import {Female, Male} from "@mui/icons-material";
 
-const PigeonTable = ({data}) => {
+const PigeonTable = ({data, isLoading}) => {
     const addLinkToCell = function () {
         return (({ cell,row }) => {
             return <>{cell.getValue()}<Link to={`/pigeons/${row.original.id}`} className="table-link"></Link></>;
@@ -93,7 +93,8 @@ const PigeonTable = ({data}) => {
 
     return <MaterialReactTable
         columns={columns}
-        data={data}
+        data={data || []}
+        state={{isLoading: isLoading}}
         muiTablePaperProps={{
             sx: {
                 borderRadius: '0.5rem',
