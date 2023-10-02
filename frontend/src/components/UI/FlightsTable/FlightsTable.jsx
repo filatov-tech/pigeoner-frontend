@@ -7,8 +7,10 @@ import dayjs from "dayjs";
 const FlightsTable = ({data}) => {
     const addLinkToCell = function () {
         return ({cell, row}) => {
-            return <>{cell.getValue()}<Link to={`/flights/${row.original.id}`}
-                                            className="table-link"></Link></>;
+            return <>
+                {cell.getValue()}
+                <Link to={`/flights/${row.original.id}`} className="table-link"></Link>
+            </>;
         };
     }
 
