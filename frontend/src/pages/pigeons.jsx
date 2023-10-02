@@ -2,7 +2,6 @@ import React, {useState, useEffect, useRef} from 'react';
 import { Container, Row, Col } from "react-bootstrap";
 import '../styles/pigeons.css';
 import PigeonTable from "../components/UI/PigeonTable/PigeonTable";
-import TableSkeletonLoader from "../components/UI/loader/TableSkeletonLoader";
 import ErrorSnackbar from "../components/UI/ErrorSnackbar";
 import ButtonWithPigeons from "../components/UI/button/ButtonWithPigeons";
 import PigeonSideEditForm from "../components/UI/form/PigeonSideEditForm";
@@ -14,8 +13,8 @@ export const PIGEONS_URL = '/api/v1/pigeons';
 
 const Pigeons = () => {
     const [tableData, setTableData] = useState();
-    const [filterError, setFilterError] = useState();
-    const [hasError, setHasError] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState(null);
     const [mainKeeperId, setMainKeeperId] = useState('');
     const [keeperOptions, setKeeperOptions] = useState([]);
 
@@ -41,39 +40,46 @@ const Pigeons = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [mainKeeperId])
 
-    const updateTable = (formData) => {
+    const updateTable = async (formData) => {
         if (!formData) {
             loadTable();
             return;
         }
-        fetch(PIGEONS_URL + '/filter', {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(formData)
-        })
-            .then(res => {
-                if (!res.ok) {
-                    throw new Error("Test")
-                }
-                return res.json();
-            })
-            .then(
-                json => setTableData(json),
-                err => setFilterError(err)
-            );
+        try {
+            const response = await fetch(PIGEONS_URL + '/filter', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(formData)
+            });
+            if (response.ok) {
+                const filteredPigeons = await response.json();
+                setTableData(filteredPigeons);
+                setIsLoading(false);
+            } else {
+                const apiError = await response.json();
+                setError(apiError);
+            }
+        } catch (e) {
+            throw new Error("Ошибка при загрузке отфильтрованных данных голубей для таблицы", e);
+        }
     }
 
-    const loadTable = () => {
-        fetch(PIGEONS_URL)
-            .then(res => res.json())
-            .then(json => setTableData(json));
-    }
-
-    function closeAlert() {
-        setHasError(false);
-        setFilterError(null);
+    const loadTable = async () => {
+        try {
+            const response = await fetch(PIGEONS_URL);
+            if (response.ok) {
+                const pigeons = await response.json();
+                setTableData(pigeons);
+                setIsLoading(false);
+            } else {
+                const apiError = await response.json();
+                setError(apiError);
+            }
+        } catch (e) {
+            throw new Error("Ошибка при загрузке данных голубей для таблицы", e);
+        }
     }
 
     const handleSubmit = () => {
@@ -88,6 +94,17 @@ const Pigeons = () => {
         sideEditFormRef.current.toggleSideForm(true);
     }
 
+    const closeErrorAlert = () => {
+        setError(null);
+    }
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setError(null);
+        }, 4000);
+        return () => clearTimeout(timer);
+    }, [error]);
+
     return (
         <Container>
             <Row>
@@ -99,7 +116,6 @@ const Pigeons = () => {
                         ref={formRef}
                         keeperOptions={keeperOptions}
                         setKeeperOptions={setKeeperOptions} />
-                    {filterError && <ErrorSnackbar message={filterError.message} onClose={closeAlert}/>}
                 </Col>
                 <div className="col-12 manage-panel">
                     <button id="filter" onClick={handleSubmit}
@@ -122,9 +138,10 @@ const Pigeons = () => {
             </Row>
             <Row>
                 <Col className="table-box">
-                    {tableData  ? <PigeonTable data={tableData}/> : <TableSkeletonLoader/>}
+                    <PigeonTable data={tableData} isLoading={isLoading} />
                 </Col>
             </Row>
+            {error && <ErrorSnackbar message={error.message} onClose={closeErrorAlert}/>}
         </Container>
     );
 };
