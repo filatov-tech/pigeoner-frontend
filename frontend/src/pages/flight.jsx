@@ -4,11 +4,12 @@ import {Col, Container, Row} from "react-bootstrap";
 import '../styles/flight.css';
 import LoadingButton from "../components/UI/button/LoadingButton";
 import FlightTable from "../components/UI/FlightTable/FlightTable";
-import BigButton from "../components/UI/button/BigButton";
 import TableSkeletonLoader from "../components/UI/loader/TableSkeletonLoader";
 import {Button} from "@mui/joy";
 import FlightSideEditForm from "../components/UI/form/FlightSideEditForm";
 import {FLIGHTS_URL} from "./flights";
+import dayjs from "dayjs";
+import FlightResultEditDialog from "../components/UI/form/dialog/FlightResultEditDialog";
 
 export const flightTypes = {
     CUP: "Кубковое соревнование",
@@ -19,13 +20,14 @@ export const flightTypes = {
 
 const Flight = () => {
     let { id } = useParams();
-    const editFormRef = useRef();
+    const flightEditRef = useRef();
+    const flightResultEditRef = useRef();
     const FLIGHT_RESULTS_URL = `/api/v1/flights/${id}/flight-results`;
 
-    let [flight, setFlight] = useState();
-    let [flightResults, setFlightResults] = useState();
-    let [departureDate, setDepartureDate] = useState();
-    let [departureTime, setDepartureTime] = useState();
+    const [flight, setFlight] = useState();
+    const [flightResults, setFlightResults] = useState();
+    const [departure, setDeparture] = useState({date: null, time: null});
+
 
     const fetchFlight = async () => {
         try {
@@ -33,9 +35,11 @@ const Flight = () => {
             if (response.ok) {
                 const flight = await response.json();
                 setFlight(flight);
-                let date = new Date(Date.parse(flight.departure));
-                setDepartureDate(date.toLocaleDateString('ru'));
-                setDepartureTime(`${date.getHours()}:${date.getMinutes()}`);
+                const rawDepartureDateTime = dayjs(flight.departure);
+                setDeparture({
+                    date: rawDepartureDateTime.format("DD.MM.YYYY"),
+                    time: rawDepartureDateTime.format("HH:mm")
+                })
             }
         } catch (e) {
             throw new Error("Ошибка при загрузке данных вылета", e);
@@ -55,7 +59,7 @@ const Flight = () => {
     }
 
     const openEditForm = () => {
-        editFormRef.current.setOpen(true);
+        flightEditRef.current.setOpen(true);
     }
 
     useEffect(() => {
@@ -74,7 +78,7 @@ const Flight = () => {
                                     <div className="flight-header-box">
                                         <h1>Вылет -  {flightTypes[flight.flightType]}</h1>
                                         <div>{flight.launchPoint.name}: {flight.launchPoint.distance} км</div>
-                                        <div>Запуск: <strong>{departureDate}</strong> {departureTime}</div>
+                                        <div>Выпуск голубей: <strong>{departure.date}</strong> {departure.time}</div>
                                     </div>
                                     <hr/>
                                 </div>
@@ -91,7 +95,7 @@ const Flight = () => {
                                     >
                                         Изменить данные
                                     </Button>
-                                    <FlightSideEditForm flight={flight} ref={editFormRef} onSubmit={fetchFlight} />
+                                    <FlightSideEditForm flight={flight} ref={flightEditRef} onSubmit={fetchFlight} />
                                 </div>
                                 <div className="switch">
                                     <div>Мои голуби</div>
@@ -110,7 +114,18 @@ const Flight = () => {
                                     : <TableSkeletonLoader/>}
                                 </div>
                                 <div className="flight-add-button">
-                                    <BigButton name={"Добавить участника"}/>
+                                    <Button
+                                        onClick={() => flightResultEditRef.current.setOpen(true)}
+                                        variant="solid"
+                                        size="lg"
+                                    >
+                                        Добавить участника
+                                    </Button>
+                                    <FlightResultEditDialog
+                                        ref={flightResultEditRef}
+                                        flight={flight}
+                                        onSubmit={[fetchFlightResults]}
+                                    />
                                 </div>
                             </div>
                         </Col>
