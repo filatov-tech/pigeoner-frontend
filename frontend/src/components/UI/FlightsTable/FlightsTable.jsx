@@ -2,6 +2,7 @@ import React, {useMemo} from 'react';
 import { MaterialReactTable } from "material-react-table";
 import {MRT_Localization_RU} from "material-react-table/locales/ru";
 import {Link} from "react-router-dom";
+import dayjs from "dayjs";
 
 const FlightsTable = ({data}) => {
     const addLinkToCell = function () {
@@ -45,7 +46,13 @@ const FlightsTable = ({data}) => {
             {
                 accessorKey: 'departure',
                 header: 'Выпуск',
-                Cell: addLinkToCell()
+                Cell: ({cell, row}) => {
+                    const rawDeparture = dayjs(cell.getValue());
+                    return <>
+                        <span>{rawDeparture.format("DD.MM.YYYY HH:mm")}</span>
+                        <Link to={`/flights/${row.original.id}`} className="table-link"></Link>
+                    </>
+                }
             }
         ],
         []
