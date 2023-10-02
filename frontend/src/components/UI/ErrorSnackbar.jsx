@@ -9,7 +9,7 @@ const ErrorSnackbar = ({message, onClose, ...snackbarProps}) => {
     }
 
     return (
-        <Snackbar open={open} autoHideDuration={4000} onClose={handleClose} {...snackbarProps}>
+        <Snackbar open={open} autoHideDuration={4000} onClose={handleClose} sx={{zIndex: 1500}} {...snackbarProps}>
             <Alert onClose={handleClose} severity="error" sx={{width: '100%'}}>
                 {message}
             </Alert>
