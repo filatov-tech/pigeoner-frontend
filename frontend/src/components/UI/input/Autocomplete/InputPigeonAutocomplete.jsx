@@ -1,4 +1,4 @@
-import React, {useId} from 'react';
+import React, {useId, useState} from 'react';
 import { styled, lighten } from '@mui/system';
 import {Autocomplete, TextField} from "@mui/material";
 import {getHelperText} from "../../../../util/utils";
@@ -18,6 +18,7 @@ const GroupItems = styled('ul')({
 
 const InputPigeonAutocomplete = ({data, onChange, error, variant, margin}) => {
     const id = useId();
+    const [inputValue, setInputValue] = useState("");
     const options = data.options.map(pigeon => {
         if (!pigeon.isOwn) {
             pigeon.address = "Чужие голуби";
@@ -38,6 +39,8 @@ const InputPigeonAutocomplete = ({data, onChange, error, variant, margin}) => {
                 error && error.disable(data.name);
                 onChange(newValue);
             }}
+            inputValue={inputValue}
+            onInputChange={(event, value) => setInputValue(value)}
             groupBy={(pigeon) => pigeon.address}
             getOptionLabel={(pigeon) => {
                 const ringNumber = pigeon.ringNumber;
