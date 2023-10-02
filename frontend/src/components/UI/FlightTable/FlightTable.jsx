@@ -12,10 +12,14 @@ const FlightTable = ({data}) => {
                 header: 'Поз.'
             },
             {
+                accessorKey: 'pigeonName',
+                header: 'Кличка'
+            },
+            {
                 accessorKey: 'ringNumber',
                 header: 'Номер кольца',
                 Cell: ({ cell,row }) => {
-                    return <Link to={`/pigeons/${row.original.id}`}>{cell.getValue()}</Link>;
+                    return <Link to={`/pigeons/${row.original.pigeonId}`}>{cell.getValue()}</Link>;
                 }
             },
             {
