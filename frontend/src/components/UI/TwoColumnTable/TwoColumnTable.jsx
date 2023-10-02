@@ -1,6 +1,7 @@
 import React from 'react';
 import Table from "@mui/joy/Table";
 import '../../../styles/pigeon.css';
+import {Sex} from "../../../pages/pigeons";
 
 const TwoColumnTable = ({pigeon}) => {
     return (
@@ -12,7 +13,7 @@ const TwoColumnTable = ({pigeon}) => {
                 </tr>
                 <tr>
                     <th scope="row">Пол</th>
-                    <td>{pigeon.sex === "male" ? "самец" : "самка"}</td>
+                    <td>{Sex[pigeon.sex]}</td>
                 </tr>
                 <tr>
                     <th scope="row">Дата рождения</th>

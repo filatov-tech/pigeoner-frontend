@@ -11,6 +11,11 @@ export const KEEPER_URL = '/api/v1/keepers';
 export const MAIN_KEEPER_URL = KEEPER_URL + '/main';
 export const PIGEONS_URL = '/api/v1/pigeons';
 
+export const Sex = {
+    MALE: "самец",
+    FEMALE: "самка"
+}
+
 const Pigeons = () => {
     const [tableData, setTableData] = useState();
     const [isLoading, setIsLoading] = useState(true);
