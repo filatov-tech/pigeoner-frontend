@@ -2,7 +2,7 @@ import React, {useMemo} from 'react';
 import { MaterialReactTable } from "material-react-table";
 import {MRT_Localization_RU} from "material-react-table/locales/ru";
 import {Link} from "react-router-dom";
-import {Tooltip} from "@mui/material";
+import {Tooltip} from "@mui/joy";
 import Box from "@mui/material/Box";
 import {Sex} from "../../../pages/pigeons";
 import {Female, Male} from "@mui/icons-material";
@@ -15,7 +15,7 @@ const PigeonTable = ({data, isLoading}) => {
     }
 
     function addLinkToCellWithTooltip(row, cell, title) {
-        return <Tooltip title={title} placement="left" arrow>
+        return <Tooltip title={title} placement="left" variant="outlined" arrow>
             <Box>
                 {cell.getValue()}
                 <Link to={`/pigeons/${row.original.id}`} className="table-link"></Link>
