@@ -28,7 +28,7 @@ const SelectCommon = ({data, onChange, error, customStyle, withoutAny, variant, 
                     {data.options.map(option =>
                         <MenuItem value={option.value} key={option.value}>{option.label}</MenuItem>)}
                 </Select>
-                <FormHelperText>{getHelperText(error)}</FormHelperText>
+                <FormHelperText error>&nbsp;{getHelperText(error)}</FormHelperText>
             </FormControl>
         </ThemeProvider>
 

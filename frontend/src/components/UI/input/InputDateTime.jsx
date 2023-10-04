@@ -1,9 +1,8 @@
 import React, {useId, useMemo, useRef, useState} from 'react';
 import {DateTimePicker, renderTimeViewClock} from "@mui/x-date-pickers";
 import {getHelperText} from "../../../util/utils";
-import {FormControl, FormHelperText, TextField} from "@mui/material";
+import {FormControl, TextField} from "@mui/material";
 import {Stack} from "@mui/joy";
-import Box from "@mui/material/Box";
 
 const InputDateTime = ({data, onChange, error, withMillis, view, ...muiProps}) => {
 
@@ -24,7 +23,7 @@ const InputDateTime = ({data, onChange, error, withMillis, view, ...muiProps}) =
             textField: {
                 ...muiProps?.slotProps?.textField,
                 error: error,
-                helperText: errorMessage,
+                helperText: errorMessage
             },
         }
     }
@@ -77,8 +76,8 @@ const InputDateTime = ({data, onChange, error, withMillis, view, ...muiProps}) =
 
     return (
         <React.Fragment>
-            <FormControl><Stack spacing={1} direction="row">
-                <Box sx={{flex: millisView ? "0 1 75%" : "0 1 100%"}}>
+            <FormControl fullWidth>
+                <Stack spacing={1} direction="row">
                     <DateTimePicker
                         label={data.label}
                         value={data.value}
@@ -92,32 +91,32 @@ const InputDateTime = ({data, onChange, error, withMillis, view, ...muiProps}) =
                             ? muiProps.viewRenderers
                             : {
                                 hours: millisView ? null : renderTimeViewClock,
-                                minutes: null,
+                                minutes: millisView ? null : renderTimeViewClock,
                                 seconds: null
                             }}
                         {...completeMuiProps}
                     />
-                </Box>
-                {millisView && <div style={{flex: "0 1 25%"}}>
-                    <TextField
-                        id={millisInputId}
-                        value={millis}
-                        error={numberConstraintViolation}
-                        onChange={(event) => {
-                            setNumberConstraintViolation(null)
-                            handleChange(event.target.value, true);
-                        }}
-                        inputRef={millisRef}
-                        placeholder="000"
-                        type="number"
-                        variant="outlined"
-                        label="мс"
-                    />
-                </div>}
-            </Stack>
-            <FormHelperText error>
-                &nbsp;{getHelperText(numberConstraintViolation)}
-            </FormHelperText></FormControl>
+                    {millisView && <div style={{flex: "0 1 25%"}}>
+                        <TextField
+                            id={millisInputId}
+                            value={millis}
+                            error={numberConstraintViolation}
+                            onChange={(event) => {
+                                setNumberConstraintViolation(null)
+                                handleChange(event.target.value, true);
+                            }}
+                            inputRef={millisRef}
+                            placeholder="000"
+                            type="number"
+                            variant="outlined"
+                            label="мс"
+                        />
+                    </div>}
+                </Stack>
+                {/*<FormHelperText error>*/}
+                {/*    &nbsp;{getHelperText(numberConstraintViolation)}*/}
+                {/*</FormHelperText>*/}
+            </FormControl>
         </React.Fragment>
     );
 };

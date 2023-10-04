@@ -136,39 +136,39 @@ const FlightSideEditForm = (props, ref) => {
         <React.Fragment>
             <SideEditForm open={open} onClose={() => setOpen(false)}>
                 <form onSubmit={handleSubmit}>
-                    <Typography variant="h4" align="center" gutterBottom>
-                        {editMode
-                            ? `Вылет`
-                            : "Новый вылет"}
-                    </Typography>
-                    <Divider sx={{marginBottom: "50px"}}>
-                        <Chip label="Данные вылета" sx={{fontSize: "1.2rem"}}/>
-                    </Divider>
-                    {/*    autocomplete, datepicker, select    */}
-                    <InputLaunchPointAutocompleteCreatable
-                        data={launchPointData}
-                        onChange={setLaunchPoint}
-                        error={null}
-                        showError={showError}
-                        onLoad={setLoadedLaunchPointField}
-                        variant="standard"
-                        required
-                    />
-                    <InputDateTime
-                        data={departureDateTimeData}
-                        onChange={setDepartureDateTime}
-                        error={fieldErrorData.departure}
-                        slotProps={{textField: {variant: "standard", fullWidth: true, required: true}}}
-                    />
-                    <SelectCommon
-                        data={flightTypeData}
-                        onChange={setFlightType}
-                        error={fieldErrorData.flightType}
-                        withoutAny
-                        required
-                        variant={"standard"}
-                        sx={{marginTop: "16px", marginBottom: "8px"}}
-                    />
+                    <Stack spacing={2}>
+                        <Typography variant="h4" align="center" gutterBottom>
+                            {editMode
+                                ? `Вылет`
+                                : "Новый вылет"}
+                        </Typography>
+                        <Divider>
+                            <Chip label="Данные вылета" sx={{fontSize: "1.2rem"}}/>
+                        </Divider>
+                        <InputLaunchPointAutocompleteCreatable
+                            data={launchPointData}
+                            onChange={setLaunchPoint}
+                            error={null}
+                            showError={showError}
+                            onLoad={setLoadedLaunchPointField}
+                            variant="standard"
+                            required
+                        />
+                        <InputDateTime
+                            data={departureDateTimeData}
+                            onChange={setDepartureDateTime}
+                            error={fieldErrorData.departure}
+                            slotProps={{textField: {variant: "standard", fullWidth: true, required: true}}}
+                        />
+                        <SelectCommon
+                            data={flightTypeData}
+                            onChange={setFlightType}
+                            error={fieldErrorData.flightType}
+                            withoutAny
+                            required
+                            variant={"standard"}
+                        />
+                    </Stack>
                     <Stack direction="row" spacing={4} mt={4} mb={4}>
                         <Button
                             variant="outlined"
