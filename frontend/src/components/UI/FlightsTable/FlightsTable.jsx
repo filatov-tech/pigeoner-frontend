@@ -49,7 +49,7 @@ const FlightsTable = ({data}) => {
                 accessorKey: 'departure',
                 header: 'Выпуск',
                 Cell: ({cell, row}) => {
-                    const rawDeparture = dayjs(cell.getValue());
+                    const rawDeparture = dayjs.utc(cell.getValue()).local();
                     return <>
                         <span>{rawDeparture.format("DD.MM.YYYY HH:mm")}</span>
                         <Link to={`/flights/${row.original.id}`} className="table-link"></Link>

@@ -26,7 +26,7 @@ const FlightTable = ({data}) => {
                 accessorKey: 'arrivalTime',
                 header: 'Время финиша',
                 Cell: ({ cell,row }) => {
-                    const rawArrivalTime = dayjs(cell.getValue());
+                    const rawArrivalTime = dayjs.utc(cell.getValue()).local();
                     const time = rawArrivalTime.format("HH:mm:ss.SSS");
                     const date = rawArrivalTime.format("DD.MM.YYYY");
                     return <Tooltip title={date} placement="left" variant="plain">

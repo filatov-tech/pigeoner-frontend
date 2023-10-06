@@ -35,7 +35,7 @@ const Flight = () => {
             if (response.ok) {
                 const flight = await response.json();
                 setFlight(flight);
-                const rawDepartureDateTime = dayjs(flight.departure);
+                const rawDepartureDateTime = dayjs.utc(flight.departure).local();
                 setDeparture({
                     date: rawDepartureDateTime.format("DD.MM.YYYY"),
                     time: rawDepartureDateTime.format("HH:mm")

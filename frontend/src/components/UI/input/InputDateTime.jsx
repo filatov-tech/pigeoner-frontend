@@ -78,7 +78,7 @@ const InputDateTime = ({data, onChange, error, withMillis, view, ...muiProps}) =
         <React.Fragment>
             <FormControl fullWidth>
                 <Stack spacing={1} direction="row">
-                    <DateTimePicker
+                    <DateTimePicker timezone="system"
                         label={data.label}
                         value={data.value}
                         onChange={(newValue) => {

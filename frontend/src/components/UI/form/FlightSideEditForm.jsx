@@ -103,7 +103,7 @@ const FlightSideEditForm = (props, ref) => {
     const initFormWith = (flight) => {
         setFlightId(flight.id)
         setLaunchPoint(flight.launchPoint);
-        setDepartureDateTime(flight.departure ? dayjs(flight.departure) : null);
+        setDepartureDateTime(flight.departure ? dayjs.utc(flight.departure).local() : null);
         setFlightType(flight.flightType);
 
         setInitialized(true);

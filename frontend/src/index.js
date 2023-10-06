@@ -5,6 +5,9 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import {LocalizationProvider, ruRU} from "@mui/x-date-pickers";
 import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
 import 'dayjs/locale/ru';
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import timezone from 'dayjs/plugin/timezone';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.min';
@@ -57,6 +60,8 @@ const router = createBrowserRouter([
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const russianLocale = ruRU.components.MuiLocalizationProvider.defaultProps.localeText;
+dayjs.extend(utc);
+dayjs.extend(timezone);
 root.render(
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ru" localeText={russianLocale}>
         <RouterProvider router={router}/>
