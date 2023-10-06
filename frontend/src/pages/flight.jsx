@@ -83,10 +83,14 @@ const Flight = () => {
                                     <hr/>
                                 </div>
                                 <div className="flight-info">
-                                    <div>Голубей участвовало: </div>
-                                    <div>Всего: {flight.totalParticipants ? flight.totalParticipants : "i"} / Мои: {flight.numberParticipants}</div>
-                                    <div>Из них призовых (20%): </div>
-                                    <div>Всего: {flight.totalParticipants ? (flight.totalParticipants * 0.2) : "i"} / Мои: {flight.myPassed ? flight.myPassed : "i"}</div>
+                                    {!(flight.flightType === "TRAINING") && <React.Fragment>
+                                        <div>Голубей участвовало:</div>
+                                        <div>Всего: {flight.totalParticipants ? flight.totalParticipants : "i"} /
+                                        Мои: {flight.numberParticipants}</div>
+                                        <div>Из них призовых (20%):</div>
+                                        <div>Всего: {flight.totalParticipants ? (flight.totalParticipants * 0.2) : "i"} /
+                                        Мои: {flight.myPassed ? flight.myPassed : "i"}</div>
+                                        </React.Fragment>}
                                     <Button
                                         variant="soft"
                                         size="lg"
@@ -98,20 +102,24 @@ const Flight = () => {
                                     <FlightSideEditForm flight={flight} ref={flightEditRef} onSubmit={fetchFlight} />
                                 </div>
                                 <div className="switch">
-                                    <div>Мои голуби</div>
-                                    <label className="switch-button">
-                                        <input type="checkbox"/>
-                                        <span className="slider"></span>
-                                    </label>
-                                    <div>Все участники</div>
+                                    {!(flight.flightType === "TRAINING") && <React.Fragment>
+                                        <div>Мои голуби</div>
+                                        <label className="switch-button">
+                                            <input type="checkbox"/>
+                                            <span className="slider"></span>
+                                        </label>
+                                        <div>Все участники</div>
+                                    </React.Fragment>
+                                    }
                                 </div>
-                                <div className="manage-zone">
-                                    <p>Загрузить информацию о полете из внешнего источника</p>
-                                    <div><LoadingButton name={"Подгрузить данные"}/></div>
-                                </div>
+                                <div className="manage-zone"></div>
                                 <div className="flight-result-table">
-                                    {flightResults ? <FlightTable data={flightResults}/>
-                                    : <TableSkeletonLoader/>}
+                                    {flightResults ? <FlightTable
+                                            data={flightResults}
+                                            official={flight.flightType !== "TRAINING"}
+                                        />
+                                    : <TableSkeletonLoader/>
+                                    }
                                 </div>
                                 <div className="flight-add-button">
                                     <Button

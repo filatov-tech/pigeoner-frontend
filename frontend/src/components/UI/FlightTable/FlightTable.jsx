@@ -5,15 +5,57 @@ import {Link} from "react-router-dom";
 import dayjs from "dayjs";
 import {Tooltip} from "@mui/joy";
 
-const FlightTable = ({data}) => {
-    const columns = useMemo(() => [
+const FlightTable = ({data, official}) => {
+    const columnsTraining = useMemo(() => [
             {
                 accessorKey: 'position',
                 header: 'Поз.'
             },
             {
                 accessorKey: 'pigeonName',
-                header: 'Кличка'
+                header: 'Кличка',
+                size: 180
+            },
+            {
+                accessorKey: 'ringNumber',
+                header: 'Номер кольца',
+                Cell: ({cell, row}) => {
+                    return <Link to={`/pigeons/${row.original.pigeonId}`}>{cell.getValue()}</Link>;
+                }
+            },
+            {
+                accessorKey: 'arrivalTime',
+                header: 'Время финиша',
+                Cell: ({cell, row}) => {
+                    const rawArrivalTime = dayjs.utc(cell.getValue()).local();
+                    const time = rawArrivalTime.format("HH:mm:ss.SSS");
+                    const date = rawArrivalTime.format("DD.MM.YYYY");
+                    return <Tooltip title={date} placement="left" variant="plain">
+                        <span>{time}</span>
+                    </Tooltip>;
+                }
+            },
+            {
+                accessorKey: 'averageSpeed',
+                header: 'Скорость'
+            },
+            {
+                accessorKey: 'afterFlightCondition',
+                header: 'Состояние'
+            }
+        ],
+        []
+    )
+
+    const columnsOfficial = useMemo(() => [
+            {
+                accessorKey: 'position',
+                header: 'Поз.'
+            },
+            {
+                accessorKey: 'pigeonName',
+                header: 'Кличка',
+                size: 180
             },
             {
                 accessorKey: 'ringNumber',
@@ -48,20 +90,24 @@ const FlightTable = ({data}) => {
             },
             {
                 accessorKey: 'keeper',
-                header: 'Тренер'
+                header: 'Тренер',
+                size: 140
             }
         ],
         []
     );
 
+
+
     return <MaterialReactTable
-        columns={columns}
+        columns={official ? columnsOfficial : columnsTraining}
         data={data}
         muiTablePaperProps={{
             sx: {
                 borderRadius: '0.5rem',
             },
         }}
+        defaultColumn={{minSize: 40, maxSize: 1000, size: 40}}
         localization={MRT_Localization_RU}
     />;
 };
