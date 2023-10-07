@@ -97,16 +97,9 @@ const FlightTable = ({data, official}) => {
         []
     );
 
-
-
     return <MaterialReactTable
         columns={official ? columnsOfficial : columnsTraining}
         data={data}
-        muiTablePaperProps={{
-            sx: {
-                borderRadius: '0.5rem',
-            },
-        }}
         defaultColumn={{minSize: 40, maxSize: 1000, size: 40}}
         localization={MRT_Localization_RU}
     />;

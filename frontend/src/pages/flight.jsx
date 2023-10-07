@@ -2,7 +2,6 @@ import React, {useEffect, useRef, useState} from 'react';
 import {useParams} from "react-router-dom";
 import {Col, Container, Row} from "react-bootstrap";
 import '../styles/flight.css';
-import LoadingButton from "../components/UI/button/LoadingButton";
 import FlightTable from "../components/UI/FlightTable/FlightTable";
 import TableSkeletonLoader from "../components/UI/loader/TableSkeletonLoader";
 import {Button} from "@mui/joy";
@@ -83,14 +82,12 @@ const Flight = () => {
                                     <hr/>
                                 </div>
                                 <div className="flight-info">
-                                    {!(flight.flightType === "TRAINING") && <React.Fragment>
-                                        <div>Голубей участвовало:</div>
-                                        <div>Всего: {flight.totalParticipants ? flight.totalParticipants : "i"} /
+                                    <div>Голубей участвовало:</div>
+                                    <div>Всего: {flight.totalParticipants ? flight.totalParticipants : "i"} /
                                         Мои: {flight.numberParticipants}</div>
-                                        <div>Из них призовых (20%):</div>
-                                        <div>Всего: {flight.totalParticipants ? (flight.totalParticipants * 0.2) : "i"} /
+                                    <div>Из них призовых (20%):</div>
+                                    <div>Всего: {flight.totalParticipants ? (flight.totalParticipants * 0.2) : "i"} /
                                         Мои: {flight.myPassed ? flight.myPassed : "i"}</div>
-                                        </React.Fragment>}
                                     <Button
                                         variant="soft"
                                         size="lg"
