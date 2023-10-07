@@ -199,10 +199,12 @@ const LaunchPointEditDialog = (props, ref) => {
                                 {getHelperText(errors.mainKeeperPreciseDistance)}
                             </FormHelperText>
                         </FormControl>
+                        <Stack direction="row" justifyContent="space-between">
+                            <Button size="lg" variant="outlined" onClick={handleClose}>Отмена</Button>
+                            <Button type="submit" size="lg">Сохранить</Button>
+                        </Stack>
                     </Stack>
-                    <Stack direction="row-reverse">
-                        <Button type="submit" size="lg" sx={{marginTop: "20px"}}>Сохранить</Button>
-                    </Stack>
+
                 </form>
             </ModalDialog>
         </Modal>
