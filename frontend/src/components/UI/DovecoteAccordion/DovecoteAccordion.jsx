@@ -12,9 +12,9 @@ import SectionMenu from "../SectionMenu";
 import {ButtonGroup} from "@mui/joy";
 
 const sectionType = {
-    dovecote: "DOVECOTE",
-    room: "ROOM",
-    nest: "NEST"
+    DOVECOTE: "DOVECOTE",
+    ROOM: "ROOM",
+    NEST: "NEST"
 }
 
 const collator = new Intl.Collator('ru', { numeric: true, sensitivity: 'base' })

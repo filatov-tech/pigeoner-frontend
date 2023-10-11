@@ -14,9 +14,9 @@ import ErrorSnackbar from "../../ErrorSnackbar";
 import {SECTIONS_URL} from "../../../../pages/dovecote";
 
 const sectionType = {
-    dovecote: "DOVECOTE",
-    room: "ROOM",
-    nest: "NEST"
+    DOVECOTE: "DOVECOTE",
+    ROOM: "ROOM",
+    NEST: "NEST"
 }
 
 const DovecoteEditDialog = (props, ref) => {
@@ -31,9 +31,9 @@ const DovecoteEditDialog = (props, ref) => {
     const [parentError, setParentError] = useState(null);
 
     const sectionTypeOptions = [
-        {value: sectionType.dovecote, label: "Голубятня"},
-        {value: sectionType.room, label: "Секция"},
-        {value: sectionType.nest, label: "Гнездо"},
+        {value: sectionType.DOVECOTE, label: "Голубятня"},
+        {value: sectionType.ROOM, label: "Секция"},
+        {value: sectionType.NEST, label: "Гнездо"},
     ]
 
     useEffect(()=> {
@@ -91,7 +91,7 @@ const DovecoteEditDialog = (props, ref) => {
                 if (props.onSubmit) {
                     props.onSubmit.forEach((callback) => callback());
                 }
-                // await updateSectionsOptions();
+                await updateSectionsOptions();
             } else {
                 const apiError = await response.json();
                 setError(apiError);
@@ -118,9 +118,9 @@ const DovecoteEditDialog = (props, ref) => {
         setDialogValue({name: value});
     }
 
-    const openWithParentId = (parentId) => {
+    const openWithParentId = (parentId ,type) => {
         toggleOpen(true);
-        setDialogValue({...dialogValue, parentId: parentId, sectionType: sectionType.nest});
+        setDialogValue({...dialogValue, parentId: parentId, sectionType: sectionType[type]});
     }
 
     const [oldValue, setOldValue] = useState(null);
@@ -140,7 +140,7 @@ const DovecoteEditDialog = (props, ref) => {
         toggleOpen(true);
         setDialogValue({
             ...dialogValue,
-            sectionType: sectionType.dovecote
+            sectionType: sectionType.DOVECOTE
         })
     }
 
@@ -196,9 +196,9 @@ const DovecoteEditDialog = (props, ref) => {
                                 });
                             }}
                         >
-                            <MenuItem value={sectionType.dovecote}>Голубятня</MenuItem>
-                            <MenuItem value={sectionType.room}>Секция</MenuItem>
-                            <MenuItem value={sectionType.nest}>Гнездо</MenuItem>
+                            <MenuItem value={sectionType.DOVECOTE}>Голубятня</MenuItem>
+                            <MenuItem value={sectionType.ROOM}>Секция</MenuItem>
+                            <MenuItem value={sectionType.NEST}>Гнездо</MenuItem>
                         </Select>
                         <FormHelperText>{getHelperText(sectionTypeError)}</FormHelperText>
                     </FormControl>
