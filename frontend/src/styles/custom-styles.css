@@ -1,6 +1,5 @@
 .label {
-    display: inline-block;
-    padding: 10px 20px;
+    padding: 10px 10px;
     color: black;
     border: none;
     text-align: center;
@@ -19,27 +18,27 @@
 }
 
 .label-female {
-    background-color: #fbcfe8;
+    background-color: #fae5f0;
 }
 
 .label-female:hover {
-    background-color: #f9a8d4;
+    background-color: #fbcfe8;
 }
 
 .label-female:active {
-    background-color: #f472b6;
+    background-color: #f9a8d4;
 }
 
 .label-male {
-    background-color: #bae6fd;
+    background-color: #d7ecff;
 }
 
 .label-male:hover {
-    background-color: #7dd3fc;
+    background-color: #b2deff;
 }
 
 .label-male:active {
-    background-color: #38bdf8;
+    background-color: #81caff;
 }
 
 .label-vacant {
