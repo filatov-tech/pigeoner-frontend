@@ -6,6 +6,7 @@ import DovecoteEditDialog from "../components/UI/form/dialog/DovecoteEditDialog"
 import {AddRounded} from "@mui/icons-material";
 import {grey} from "@mui/material/colors";
 import Button from "@mui/material/Button";
+import {Skeleton, Stack} from "@mui/material";
 
 export const SECTIONS_URL = "/api/v1/sections";
 export const HIERARCHICAL_SECTIONS_WITH_PIGEONS_URL = SECTIONS_URL + "/hierarchical-with-pigeons";
@@ -25,13 +26,29 @@ const Dovecote = () => {
             const response = await fetch(HIERARCHICAL_SECTIONS_WITH_PIGEONS_URL);
             if (response.ok) {
                 setError(null);
-                setSections(await response.json())
+                const sections = await response.json();
+                sections.push(sections.splice(sections.findIndex(section => section.id === null), 1)[0]);
+                setSections(sections)
             } else {
                 setError(await response.json())
             }
         } catch (e) {
             throw new Error("Ошибка при загрузке голубятен и секций", e);
         }
+    }
+
+    const removeSection = async (section) => {
+        try {
+            const response = await fetch(`${SECTIONS_URL}/${section.id}`, {
+                method: "DELETE"
+            });
+            if (!response.ok) {
+                setError({message: "Не удалось удалить секцию"})
+            }
+        } catch (e) {
+            throw new Error("Ошибка при попытке удалить секцию", e);
+        }
+        fetchSections();
     }
 
     useEffect(() => {
@@ -44,12 +61,24 @@ const Dovecote = () => {
                 <Col>
                     <h1>Голубятня</h1>
                     <hr/>
-                    {sections && <DovecoteAccordion
-                        sections={sections}
-                        updateSections={fetchSections}
-                        handleEdit={handleEdit}
-                        setError={setError}
-                    />}
+                    {sections
+                        ?
+                        <DovecoteAccordion
+                            sections={sections}
+                            editDialogRef={editDialogRef}
+                            updateSections={fetchSections}
+                            handleEdit={handleEdit}
+                            handleDelete={removeSection}
+                            setError={setError}
+                        />
+                        :
+                        <Stack spacing={1}>
+                            <Skeleton variant="rectangular" height={64} />
+                            <Skeleton variant="rectangular" height={64} sx={{bgcolor: "grey.300"}} />
+                            <Skeleton variant="rectangular" height={64} sx={{bgcolor: "grey.200"}} />
+                            <Skeleton variant="rectangular" height={64} sx={{bgcolor: "grey.100"}} />
+                        </Stack>
+                    }
                     <Button
                         startIcon={<AddRounded />}
                         onClick={() => editDialogRef.current.openForDovecoteCreation()}
@@ -70,7 +99,10 @@ const Dovecote = () => {
                     >
                         Добавить голубятню
                     </Button>
-                    <DovecoteEditDialog ref={editDialogRef} onChange={() => fetchSections()}/>
+                    <DovecoteEditDialog
+                        ref={editDialogRef}
+                        onSubmit={[fetchSections]}
+                    />
                     {error && <AutocloseableErrorMessage error={error} setError={setError} timeout={4000} />}
                 </Col>
             </Row>
