@@ -11,9 +11,17 @@ import {addHierarchicalLabel, addHierarchicalLabelsTo} from "../../../../util/se
 import {HIERARCHICAL_SECTIONS_URL} from "../../input/Autocomplete/InputDovecoteAutocompleteCreatable";
 import {flatten, getHelperText} from "../../../../util/utils";
 import ErrorSnackbar from "../../ErrorSnackbar";
+import {SECTIONS_URL} from "../../../../pages/dovecote";
+
+const sectionType = {
+    dovecote: "DOVECOTE",
+    room: "ROOM",
+    nest: "NEST"
+}
 
 const DovecoteEditDialog = (props, ref) => {
     const [open, toggleOpen] = useState(false);
+    const [editMode, setEditMode] = useState(false);
     const [dialogValue, setDialogValue] = useState({id: "", name: "", sectionType: "", parentId:""});
     const [sectionsOptions, setSectionsOptions] = useState([]);
 
@@ -21,12 +29,6 @@ const DovecoteEditDialog = (props, ref) => {
     const [nameError, setNameError] = useState(null);
     const [sectionTypeError, setSectionTypeError] = useState(null);
     const [parentError, setParentError] = useState(null);
-
-    const sectionType = {
-        dovecote: "DOVECOTE",
-        room: "ROOM",
-        nest: "NEST"
-    }
 
     const sectionTypeOptions = [
         {value: sectionType.dovecote, label: "Голубятня"},
@@ -38,36 +40,58 @@ const DovecoteEditDialog = (props, ref) => {
         updateSectionsOptions();
     }, []);
 
-    const updateSectionsOptions = () => {
-        fetch(HIERARCHICAL_SECTIONS_URL)
-            .then(res => res.json())
-            .then(json => setSectionsOptions(flatten(addHierarchicalLabelsTo(json))))
+    const updateSectionsOptions = async () => {
+        try {
+            const response = await fetch(HIERARCHICAL_SECTIONS_URL);
+            if (response.ok) {
+                const sectionsOptions = await response.json();
+                setSectionsOptions(flatten(addHierarchicalLabelsTo(sectionsOptions)));
+            } else {
+                const apiError = await response.json();
+                setError(apiError);
+            }
+        } catch (e) {
+            throw new Error("Ошибка при попытке обновить список секций", e);
+        }
     }
 
     const handleClose = () => {
-        setDialogValue({id: "", name: "", sectionType: "", parentId:""});
         toggleOpen(false);
+        setDialogValue({id: "", name: "", sectionType: "", parentId:""});
+        setEditMode(false);
+        setOldValue(null);
     }
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         event.stopPropagation();
+        const url = SECTIONS_URL + `${editMode ? `/${dialogValue.id}` : ""}`
         try {
-            const response = await fetch("/api/v1/sections", {
-                method: "POST",
+            const response = await fetch(url, {
+                method: editMode ? "PUT" : "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify(dialogValue)
             });
             if (response.ok) {
-                const created = await response.json();
+                const persisted = await response.json();
                 cleanErrors();
-                props.onChange(addHierarchicalLabel(created, sectionsOptions.find(section => section.id === created.parentId)));
+                if (props.handleOldValue && oldValue) {
+                    props.handleOldValue(oldValue);
+                }
+                setOldValue(null);
+                if (props.onChange) {
+                    props.onChange(
+                        addHierarchicalLabel(
+                            persisted, sectionsOptions.find(section => section.id === persisted.parentId)
+                        )
+                    );
+                }
                 if (props.onSubmit) {
                     props.onSubmit.forEach((callback) => callback());
                 }
-                updateSectionsOptions();
+                // await updateSectionsOptions();
             } else {
                 const apiError = await response.json();
                 setError(apiError);
@@ -94,21 +118,50 @@ const DovecoteEditDialog = (props, ref) => {
         setDialogValue({name: value});
     }
 
+    const openWithParentId = (parentId) => {
+        toggleOpen(true);
+        setDialogValue({...dialogValue, parentId: parentId, sectionType: sectionType.nest});
+    }
+
+    const [oldValue, setOldValue] = useState(null);
+    const openInEditMode = (section) => {
+        setEditMode(true);
+        toggleOpen(true);
+        setOldValue(section);
+        setDialogValue({
+            id: section.id,
+            name: section.name,
+            parentId: section.parentId,
+            sectionType: section.sectionType
+        })
+    }
+
+    const openForDovecoteCreation = () => {
+        toggleOpen(true);
+        setDialogValue({
+            ...dialogValue,
+            sectionType: sectionType.dovecote
+        })
+    }
+
     const closeErrorAlert = () => {
         setError(null);
     }
 
     useImperativeHandle(ref, ()=> ({
-        openWithValue
+        openWithValue,
+        openWithParentId,
+        openInEditMode,
+        openForDovecoteCreation
     }))
 
     return (
         <Dialog open={open} onClose={handleClose} >
             <form onSubmit={handleSubmit}>
-                <DialogTitle>Новая голубятня или секция</DialogTitle>
+                <DialogTitle>{editMode ? "Изменение секции голубятни" : "Новая голубятня или секция"}</DialogTitle>
                 <DialogContent sx={{display:"flex",flexWrap:"wrap", gap:"12px", alignItems:"stretch"}}>
                     <DialogContentText sx={{flex:"1 0 100%"}}>
-                        Здесь вы можете создать новую голубятню, её внутреннюю секцию или гнездо
+                        Здесь вы можете обновить или создать новую голубятню, её внутреннюю секцию или гнездо
                     </DialogContentText>
                     <TextField
                         autoFocus
@@ -128,7 +181,7 @@ const DovecoteEditDialog = (props, ref) => {
                         variant="outlined"
                         sx={{flex:"3 0"}}
                     />
-                    <FormControl variant="outlined" sx={{flex:"2 0"}} error={sectionTypeError}>
+                    <FormControl variant="outlined" sx={{flex:"2 0"}} error={sectionTypeError} disabled={editMode}>
                         <InputLabel id="sectionType">Тип</InputLabel>
                         <Select
                             id="sectionType"
