@@ -16,7 +16,7 @@ const GroupItems = styled('ul')({
     padding: 0,
 });
 
-const InputPigeonAutocomplete = ({data, onChange, error, variant, margin}) => {
+const InputPigeonAutocomplete = ({data, onChange, error, disabled, ...textFieldProps}) => {
     const id = useId();
     const [inputValue, setInputValue] = useState("");
     const options = data.options.map(pigeon => {
@@ -50,8 +50,7 @@ const InputPigeonAutocomplete = ({data, onChange, error, variant, margin}) => {
             renderInput={(params) =>
                 <TextField
                     {...params}
-                    variant={variant}
-                    margin={margin}
+                    {...textFieldProps}
                     error={error}
                     helperText={getHelperText(error)}
                     label={data.label} />}
