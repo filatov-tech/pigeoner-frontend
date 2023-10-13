@@ -34,6 +34,7 @@ const InputPigeonAutocomplete = ({data, onChange, error, disabled, ...textFieldP
         <Autocomplete
             id={id}
             options={options}
+            disabled={disabled}
             value={data.value}
             onChange={(event, newValue) => {
                 error && error.disable(data.name);
