@@ -5,7 +5,7 @@ export const FlightTypes = {
     JUNIOR_COMPETITION: "Юниорское соревнование"
 }
 
-export const afterFlightCondition = {
+export const AfterFlightCondition = {
     NORMAL: "Нормальное",
     TIRED: "Уставший"
 }
