@@ -1,7 +1,7 @@
 import React, {useId, useMemo, useRef, useState} from 'react';
 import {DateTimePicker, renderTimeViewClock} from "@mui/x-date-pickers";
 import {getHelperText} from "../../../util/utils";
-import {FormControl, TextField} from "@mui/material";
+import {FormControl, FormHelperText, TextField} from "@mui/material";
 import {Stack} from "@mui/joy";
 
 const InputDateTime = ({data, onChange, error, withMillis, view, ...muiProps}) => {
@@ -113,9 +113,9 @@ const InputDateTime = ({data, onChange, error, withMillis, view, ...muiProps}) =
                         />
                     </div>}
                 </Stack>
-                {/*<FormHelperText error>*/}
-                {/*    &nbsp;{getHelperText(numberConstraintViolation)}*/}
-                {/*</FormHelperText>*/}
+                <FormHelperText>
+                    {error ? "" : " "}
+                </FormHelperText>
             </FormControl>
         </React.Fragment>
     );
