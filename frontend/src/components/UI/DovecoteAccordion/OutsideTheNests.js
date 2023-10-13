@@ -8,7 +8,7 @@ class OutsideTheNests extends React.Component {
         return (
                 <div className="card">
                     <div className="card-header" style={{backgroundColor: "rgba(247,251,255,0.5)"}}>
-                        <h5 className="mb-0">Остальные голуби</h5>
+                        <h5 className="mb-0">Прочие голуби</h5>
                     </div>
                     <div className="card-body">
                         {pigeons.length > 0
