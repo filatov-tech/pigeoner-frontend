@@ -1,5 +1,9 @@
 export function flatten(hierarchicalObjects) {
-    if (hierarchicalObjects && hierarchicalObjects.length === 0) return [];
+    if (hierarchicalObjects
+        && (hierarchicalObjects.length === 0 || Object.keys(hierarchicalObjects).length === 0)
+    ) {
+        return [];
+    }
 
     let resultArray = [];
 
