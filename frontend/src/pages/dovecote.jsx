@@ -13,6 +13,7 @@ const Dovecote = () => {
     const editDialogRef = useRef();
 
     const [sections, setSections] = useState(null);
+    const [otherPigeons, setOtherPigeons] = useState(null);
     const [error, setError] = useState(null);
 
     const handleEdit = (section) => {
@@ -25,7 +26,7 @@ const Dovecote = () => {
             if (response.ok) {
                 setError(null);
                 const sections = await response.json();
-                sections.push(sections.splice(sections.findIndex(section => section.id === null), 1)[0]);
+                setOtherPigeons(sections.splice(sections.findIndex(section => section.id === null), 1))
                 setSections(sections)
             } else {
                 setError(await response.json())
@@ -61,14 +62,27 @@ const Dovecote = () => {
                     <hr/>
                     {sections
                         ?
-                        <DovecoteAccordion
-                            sections={sections}
-                            editDialogRef={editDialogRef}
-                            updateSections={fetchSections}
-                            handleEdit={handleEdit}
-                            handleDelete={removeSection}
-                            setError={setError}
-                        />
+                        <React.Fragment>
+                            <DovecoteAccordion
+                                sections={sections}
+                                editDialogRef={editDialogRef}
+                                updateSections={fetchSections}
+                                handleEdit={handleEdit}
+                                handleDelete={removeSection}
+                                setError={setError}
+                            />
+                            {otherPigeons &&
+                                <DovecoteAccordion
+                                    sections={otherPigeons}
+                                    editDialogRef={editDialogRef}
+                                    updateSections={fetchSections}
+                                    handleEdit={handleEdit}
+                                    handleDelete={removeSection}
+                                    setError={setError}
+                                    editDisabled
+                                />
+                            }
+                        </React.Fragment>
                         :
                         <Stack spacing={1}>
                             <Skeleton variant="rectangular" height={64} />

@@ -45,7 +45,8 @@ const DovecoteAccordion = (props) => {
                             borderBottom: "1px solid rgba(0, 0, 0, .125)",
                             alignItems: "center",
                             '& .MuiAccordionSummary-content': {
-                                alignItems: "center"
+                                alignItems: "center",
+                                columnGap: 1
                             }
                         }}
                     >
@@ -60,7 +61,7 @@ const DovecoteAccordion = (props) => {
                             <Typography sx={{color: "text.secondary"}}>
                                 всего голубей: {section.pigeonsNumber ? section.pigeonsNumber : "0"}
                             </Typography>
-                            <ButtonGroup
+                            {!props.editDisabled && <ButtonGroup
                                 variant="plain"
                                 sx={{
                                     marginRight: "5px",
@@ -78,7 +79,7 @@ const DovecoteAccordion = (props) => {
                                     handleEdit={() => props.handleEdit(section)}
                                     handleDelete={() => props.handleDelete(section)}
                                 />
-                            </ButtonGroup>
+                            </ButtonGroup>}
                         </Stack>
                     </AccordionSummary>
                     <AccordionDetails sx={{paddingTop: "16px"}}>
