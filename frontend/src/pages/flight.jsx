@@ -4,11 +4,12 @@ import {Col, Container, Row} from "react-bootstrap";
 import '../styles/flight.css';
 import FlightTable from "../components/UI/FlightTable/FlightTable";
 import TableSkeletonLoader from "../components/UI/loader/TableSkeletonLoader";
-import {Button} from "@mui/joy";
+import {Button, Tooltip} from "@mui/joy";
 import FlightSideEditForm from "../components/UI/form/FlightSideEditForm";
 import dayjs from "dayjs";
 import FlightResultEditDialog from "../components/UI/form/dialog/FlightResultEditDialog";
 import {FlightTypes, FLIGHTS_URL} from "../constants";
+import {InfoOutlined} from "@mui/icons-material";
 
 const Flight = () => {
     let { id } = useParams();
@@ -50,8 +51,26 @@ const Flight = () => {
         }
     }
 
+    const removeFlightResult = async (flightResultId) => {
+        try {
+            const response = await fetch(FLIGHT_RESULTS_URL + `/${flightResultId}`, {
+                method: "DELETE"
+            });
+            if (response.ok) {
+                fetchFlightResults();
+                fetchFlight();
+            }
+        } catch (e) {
+            throw new Error("Ошибка при попытке удалить участника вылета")
+        }
+    }
+
     const openEditForm = () => {
         flightEditRef.current.setOpen(true);
+    }
+
+    const handleEdit = (flightResult) => {
+        flightResultEditRef.current.openInEditMode(flightResult);
     }
 
     useEffect(() => {
@@ -61,6 +80,11 @@ const Flight = () => {
 
     return (
         <>
+            <FlightResultEditDialog
+                ref={flightResultEditRef}
+                flight={flight}
+                onSubmit={[fetchFlightResults, fetchFlight]}
+            />
             {flight &&
                 <Container>
                     <Row>
@@ -76,11 +100,14 @@ const Flight = () => {
                                 </div>
                                 <div className="flight-info">
                                     <div>Голубей участвовало:</div>
-                                    <div>Всего: {flight.totalParticipants ? flight.totalParticipants : "i"} /
+                                    <div>Всего: {flight.totalParticipants ? flight.totalParticipants : <NoDataIcon />}
+                                        &nbsp;/
                                         Мои: {flight.numberParticipants}</div>
                                     <div>Из них призовых (20%):</div>
-                                    <div>Всего: {flight.totalParticipants ? (flight.totalParticipants * 0.2) : "i"} /
-                                        Мои: {flight.myPassed ? flight.myPassed : "i"}</div>
+                                    <div>Всего: {
+                                        flight.totalParticipants ? (flight.totalParticipants * 0.2) : <NoDataIcon />
+                                    } /
+                                        Мои: {flight.myPassed ? flight.myPassed : <NoDataIcon />}</div>
                                     <Button
                                         variant="soft"
                                         size="lg"
@@ -106,7 +133,10 @@ const Flight = () => {
                                 <div className="flight-result-table">
                                     {flightResults ? <FlightTable
                                             data={flightResults}
+                                            flight={flight}
                                             official={flight.flightType !== "TRAINING"}
+                                            onEdit={handleEdit}
+                                            onDelete={removeFlightResult}
                                         />
                                     : <TableSkeletonLoader/>
                                     }
@@ -119,11 +149,6 @@ const Flight = () => {
                                     >
                                         Добавить участника
                                     </Button>
-                                    <FlightResultEditDialog
-                                        ref={flightResultEditRef}
-                                        flight={flight}
-                                        onSubmit={[fetchFlightResults]}
-                                    />
                                 </div>
                             </div>
                         </Col>
@@ -131,6 +156,14 @@ const Flight = () => {
                 </Container>
             }
         </>
+    );
+};
+
+const NoDataIcon = () => {
+    return (
+        <Tooltip title="Даные будут доступны после синхронизации с данными организатора гонки">
+            <InfoOutlined color="action" fontSize="small" />
+        </Tooltip>
     );
 };
 

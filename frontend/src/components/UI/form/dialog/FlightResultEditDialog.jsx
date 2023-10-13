@@ -7,12 +7,18 @@ import InputPigeonAutocomplete from "../../input/Autocomplete/InputPigeonAutocom
 import InputDateTime from "../../input/InputDateTime";
 import {FLIGHTS_URL} from "../../../../constants";
 import dayjs from "dayjs";
+import SelectCommon from "../../input/SelectCommon";
 
-const emptyFlightResult = {id: null, pigeon: null, arrivalTime: null};
+const emptyFlightResult = {
+    id: null,
+    pigeon: null,
+    arrivalTime: null,
+    afterFlightCondition: "NORMAL"
+};
 
 const FlightResultEditDialog = (props, ref) => {
     const [open, setOpen] = useState(false);
-    const [editMode, setEditMode] = useState(!!props.flightResult);
+    const [editMode, setEditMode] = useState(false);
 
     const [flightResult, setFlightResult] = useState(emptyFlightResult);
     const [pigeons, setPigeons] = useState([]);
@@ -22,6 +28,16 @@ const FlightResultEditDialog = (props, ref) => {
 
     const pigeonData = new InputFieldData("pigeon", flightResult.pigeon, "Голубь", "", pigeons);
     const arrivalTimeData = new InputFieldData("arrivalTime", flightResult.arrivalTime, "Финиш");
+    const afterFlightConditionData = new InputFieldData(
+        "afterFlightCondition",
+        flightResult.afterFlightCondition,
+        "Состояние после финиша",
+        "",
+        [
+            {value: "NORMAL", label: "Нормальное"},
+            {value: "TIRED", label: "Уставший"}
+        ]
+    )
 
     const disableErrorByFieldName = (fieldName) => {
         setFieldError(prevState => {
@@ -70,7 +86,7 @@ const FlightResultEditDialog = (props, ref) => {
                 if (props.onSubmit) {
                     props.onSubmit.forEach((callback) => callback());
                 }
-                setOpen(false);
+                handleClose();
             } else {
                 const apiError = await response.json();
                 setError(apiError);
@@ -97,6 +113,24 @@ const FlightResultEditDialog = (props, ref) => {
         return url;
     }
 
+    const openInEditMode = (flightResult) => {
+        setEditMode(true);
+        setFlightResult({
+            ...flightResult,
+            id: flightResult.id,
+            pigeon: pigeons.find(pigeon => pigeon.id === flightResult.pigeonId),
+            arrivalTime: dayjs.utc(flightResult.arrivalTime).local(),
+            afterFlightCondition: flightResult.afterFlightCondition
+        })
+        setOpen(true);
+    }
+
+    const handleClose = () => {
+        setOpen(false);
+        setEditMode(false);
+        setFlightResult(emptyFlightResult);
+    }
+
     useEffect(() => {
         fetchPigeons();
     }, []);
@@ -109,12 +143,13 @@ const FlightResultEditDialog = (props, ref) => {
     }, [error]);
 
     useImperativeHandle(ref, () => ({
-        setOpen
+        setOpen,
+        openInEditMode
     }))
 
     return (
         <React.Fragment>
-            <Modal open={open} onClose={() => setOpen(false)}>
+            <Modal open={open} onClose={handleClose}>
                 <ModalDialog  sx={{maxWidth: "370px"}}>
                     <DialogTitle>{editMode ? "Участник" : "Новый участник"}</DialogTitle>
                     <DialogContent>
@@ -128,6 +163,7 @@ const FlightResultEditDialog = (props, ref) => {
                             <InputPigeonAutocomplete
                                 data={pigeonData}
                                 error={fieldError.pigeon}
+                                disabled={editMode}
                                 onChange={(newValue) => {
                                     setFlightResult({...flightResult, pigeon: newValue})
                                 }}
@@ -148,10 +184,19 @@ const FlightResultEditDialog = (props, ref) => {
                                     rowReverse: true
                                 }}
                             />
+                            <SelectCommon
+                                data={afterFlightConditionData}
+                                onChange={(newValue) => {
+                                    setFlightResult({...flightResult, afterFlightCondition: newValue})
+                                }}
+                                withoutAny
+                                error={fieldError.afterFlightCondition}
+                                variant="outlined"
+                            />
                         </Stack>
                         <Stack direction="row" justifyContent="space-between">
                             <Button
-                                onClick={() => setOpen(false)}
+                                onClick={handleClose}
                                 variant="soft"
                                 size="lg"
                                 sx={{marginTop: "20px"}}

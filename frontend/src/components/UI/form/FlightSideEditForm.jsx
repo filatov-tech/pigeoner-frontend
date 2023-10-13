@@ -11,7 +11,7 @@ import {Stack} from "@mui/joy";
 import Button from "@mui/material/Button";
 import {CloseOutlined, DoneOutlined, RestoreOutlined} from "@mui/icons-material";
 import dayjs from "dayjs";
-import {FLIGHTS_URL} from "../../../pages/flights";
+import {FLIGHTS_URL} from "../../../constants";
 
 const FlightSideEditForm = (props, ref) => {
     const [open, setOpen] = useState(false);
