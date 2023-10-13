@@ -4,7 +4,7 @@ import {MRT_Localization_RU} from "material-react-table/locales/ru";
 import {Link} from "react-router-dom";
 import {Tooltip} from "@mui/joy";
 import Box from "@mui/material/Box";
-import {Sex} from "../../../pages/pigeons";
+import {Sex} from "../../../constants";
 import {Female, Male} from "@mui/icons-material";
 
 const PigeonTable = ({data, isLoading}) => {

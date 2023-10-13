@@ -7,9 +7,9 @@ import LaunchPointEditDialog from "../../form/dialog/LaunchPointEditDialog";
 import {makeOptions} from "../../../../pages/pigeons";
 import {Stack} from "@mui/joy";
 import {Add, DeleteOutline, Edit} from "@mui/icons-material";
+import {LAUNCH_POINTS_URL} from "../../../../constants";
 
 const filter = createFilterOptions();
-export const LAUNCH_POINTS_URL = "/api/v1/launch-point";
 
 const InputLaunchPointAutocompleteCreatable = ({data, onChange, error, showError, onLoad, ...textFieldParams}) => {
     const inputId = useId();

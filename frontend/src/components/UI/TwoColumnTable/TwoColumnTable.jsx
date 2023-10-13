@@ -1,7 +1,7 @@
 import React from 'react';
 import Table from "@mui/joy/Table";
 import '../../../styles/pigeon.css';
-import {Sex} from "../../../pages/pigeons";
+import {Sex} from "../../../constants";
 
 const TwoColumnTable = ({pigeon}) => {
     return (

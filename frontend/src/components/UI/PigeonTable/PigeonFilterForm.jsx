@@ -5,7 +5,7 @@ import '../../../styles/pigeons-filter.css';
 import {outlinedInputClasses} from "@mui/material/OutlinedInput";
 import AgeSlider from "../input/AgeSlider";
 import InputDate from "../input/InputDate";
-import {MAIN_KEEPER_URL} from "../../../pages/pigeons";
+import {MAIN_KEEPER_URL} from "../../../constants";
 import {makeHierarchicalViewOf} from "../../../util/section-options-builder";
 
 const PigeonFilterForm = forwardRef((props, ref) => {

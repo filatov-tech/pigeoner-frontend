@@ -1,11 +1,12 @@
 import React, {forwardRef, useImperativeHandle, useState, useEffect} from 'react';
 import {Button, DialogContent, DialogTitle, Modal, ModalDialog, Stack} from "@mui/joy";
 import {InputFieldData} from "../../PigeonTable/PigeonFilterForm";
-import {PIGEONS_URL} from "../../../../pages/pigeons";
+import {PIGEONS_URL} from "../../../../constants"
 import ErrorSnackbar from "../../ErrorSnackbar";
 import InputPigeonAutocomplete from "../../input/Autocomplete/InputPigeonAutocomplete";
 import InputDateTime from "../../input/InputDateTime";
-import {FLIGHTS_URL} from "../../../../pages/flights";
+import {FLIGHTS_URL} from "../../../../constants";
+import dayjs from "dayjs";
 
 const emptyFlightResult = {id: null, pigeon: null, arrivalTime: null};
 

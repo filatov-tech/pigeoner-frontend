@@ -8,12 +8,11 @@ import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import {addHierarchicalLabel, addHierarchicalLabelsTo} from "../../../../util/section-options-builder";
-import {HIERARCHICAL_SECTIONS_URL} from "../../input/Autocomplete/InputDovecoteAutocompleteCreatable";
+import {HIERARCHICAL_SECTIONS_URL, SECTIONS_URL} from "../../../../constants";
 import {flatten, getHelperText} from "../../../../util/utils";
 import ErrorSnackbar from "../../ErrorSnackbar";
-import {SECTIONS_URL} from "../../../../pages/dovecote";
 
-const sectionType = {
+const SectionType = {
     DOVECOTE: "DOVECOTE",
     ROOM: "ROOM",
     NEST: "NEST"
@@ -29,12 +28,6 @@ const DovecoteEditDialog = (props, ref) => {
     const [nameError, setNameError] = useState(null);
     const [sectionTypeError, setSectionTypeError] = useState(null);
     const [parentError, setParentError] = useState(null);
-
-    const sectionTypeOptions = [
-        {value: sectionType.DOVECOTE, label: "Голубятня"},
-        {value: sectionType.ROOM, label: "Секция"},
-        {value: sectionType.NEST, label: "Гнездо"},
-    ]
 
     useEffect(()=> {
         updateSectionsOptions();
@@ -120,7 +113,7 @@ const DovecoteEditDialog = (props, ref) => {
 
     const openWithParentId = (parentId ,type) => {
         toggleOpen(true);
-        setDialogValue({...dialogValue, parentId: parentId, sectionType: sectionType[type]});
+        setDialogValue({...dialogValue, parentId: parentId, sectionType: SectionType[type]});
     }
 
     const [oldValue, setOldValue] = useState(null);
@@ -140,7 +133,7 @@ const DovecoteEditDialog = (props, ref) => {
         toggleOpen(true);
         setDialogValue({
             ...dialogValue,
-            sectionType: sectionType.DOVECOTE
+            sectionType: SectionType.DOVECOTE
         })
     }
 
@@ -196,9 +189,9 @@ const DovecoteEditDialog = (props, ref) => {
                                 });
                             }}
                         >
-                            <MenuItem value={sectionType.DOVECOTE}>Голубятня</MenuItem>
-                            <MenuItem value={sectionType.ROOM}>Секция</MenuItem>
-                            <MenuItem value={sectionType.NEST}>Гнездо</MenuItem>
+                            <MenuItem value={SectionType.DOVECOTE}>Голубятня</MenuItem>
+                            <MenuItem value={SectionType.ROOM}>Секция</MenuItem>
+                            <MenuItem value={SectionType.NEST}>Гнездо</MenuItem>
                         </Select>
                         <FormHelperText>{getHelperText(sectionTypeError)}</FormHelperText>
                     </FormControl>

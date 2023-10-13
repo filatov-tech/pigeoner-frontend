@@ -13,8 +13,7 @@ import {
 } from "@mui/joy";
 import {InfoOutlined} from "@mui/icons-material";
 import {getHelperText} from "../../../../util/utils";
-import {LAUNCH_POINTS_URL} from "../../input/Autocomplete/InputLaunchPointAutocompleteCreatable";
-import {KEEPER_URL, MAIN_KEEPER_URL} from "../../../../pages/pigeons"
+import {KEEPER_URL, MAIN_KEEPER_URL, LAUNCH_POINTS_URL} from "../../../../constants";
 
 const emptyValue = {id: null ,name:"", distance: null, mainKeeperPreciseDistance: null, label: ""}
 

@@ -6,22 +6,15 @@ import FlightTable from "../components/UI/FlightTable/FlightTable";
 import TableSkeletonLoader from "../components/UI/loader/TableSkeletonLoader";
 import {Button} from "@mui/joy";
 import FlightSideEditForm from "../components/UI/form/FlightSideEditForm";
-import {FLIGHTS_URL} from "./flights";
 import dayjs from "dayjs";
 import FlightResultEditDialog from "../components/UI/form/dialog/FlightResultEditDialog";
-
-export const flightTypes = {
-    CUP: "Кубковое соревнование",
-    COMPETITION: "Соревнование",
-    TRAINING: "Тренировка",
-    JUNIOR_COMPETITION: "Юниорское соревнование"
-}
+import {FlightTypes, FLIGHTS_URL} from "../constants";
 
 const Flight = () => {
     let { id } = useParams();
     const flightEditRef = useRef();
     const flightResultEditRef = useRef();
-    const FLIGHT_RESULTS_URL = `/api/v1/flights/${id}/flight-results`;
+    const FLIGHT_RESULTS_URL = FLIGHTS_URL + `/${id}/flight-results`;
 
     const [flight, setFlight] = useState();
     const [flightResults, setFlightResults] = useState();
@@ -75,7 +68,7 @@ const Flight = () => {
                             <div className="flight-page">
                                 <div className="flight-header">
                                     <div className="flight-header-box">
-                                        <h1>Вылет -  {flightTypes[flight.flightType]}</h1>
+                                        <h1>Вылет -  {FlightTypes[flight.flightType]}</h1>
                                         <div>{flight.launchPoint.name}: {flight.launchPoint.distance} км</div>
                                         <div>Выпуск голубей: <strong>{departure.date}</strong> {departure.time}</div>
                                     </div>

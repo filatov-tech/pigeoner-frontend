@@ -7,10 +7,9 @@ import {Chip, Divider, Stack} from "@mui/material";
 import InputText from "../input/InputText";
 import InputDate from "../input/InputDate";
 import InputKeeperAutocompleteCreatable from "../input/Autocomplete/InputKeeperAutocompleteCreatable";
-import {PIGEONS_URL, KEEPER_URL, MAIN_KEEPER_URL, makeOptions} from "../../../pages/pigeons";
-import InputDovecoteAutocompleteCreatable, {
-    HIERARCHICAL_SECTIONS_URL
-} from "../input/Autocomplete/InputDovecoteAutocompleteCreatable";
+import {PIGEONS_URL, KEEPER_URL, MAIN_KEEPER_URL, HIERARCHICAL_SECTIONS_URL} from "../../../constants"
+import {makeOptions} from "../../../pages/pigeons";
+import InputDovecoteAutocompleteCreatable from "../input/Autocomplete/InputDovecoteAutocompleteCreatable";
 import ControlledRadioGroup from "../radio/ControlledRadioGroup";
 import InputColorAutocompleteCreatable from "../input/Autocomplete/InputColorAutocompleteCreatable";
 import SelectCommon from "../input/SelectCommon";

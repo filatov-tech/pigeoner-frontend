@@ -6,7 +6,7 @@ import TextField from "@mui/material/TextField";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
-import {KEEPER_URL} from "../../../../pages/pigeons";
+import {KEEPER_URL} from "../../../../constants";
 import ErrorSnackbar from "../../ErrorSnackbar";
 
 const KeeperEditDialog = (props, ref) => {

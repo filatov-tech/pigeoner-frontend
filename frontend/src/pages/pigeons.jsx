@@ -6,15 +6,7 @@ import ErrorSnackbar from "../components/UI/ErrorSnackbar";
 import ButtonWithPigeons from "../components/UI/button/ButtonWithPigeons";
 import PigeonSideEditForm from "../components/UI/form/PigeonSideEditForm";
 import PigeonFilterForm from "../components/UI/PigeonTable/PigeonFilterForm";
-
-export const KEEPER_URL = '/api/v1/keepers';
-export const MAIN_KEEPER_URL = KEEPER_URL + '/main';
-export const PIGEONS_URL = '/api/v1/pigeons';
-
-export const Sex = {
-    MALE: "самец",
-    FEMALE: "самка"
-}
+import {PIGEONS_URL, KEEPER_URL, MAIN_KEEPER_URL} from "../constants";
 
 const Pigeons = () => {
     const [tableData, setTableData] = useState();

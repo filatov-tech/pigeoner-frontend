@@ -7,9 +7,7 @@ import {AddRounded} from "@mui/icons-material";
 import {grey} from "@mui/material/colors";
 import Button from "@mui/material/Button";
 import {Skeleton, Stack} from "@mui/material";
-
-export const SECTIONS_URL = "/api/v1/sections";
-export const HIERARCHICAL_SECTIONS_WITH_PIGEONS_URL = SECTIONS_URL + "/hierarchical-with-pigeons";
+import {SECTIONS_URL, HIERARCHICAL_SECTIONS_WITH_PIGEONS_URL} from "../constants";
 
 const Dovecote = () => {
     const editDialogRef = useRef();

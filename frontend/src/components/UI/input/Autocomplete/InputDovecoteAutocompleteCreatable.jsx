@@ -4,8 +4,6 @@ import TextField from "@mui/material/TextField";
 import DovecoteEditDialog from "../../form/dialog/DovecoteEditDialog";
 import {getHelperText} from "../../../../util/utils";
 
-export const HIERARCHICAL_SECTIONS_URL = "/api/v1/sections/hierarchical";
-
 const filter = createFilterOptions();
 
 const InputDovecoteAutocompleteCreatable = ({data, onChange, onSubmit, error, ...inputFieldParams}) => {

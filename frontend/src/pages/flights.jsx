@@ -6,9 +6,7 @@ import TableSkeletonLoader from "../components/UI/loader/TableSkeletonLoader";
 import {Button} from "@mui/joy";
 import {Add} from "@mui/icons-material";
 import FlightSideEditForm from "../components/UI/form/FlightSideEditForm";
-import {flightTypes} from "./flight";
-
-export const FLIGHTS_URL = "/api/v1/flights";
+import {FLIGHTS_URL, FlightTypes} from "../constants";
 
 const Flights = () => {
     const sideFormRef = useRef();
@@ -21,7 +19,7 @@ const Flights = () => {
             if (response.ok) {
                 const flights = await response.json();
                 setTableData(flights.map(flight => {
-                    return {...flight, flightType: flightTypes[flight.flightType]}
+                    return {...flight, flightType: FlightTypes[flight.flightType]}
                 }));
             }
         } catch (e) {
