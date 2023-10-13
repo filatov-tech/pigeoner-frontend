@@ -7,7 +7,7 @@ import {Stack} from "@mui/joy";
 const InputDateTime = ({data, onChange, error, withMillis, view, ...muiProps}) => {
 
     const [millisView] = useState(withMillis);
-    const [millis, setMillis] = useState();
+    const [millis, setMillis] = useState((withMillis && data.value) ? data.value.millisecond() : null);
     const [numberConstraintViolation, setNumberConstraintViolation] = useState(null);
     const millisInputId = useId();
     const millisRef = useRef();
@@ -44,7 +44,7 @@ const InputDateTime = ({data, onChange, error, withMillis, view, ...muiProps}) =
             if (data.value) {
                 onChange(data.value.millisecond(value));
             }
-        } else if (millisView) {
+        } else if (millisView && value) {
             onChange(value.add(millis ? millis : 0, "millisecond"));
         } else {
             onChange(value);
