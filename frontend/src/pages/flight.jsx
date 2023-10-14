@@ -1,17 +1,29 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {useParams} from "react-router-dom";
-import {Col, Container, Row} from "react-bootstrap";
+import {useNavigate, useParams} from "react-router-dom";
+import {Col, Row} from "react-bootstrap";
+import BootstrapContainer from "react-bootstrap/Container"
 import '../styles/flight.css';
 import FlightTable from "../components/UI/FlightTable/FlightTable";
 import TableSkeletonLoader from "../components/UI/loader/TableSkeletonLoader";
-import {Button, Tooltip} from "@mui/joy";
+import {Button, Tooltip, Typography} from "@mui/joy";
 import FlightSideEditForm from "../components/UI/form/FlightSideEditForm";
 import dayjs from "dayjs";
 import FlightResultEditDialog from "../components/UI/form/dialog/FlightResultEditDialog";
-import {FlightTypes, FLIGHTS_URL} from "../constants";
-import {InfoOutlined} from "@mui/icons-material";
+import {FLIGHTS_URL, FlightTypes} from "../constants";
+import {ArrowBackIosNewOutlined, DeleteOutline, InfoOutlined} from "@mui/icons-material";
+import {Divider, IconButton, Stack} from "@mui/material";
+import SimpleDeletionConfirmDialog from "../components/UI/form/confirm-action/SimpleDeletionConfirmDialog";
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Unstable_Grid2";
+import InfoUnit from "../components/UI/info-unit/InfoUnit";
+import InfoUnitTitle from "../components/UI/info-unit/InfoUnitTitle";
+import InfoUnitContent from "../components/UI/info-unit/InfoUnitContent";
+import {useMediaQuery} from "react-responsive";
 
 const Flight = () => {
+    const navigate = useNavigate();
+    const isSm = useMediaQuery({query: "(max-width: 501px)"});
+
     let { id } = useParams();
     const flightEditRef = useRef();
     const flightResultEditRef = useRef();
@@ -20,6 +32,9 @@ const Flight = () => {
     const [flight, setFlight] = useState();
     const [flightResults, setFlightResults] = useState();
     const [departure, setDeparture] = useState({date: null, time: null});
+
+    const flightDeleteDialogRef = useRef();
+    const [openFlightDeleteDialog, setOpenFlightDeleteDialog] = useState(false);
 
 
     const fetchFlight = async () => {
@@ -48,6 +63,20 @@ const Flight = () => {
             }
         } catch (e) {
             throw new Error("Ошибка при загрузке результатов вылета");
+        }
+    }
+
+    const removeFlight = async () => {
+        try {
+            const response = await fetch(FLIGHTS_URL + `/${id}`, {
+                method: "DELETE"
+            });
+            if (response.ok) {
+                // forward on Flights page
+                navigate("/flights");
+            }
+        } catch (e) {
+            throw new Error("Ошибка при попытке удалить вылет", e);
         }
     }
 
@@ -86,83 +115,139 @@ const Flight = () => {
                 onSubmit={[fetchFlightResults, fetchFlight]}
             />
             {flight &&
-                <Container>
-                    <Row>
-                        <Col>
-                            <div className="flight-page">
-                                <div className="flight-header">
-                                    <div className="flight-header-box">
-                                        <h1>Вылет -  {FlightTypes[flight.flightType]}</h1>
-                                        <div>{flight.launchPoint.name}: {flight.launchPoint.distance} км</div>
-                                        <div>Выпуск голубей: <strong>{departure.date}</strong> {departure.time}</div>
-                                    </div>
-                                    <hr/>
-                                </div>
-                                <div className="flight-info">
-                                    <div>Голубей участвовало:</div>
-                                    <div>Всего: {flight.totalParticipants ? flight.totalParticipants : <NoDataIcon />}
-                                        &nbsp;/
-                                        Мои: {flight.numberParticipants}</div>
-                                    <div>Из них призовых (20%):</div>
-                                    <div>Всего: {
-                                        flight.totalParticipants ? (flight.totalParticipants * 0.2) : <NoDataIcon />
-                                    } /
-                                        Мои: {flight.myPassed ? flight.myPassed : <NoDataIcon />}</div>
+                <BootstrapContainer>
+                    <Grid container spacing={2}>
+                        <Grid xs={12}>
+                            <Stack direction="row" spacing={2} alignItems="center">
+                                <IconButton onClick={() => navigate(-1)}>
+                                    <ArrowBackIosNewOutlined/>
+                                </IconButton>
+                                <Typography level="h3">
+                                    Вылет - {FlightTypes[flight.flightType]}
+                                </Typography>
+                            </Stack>
+                        </Grid>
+                        <Grid xs={12}><Divider /></Grid>
+                        <Grid container xs={12} md={6} lg={6}>
+                            <Grid xs={12} lg={6}>
+                                <InfoUnit>
+                                    <InfoUnitTitle>Дистанция:</InfoUnitTitle>
+                                    <InfoUnitContent>
+                                        {flight.launchPoint.name}: {flight.launchPoint.distance} км
+                                    </InfoUnitContent>
+                                </InfoUnit>
+                            </Grid>
+                            <Grid xs={12} lg={6}>
+                                <InfoUnit>
+                                    <InfoUnitTitle>Старт:</InfoUnitTitle>
+                                    <InfoUnitContent>
+                                        <strong>{departure.date}</strong> {departure.time}
+                                    </InfoUnitContent>
+                                </InfoUnit>
+                            </Grid>
+                        </Grid>
+                        <Grid container xs={12} md={6} lg={6}>
+                            <Grid xs={12} lg={6}>
+                                <InfoUnit>
+                                    <InfoUnitTitle>Участники:</InfoUnitTitle>
+                                    <InfoUnitContent>
+                                        <Tooltip title="Мои голуби" variant="outlined" placement="top-end" arrow>
+                                            <span>{flight.numberParticipants}</span>
+                                        </Tooltip>
+                                        &nbsp;/&nbsp;
+                                        <Tooltip title="Всего участников" variant="outlined" placement="top-start" arrow>
+                                            <span>{flight.totalParticipants ? flight.totalParticipants : <NoDataIcon/>}</span>
+                                        </Tooltip>
+                                    </InfoUnitContent>
+                                </InfoUnit>
+                            </Grid>
+                            <Grid xs={12} lg={6}>
+                                <InfoUnit>
+                                    <InfoUnitTitle>В призах:</InfoUnitTitle>
+                                    <InfoUnitContent>
+                                        <Tooltip title="Мои голуби" variant="outlined" placement="top-end" arrow>
+                                            <span>{flight.myPassed ? flight.myPassed : <NoDataIcon/>}</span>
+                                        </Tooltip>
+                                        &nbsp;/&nbsp;
+                                        <Tooltip title="Всего участников" variant="outlined" placement="top-start" arrow>
+                                            <span>
+                                                {
+                                                    flight.totalParticipants
+                                                        ? (flight.totalParticipants * 0.2)
+                                                        : <NoDataIcon/>
+                                                }
+                                            </span>
+                                        </Tooltip>
+                                    </InfoUnitContent>
+                                </InfoUnit>
+                            </Grid>
+                        </Grid>
+                        <Grid container xs={12} justifyContent="space-between">
+                            <Grid>
+                                <Button
+                                    onClick={() => flightResultEditRef.current.setOpen(true)}
+                                    variant="solid"
+                                    size="lg"
+                                >
+                                    Добавить участника
+                                </Button>
+                                <FlightSideEditForm flight={flight} ref={flightEditRef} onSubmit={fetchFlight}/>
+                            </Grid>
+                            <Grid>
+                                <Stack direction="row" spacing={1}>
                                     <Button
                                         variant="soft"
                                         size="lg"
                                         onClick={openEditForm}
-                                        sx={{margin: "20px 0"}}
+                                        fullWidth
                                     >
-                                        Изменить данные
+                                        {isSm ? "Изменить" : "Изменить данные"}
                                     </Button>
-                                    <FlightSideEditForm flight={flight} ref={flightEditRef} onSubmit={fetchFlight} />
-                                </div>
-                                <div className="switch">
-                                    {!(flight.flightType === "TRAINING") && <React.Fragment>
-                                        <div>Мои голуби</div>
-                                        <label className="switch-button">
-                                            <input type="checkbox"/>
-                                            <span className="slider"></span>
-                                        </label>
-                                        <div>Все участники</div>
-                                    </React.Fragment>
-                                    }
-                                </div>
-                                <div className="manage-zone"></div>
-                                <div className="flight-result-table">
-                                    {flightResults ? <FlightTable
-                                            data={flightResults}
-                                            flight={flight}
-                                            official={flight.flightType !== "TRAINING"}
-                                            onEdit={handleEdit}
-                                            onDelete={removeFlightResult}
-                                        />
-                                    : <TableSkeletonLoader/>
-                                    }
-                                </div>
-                                <div className="flight-add-button">
                                     <Button
-                                        onClick={() => flightResultEditRef.current.setOpen(true)}
-                                        variant="solid"
-                                        size="lg"
+                                        variant="soft"
+                                        color="danger"
+                                        onClick={() => flightDeleteDialogRef.current.startDeletion(flight.id)}
                                     >
-                                        Добавить участника
+                                        <DeleteOutline fontSize="small"/>
                                     </Button>
-                                </div>
-                            </div>
-                        </Col>
-                    </Row>
-                </Container>
+                                </Stack>
+                            </Grid>
+                        </Grid>
+                        <Grid xs={12}>
+                            {flightResults ? <FlightTable
+                                    data={flightResults}
+                                    flight={flight}
+                                    official={flight.flightType !== "TRAINING"}
+                                    onEdit={handleEdit}
+                                    onDelete={removeFlightResult}
+                                />
+                                : <TableSkeletonLoader/>
+                            }
+                        </Grid>
+                    </Grid>
+                </BootstrapContainer>
             }
+            <SimpleDeletionConfirmDialog
+                ref={flightDeleteDialogRef}
+                open={openFlightDeleteDialog}
+                setOpen={setOpenFlightDeleteDialog}
+                handleDelete={removeFlight}
+                title="Удаление вылета"
+                content="Внимание! Данный вылет будет удален"
+            />
         </>
     );
 };
 
 const NoDataIcon = () => {
     return (
-        <Tooltip title="Даные будут доступны после синхронизации с данными организатора гонки">
-            <InfoOutlined color="action" fontSize="small" />
+        <Tooltip
+            title="Даные будут доступны после синхронизации с данными организатора гонки"
+            arrow
+            color="warning"
+            variant="outlined"
+        >
+            <InfoOutlined color="action" fontSize="small" sx={{alignSelf: "center", paddingBottom: "3px"}}/>
         </Tooltip>
     );
 };
