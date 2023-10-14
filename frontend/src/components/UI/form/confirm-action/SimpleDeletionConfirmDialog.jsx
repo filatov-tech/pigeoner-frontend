@@ -2,12 +2,12 @@ import React, {forwardRef, useImperativeHandle, useState} from 'react';
 import {Button, DialogContent, DialogTitle, Modal, ModalClose, ModalDialog, Stack} from "@mui/joy";
 import {DeleteForeverOutlined} from "@mui/icons-material";
 
-const DeleteFlightResultDialog = (props, ref) => {
+const SimpleDeletionConfirmDialog = ({open, setOpen, handleDelete, title, content}, ref) => {
     const [candidateId, setCandidateId] = useState(null);
 
-    const startDeletion = (flightResultId) => {
-        props.setOpen(true);
-        setCandidateId(flightResultId);
+    const startDeletion = (candidateId) => {
+        setOpen(true);
+        setCandidateId(candidateId);
     }
 
     useImperativeHandle(ref, ()=> ({
@@ -18,10 +18,10 @@ const DeleteFlightResultDialog = (props, ref) => {
         <Modal
             aria-labelledby="modal-title"
             aria-describedby="modal-desc"
-            open={props.open}
+            open={open}
             onClose={(e) => {
                 e.stopPropagation();
-                props.setOpen(false);
+                setOpen(false);
             }}
             sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
         >
@@ -32,14 +32,14 @@ const DeleteFlightResultDialog = (props, ref) => {
                 variant="outlined"
             >
                 <ModalClose onClick={(e) => e.stopPropagation()} />
-                <DialogTitle>Удаление участника</DialogTitle>
-                <DialogContent>Данный участник будет удален из текущего вылета</DialogContent>
+                <DialogTitle>{title}</DialogTitle>
+                <DialogContent>{content}</DialogContent>
                 <Stack direction="row-reverse" spacing={2}>
                     <Button
                         onClick={(e) => {
                             e.stopPropagation();
-                            props.handleDelete(candidateId);
-                            props.setOpen(false);
+                            handleDelete(candidateId);
+                            setOpen(false);
                         }}
                         startDecorator={<DeleteForeverOutlined />}
                         color="danger"
@@ -50,7 +50,7 @@ const DeleteFlightResultDialog = (props, ref) => {
                     <Button
                         onClick={(e) => {
                             e.stopPropagation();
-                            props.setOpen(false);
+                            setOpen(false);
                         }}
                         color="danger"
                         variant="outlined"
@@ -63,4 +63,4 @@ const DeleteFlightResultDialog = (props, ref) => {
     );
 };
 
-export default forwardRef(DeleteFlightResultDialog);
+export default forwardRef(SimpleDeletionConfirmDialog);

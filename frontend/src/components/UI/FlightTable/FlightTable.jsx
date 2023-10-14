@@ -7,7 +7,7 @@ import {Tooltip} from "@mui/joy";
 import {ListItemIcon, MenuItem} from "@mui/material";
 import {DeleteForever, Edit} from "@mui/icons-material";
 import {AfterFlightCondition} from "../../../constants";
-import DeleteFlightResultDialog from "../form/confirm-action/DeleteFlightResultDialog";
+import DeleteFlightResultDialog from "../form/confirm-action/SimpleDeletionConfirmDialog";
 
 const FlightTable = ({data, official, onEdit, onDelete}) => {
     const deleteDialogRef = useRef();
@@ -159,6 +159,8 @@ const FlightTable = ({data, official, onEdit, onDelete}) => {
             open={deleteDialogOpen}
             setOpen={setDeleteDialogOpen}
             handleDelete={onDelete}
+            title="Удаление участника"
+            content="Данный участник будет удален из текущего вылета"
         />
     </React.Fragment>)
 };
