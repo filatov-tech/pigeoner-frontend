@@ -7,6 +7,7 @@ import InputPigeonAutocomplete from "../../input/Autocomplete/InputPigeonAutocom
 import InputDateTime from "../../input/InputDateTime";
 import dayjs from "dayjs";
 import SelectCommon from "../../input/SelectCommon";
+import {Box} from "@mui/material";
 
 const emptyFlightResult = {
     id: null,
@@ -183,6 +184,7 @@ const FlightResultEditDialog = (props, ref) => {
                                     rowReverse: true
                                 }}
                             />
+                            {!fieldError.arrivalTime && <Box sx={{height: "8px", width: "100%"}}></Box>}
                             <SelectCommon
                                 data={afterFlightConditionData}
                                 onChange={(newValue) => {
