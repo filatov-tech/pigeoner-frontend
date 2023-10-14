@@ -7,7 +7,7 @@ const InfoUnitContent = (props) => {
     return (
         <Box sx={{flex: "1 1 auto"}}>
             <Paper
-                variant="outlined"
+                elevation={1}
                 sx={{
                     width: "100%",
                     backgroundColor: "#E3EFFB",
