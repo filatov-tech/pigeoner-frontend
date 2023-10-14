@@ -113,9 +113,6 @@ const InputDateTime = ({data, onChange, error, withMillis, view, ...muiProps}) =
                         />
                     </div>}
                 </Stack>
-                <FormHelperText>
-                    {error ? "" : " "}
-                </FormHelperText>
             </FormControl>
         </React.Fragment>
     );
