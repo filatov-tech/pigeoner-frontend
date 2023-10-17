@@ -10,7 +10,7 @@ const AutocloseableErrorMessage = ({error, setError, timeout, ...snackbarProps})
     useEffect(() => {
         const timer = setTimeout(() => {
             setError(null);
-        }, timeout ? timeout : 10000);
+        }, timeout ? timeout : 11000);
         return () => clearTimeout(timer);
     }, [error]);
 
