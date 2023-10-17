@@ -5,9 +5,9 @@ import {Autocomplete} from "@mui/material";
 import TextField from "@mui/material/TextField";
 import ColorEditDialog from "../../form/dialog/ColorEditDialog";
 import {getHelperText} from "../../../../util/utils";
+import {COLOR_URL} from "../../../../constants";
 
 const filter = createFilterOptions();
-export const COLOR_URL = "/api/v1/color"
 
 const InputColorAutocompleteCreatable = ({data, onChange, error, ...textFieldParams}) => {
     const inputId = useId();

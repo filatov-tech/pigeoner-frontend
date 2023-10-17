@@ -9,6 +9,7 @@ import pigeonImageStub from "../images/pigeon-image-stub.png";
 import FsLightbox from "fslightbox-react";
 import {Button} from "@mui/joy";
 import PigeonSideEditForm from "../components/UI/form/PigeonSideEditForm";
+import {PIGEONS_URL} from "../constants";
 
 const Pigeon = () => {
     let { id } = useParams();
@@ -29,11 +30,11 @@ const Pigeon = () => {
 
     const fetchPigeon = async () => {
         try {
-            const response = await fetch(`/api/v1/pigeons/${id}/with-ancestors`);
+            const response = await fetch(PIGEONS_URL + `/${id}/with-ancestors`);
             if (response.ok) {
                 const json = await response.json();
                 if (json.imageNumber && json.imageNumber > 0) {
-                    const imagesListResponse = await fetch(`/api/v1/pigeon/${id}/image`);
+                    const imagesListResponse = await fetch(PIGEONS_URL + `/${id}/image`);
                     if (imagesListResponse.ok) {
                         const imagesUrlList = await imagesListResponse.json();
                         setImagesUrl(imagesUrlList);
