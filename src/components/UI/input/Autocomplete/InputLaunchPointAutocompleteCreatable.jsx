@@ -67,6 +67,7 @@ const InputLaunchPointAutocompleteCreatable = ({data, onChange, error, showError
     
     useEffect(() => {
         fetchLaunchPoints();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (

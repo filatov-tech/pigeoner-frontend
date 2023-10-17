@@ -160,6 +160,7 @@ const PigeonFilterForm = forwardRef((props, ref) => {
             handleSubmit();
             setNeedReset(false);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [needReset])
 
     let startGroupElement = {

@@ -1,6 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {useNavigate, useParams} from "react-router-dom";
-import {Col, Row} from "react-bootstrap";
 import BootstrapContainer from "react-bootstrap/Container"
 import '../styles/flight.css';
 import FlightTable from "../components/UI/FlightTable/FlightTable";
@@ -13,7 +12,6 @@ import {FLIGHTS_URL, FlightTypes} from "../constants";
 import {ArrowBackIosNewOutlined, DeleteOutline, InfoOutlined} from "@mui/icons-material";
 import {Divider, IconButton, Stack} from "@mui/material";
 import SimpleDeletionConfirmDialog from "../components/UI/form/confirm-action/SimpleDeletionConfirmDialog";
-import Box from "@mui/material/Box";
 import Grid from "@mui/material/Unstable_Grid2";
 import InfoUnit from "../components/UI/info-unit/InfoUnit";
 import InfoUnitTitle from "../components/UI/info-unit/InfoUnitTitle";
@@ -105,6 +103,7 @@ const Flight = () => {
     useEffect(() => {
         fetchFlight();
         fetchFlightResults();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id])
 
     return (

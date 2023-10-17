@@ -10,8 +10,9 @@ const AutocloseableErrorMessage = ({error, setError, timeout, ...snackbarProps})
     useEffect(() => {
         const timer = setTimeout(() => {
             setError(null);
-        }, timeout ? timeout : 11000);
+        }, timeout ? timeout : 10000);
         return () => clearTimeout(timer);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [error]);
 
     return (
@@ -20,6 +21,7 @@ const AutocloseableErrorMessage = ({error, setError, timeout, ...snackbarProps})
             onClose={onClose}
             timeout={timeout}
             anchorOrigin={{horizontal: "left", vertical: "bottom"}}
+            {...snackbarProps}
         />
     );
 };

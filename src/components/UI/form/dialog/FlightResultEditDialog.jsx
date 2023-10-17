@@ -56,7 +56,7 @@ const FlightResultEditDialog = (props, ref) => {
                 const apiError = await response.json();
                 setError(apiError);
                 if (apiError.fields) {
-                    for (const [key, value] of Object.entries(apiError.fields)) {
+                    for (const [, value] of Object.entries(apiError.fields)) {
                         value.disable = disableErrorByFieldName;
                     }
                     setFieldError(apiError.fields);
@@ -133,6 +133,7 @@ const FlightResultEditDialog = (props, ref) => {
 
     useEffect(() => {
         fetchPigeons();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {

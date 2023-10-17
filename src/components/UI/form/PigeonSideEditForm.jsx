@@ -111,7 +111,7 @@ const PigeonSideEditForm = (props, ref) => {
             const apiError = await response.json();
             setError(apiError);
             if (apiError.fields) {
-                for (const [key, value] of Object.entries(apiError.fields)) {
+                for (const [, value] of Object.entries(apiError.fields)) {
                     value.disable = disableErrorByFieldName;
                 }
                 setFieldErrorData(apiError.fields);
@@ -190,12 +190,14 @@ const PigeonSideEditForm = (props, ref) => {
         }
         fatherData.sectionsOptions = sectionsOptions;
         setSex("MALE");
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     useEffect(()=> {
         if (sectionsOptions.length > 0 && editMode && !initialized) {
             initFormWith(props.pigeon);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [sectionsOptions])
 
     const toggleSideForm = (openState) => {

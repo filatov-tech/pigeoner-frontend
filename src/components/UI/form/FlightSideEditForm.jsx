@@ -15,7 +15,7 @@ import {FLIGHTS_URL} from "../../../constants";
 
 const FlightSideEditForm = (props, ref) => {
     const [open, setOpen] = useState(false);
-    const [editMode, setEditMode] = useState(!!props.flight);
+    const [editMode] = useState(!!props.flight);
     const [initialized, setInitialized] = useState(false);
     const [formError, setFormError] = useState(null);
     const [fieldErrorData, setFieldErrorData] = useState({});
@@ -75,7 +75,7 @@ const FlightSideEditForm = (props, ref) => {
                 const apiError = await response.json();
                 setFormError(apiError);
                 if (apiError.fields) {
-                    for (const [key, value] of Object.entries(apiError.fields)) {
+                    for (const [, value] of Object.entries(apiError.fields)) {
                         value.disable = disableErrorByFieldName;
                     }
                     setFieldErrorData(apiError.fields);
@@ -126,6 +126,7 @@ const FlightSideEditForm = (props, ref) => {
         if (loadedLaunchPointField && editMode && !initialized) {
             initFormWith(props.flight);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [loadedLaunchPointField]);
 
     useImperativeHandle(ref, ()=>({

@@ -1,7 +1,7 @@
 import React, {useId, useMemo, useRef, useState} from 'react';
 import {DateTimePicker, renderTimeViewClock} from "@mui/x-date-pickers";
 import {getHelperText} from "../../../util/utils";
-import {FormControl, FormHelperText, TextField} from "@mui/material";
+import {FormControl, TextField} from "@mui/material";
 import {Stack} from "@mui/joy";
 
 const InputDateTime = ({data, onChange, error, withMillis, view, ...muiProps}) => {
@@ -12,7 +12,7 @@ const InputDateTime = ({data, onChange, error, withMillis, view, ...muiProps}) =
     const millisInputId = useId();
     const millisRef = useRef();
 
-    const errorMessage = useMemo(()=> {
+    const errorMessage = useMemo(() => {
         return getHelperText(error);
     }, [error])
 
@@ -27,7 +27,7 @@ const InputDateTime = ({data, onChange, error, withMillis, view, ...muiProps}) =
             },
         }
     }
-    
+
     const handleEnterPress = (e) => {
         if (e.key === "Enter") {
             e.preventDefault();
@@ -79,22 +79,22 @@ const InputDateTime = ({data, onChange, error, withMillis, view, ...muiProps}) =
             <FormControl fullWidth>
                 <Stack spacing={1} direction="row">
                     <DateTimePicker timezone="system"
-                        label={data.label}
-                        value={data.value}
-                        onChange={(newValue) => {
-                            error && error.disable(data.name);
-                            handleChange(newValue, false);
-                        }}
-                        ampmInClock={false}
-                        ampm={false}
-                        viewRenderers={muiProps.viewRenderers
-                            ? muiProps.viewRenderers
-                            : {
-                                hours: millisView ? null : renderTimeViewClock,
-                                minutes: millisView ? null : renderTimeViewClock,
-                                seconds: null
-                            }}
-                        {...completeMuiProps}
+                                    label={data.label}
+                                    value={data.value}
+                                    onChange={(newValue) => {
+                                        error && error.disable(data.name);
+                                        handleChange(newValue, false);
+                                    }}
+                                    ampmInClock={false}
+                                    ampm={false}
+                                    viewRenderers={muiProps.viewRenderers
+                                        ? muiProps.viewRenderers
+                                        : {
+                                            hours: millisView ? null : renderTimeViewClock,
+                                            minutes: millisView ? null : renderTimeViewClock,
+                                            seconds: null
+                                        }}
+                                    {...completeMuiProps}
                     />
                     {millisView && <div style={{flex: "0 1 25%"}}>
                         <TextField

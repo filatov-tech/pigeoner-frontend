@@ -22,11 +22,11 @@ const LaunchPointEditDialog = (props, ref) => {
     const [value, setValue] = useState(emptyValue);
     const [editMode, setEditMode] = useState(false);
 
-    const [error, setError] = useState(null);
+    const [, setError] = useState(null);
     const [errors, setErrors] = useState({});
 
-    const [keepers, setKeepers] = useState([]);
-    const [mainKeeper, setMainKeeper] = useState({});
+    const [, setKeepers] = useState([]);
+    const [, setMainKeeper] = useState({});
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -89,6 +89,7 @@ const LaunchPointEditDialog = (props, ref) => {
     useEffect(() => {
         fetchKeepers();
         fetchMainKeeper();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const handleClose = () => {
