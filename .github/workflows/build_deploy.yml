@@ -37,16 +37,18 @@ jobs:
         push: true
         tags: filatovtech/pigeoner-react
 
-    # - name: SSH Deploy
-    #   uses: appleboy/ssh-action@v1.0.0
-    #   with:
-    #     host: ${{ secret.SERVER_HOST }}
-    #     username: ${{ secret.SERVER_USERNAME }}
-    #     password: ${{ secret.SERVER_PASSWORD }}
-    #     script: |
-    #       docker stop pigeoner-react
-    #       docker pull pigeoner-react
-    #       docker run -d -it --rm -p 80:80 --name pigeoner-react pigeoner-react:v1
+    - name: SSH Deploy
+      uses: appleboy/ssh-action@v1.0.0
+      with:
+        host: ${{ secret.SERVER_HOST }}
+        username: ${{ secret.SERVER_USERNAME }}
+        key: ${{ secret.SSH_PRIVATE_KEY }}
+        passphrase: ${{ secret.SSH_PASSPHRASE }}
+        script: |
+          sudo docker stop pigeoner-react
+          sudo docker rm pigeoner-react
+          sudo docker pull filatovtech/pigeoner-react
+          sudo docker run -d --restart unless-stopped -it -p 81:80 --name pigeoner-react filatovtech/pigeoner-react
           
 
 
