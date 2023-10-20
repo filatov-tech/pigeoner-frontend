@@ -14,7 +14,7 @@ export const Sex = {
     MALE: "самец",
     FEMALE: "самка"
 }
-const BASE_API_URL = process.env.REACT_APP_BASE_API_URL;
+const BASE_API_URL = process.env.REACT_APP_BASE_API_URL ? process.env.REACT_APP_BASE_API_URL : "";
 export const PIGEONS_URL = BASE_API_URL + '/api/v1/pigeons';
 export const COLOR_URL = BASE_API_URL + "/api/v1/color"
 export const FLIGHTS_URL = BASE_API_URL + "/api/v1/flights";
