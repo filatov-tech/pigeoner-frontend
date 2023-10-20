@@ -18,7 +18,7 @@ export const Sex = {
 const PRODUCTION = "production";
 
 const BASE_API_URL = process.env.NODE_ENV ===  PRODUCTION
-    ? "http://172.17.0.4:8080"
+    ? "http://pigeoner:8080"
     : "http://localhost:8080";
 
 export const PIGEONS_URL = BASE_API_URL + '/api/v1/pigeons';
