@@ -14,7 +14,13 @@ export const Sex = {
     MALE: "самец",
     FEMALE: "самка"
 }
-const BASE_API_URL = process.env.REACT_APP_BASE_API_URL ? process.env.REACT_APP_BASE_API_URL : "";
+
+const PRODUCTION = "production";
+
+const BASE_API_URL = process.env.NODE_ENV ===  PRODUCTION
+    ? "http://172.17.0.4:8080"
+    : "http://localhost:8080";
+
 export const PIGEONS_URL = BASE_API_URL + '/api/v1/pigeons';
 export const COLOR_URL = BASE_API_URL + "/api/v1/color"
 export const FLIGHTS_URL = BASE_API_URL + "/api/v1/flights";
