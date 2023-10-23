@@ -9,7 +9,7 @@ import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
 import ErrorSnackbar from "../../ErrorSnackbar";
 import {useImperativeHandle} from "react";
-import {COLOR_URL} from "../../../../constants";
+import {AUTH_TOKEN, BEARER, COLOR_URL} from "../../../../constants";
 
 const ColorEditDialog = (props, ref) => {
     const [open, toggleOpen] = useState(false);
@@ -43,7 +43,8 @@ const ColorEditDialog = (props, ref) => {
             const response = await fetch(COLOR_URL, {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "Authorization": BEARER + localStorage.getItem(AUTH_TOKEN)
                 },
                 body: JSON.stringify(dialogValue)
             });
