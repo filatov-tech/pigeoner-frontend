@@ -16,19 +16,24 @@ export const Sex = {
 }
 
 const PRODUCTION = "production";
+export const AUTH_TOKEN = "auth_token"
+export const BEARER = "Bearer "
 
+const API_V1 = "/api/v1"
 const BASE_API_URL = process.env.NODE_ENV ===  PRODUCTION
-    ? "http://pigeoner.ru"
-    : "http://localhost:8080";
+    ? "http://pigeoner.ru" + API_V1
+    : "http://localhost:8080" + API_V1;
 
-export const PIGEONS_URL = BASE_API_URL + '/api/v1/pigeons';
-export const COLOR_URL = BASE_API_URL + "/api/v1/color"
-export const FLIGHTS_URL = BASE_API_URL + "/api/v1/flights";
-export const KEEPER_URL = BASE_API_URL + '/api/v1/keepers';
+export const PIGEONS_URL = BASE_API_URL + '/pigeons';
+export const COLOR_URL = BASE_API_URL + "/color";
+export const FLIGHTS_URL = BASE_API_URL + "/flights";
+export const KEEPER_URL = BASE_API_URL + '/keepers';
 export const MAIN_KEEPER_URL = KEEPER_URL + '/main';
-export const LAUNCH_POINTS_URL = BASE_API_URL + "/api/v1/launch-point";
-export const HIERARCHICAL_SECTIONS_URL = BASE_API_URL + "/api/v1/sections/hierarchical";
-export const SECTIONS_URL = BASE_API_URL + "/api/v1/sections";
+export const LAUNCH_POINTS_URL = BASE_API_URL + "/launch-point";
+export const HIERARCHICAL_SECTIONS_URL = BASE_API_URL + "/sections/hierarchical";
+export const SECTIONS_URL = BASE_API_URL + "/sections";
 export const HIERARCHICAL_SECTIONS_WITH_PIGEONS_URL = SECTIONS_URL + "/hierarchical-with-pigeons";
-export const DOVECOTE_WITH_SECTIONS_HIERARCHY_URL = BASE_API_URL + '/api/v1/sections/hierarchy';
+export const DOVECOTE_WITH_SECTIONS_HIERARCHY_URL = BASE_API_URL + '/sections/hierarchy';
+export const LOGIN_URL = BASE_API_URL + "/auth/authenticate";
+export const REGISTER_URL = BASE_API_URL + "/auth/register";
 

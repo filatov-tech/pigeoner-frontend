@@ -22,6 +22,8 @@ import Layout from "./pages/layout";
 import Flights from "./pages/flights";
 import Flight from "./pages/flight";
 import Feeding from "./pages/feeding";
+import Login from "./pages/login";
+import Register from "./pages/register";
 
 const router = createBrowserRouter([
     {
@@ -54,6 +56,16 @@ const router = createBrowserRouter([
                 element: <Feeding/>
             }
         ]
+    },
+    {
+        path: "/login",
+        element: <Login/>,
+        errorElement: <ErrorPage/>
+    },
+    {
+        path: "/register",
+        element: <Register/>,
+        errorElement: <ErrorPage/>
     }
 ])
 

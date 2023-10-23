@@ -1,8 +1,17 @@
 import React from 'react';
 import logo from '../../images/pigeoner_logo.svg';
-import {Link, NavLink} from "react-router-dom";
+import {Link, NavLink, useNavigate} from "react-router-dom";
+import {IconButton} from "@mui/material";
+import {Logout} from "@mui/icons-material";
 
 const Header = () => {
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        localStorage.clear();
+        navigate("/");
+    }
+
     return (
         <div>
             <nav className="navbar navbar-expand-lg custom-navbar">
@@ -31,6 +40,13 @@ const Header = () => {
                             </li>
                             <li className="nav-item">
                                 <NavLink to={"/feeding"} className="nav-link">Питание</NavLink>
+                            </li>
+                            <li className="nav-item">
+                                <NavLink to={"/"} className="nav-link">
+                                    <IconButton onClick={() => handleLogout()}>
+                                        <Logout />
+                                    </IconButton>
+                                </NavLink>
                             </li>
                         </ul>
                     </div>
