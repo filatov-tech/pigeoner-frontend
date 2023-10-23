@@ -6,7 +6,7 @@ import ErrorSnackbar from "../components/UI/ErrorSnackbar";
 import ButtonWithPigeons from "../components/UI/button/ButtonWithPigeons";
 import PigeonSideEditForm from "../components/UI/form/PigeonSideEditForm";
 import PigeonFilterForm from "../components/UI/PigeonTable/PigeonFilterForm";
-import {PIGEONS_URL, KEEPER_URL, MAIN_KEEPER_URL} from "../constants";
+import {PIGEONS_URL, KEEPER_URL, MAIN_KEEPER_URL, BEARER, AUTH_TOKEN} from "../constants";
 
 const Pigeons = () => {
     const [tableData, setTableData] = useState();
@@ -19,12 +19,20 @@ const Pigeons = () => {
     const sideEditFormRef = useRef();
 
     useEffect(() => {
-        fetch(MAIN_KEEPER_URL)
+        fetch(MAIN_KEEPER_URL, {
+            headers: {
+                "Authorization": BEARER + localStorage.getItem(AUTH_TOKEN)
+            }
+        })
             .then(res => res.json())
             .then(json => {
                 setMainKeeperId(json.id);
             });
-        fetch(KEEPER_URL)
+        fetch(KEEPER_URL, {
+            headers: {
+                "Authorization": BEARER + localStorage.getItem(AUTH_TOKEN)
+            }
+        })
             .then(res => res.json())
             .then(json => setKeeperOptions(makeOptions(json)));
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -46,7 +54,8 @@ const Pigeons = () => {
             const response = await fetch(PIGEONS_URL + '/filter', {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "Authorization": BEARER + localStorage.getItem(AUTH_TOKEN)
                 },
                 body: JSON.stringify(formData)
             });
@@ -65,7 +74,11 @@ const Pigeons = () => {
 
     const loadTable = async () => {
         try {
-            const response = await fetch(PIGEONS_URL);
+            const response = await fetch(PIGEONS_URL, {
+                headers: {
+                    "Authorization": BEARER + localStorage.getItem(AUTH_TOKEN)
+                }
+            });
             if (response.ok) {
                 const pigeons = await response.json();
                 setTableData(pigeons);

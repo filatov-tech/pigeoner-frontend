@@ -5,7 +5,7 @@ import {Autocomplete} from "@mui/material";
 import TextField from "@mui/material/TextField";
 import ColorEditDialog from "../../form/dialog/ColorEditDialog";
 import {getHelperText} from "../../../../util/utils";
-import {COLOR_URL} from "../../../../constants";
+import {AUTH_TOKEN, BEARER, COLOR_URL} from "../../../../constants";
 
 const filter = createFilterOptions();
 
@@ -20,7 +20,11 @@ const InputColorAutocompleteCreatable = ({data, onChange, error, ...textFieldPar
     }, [])
 
     const fetchColors = () => {
-        fetch(COLOR_URL)
+        fetch(COLOR_URL, {
+            headers: {
+                "Authorization": BEARER + localStorage.getItem(AUTH_TOKEN)
+            }
+        })
             .then(res => res.json())
             .then(json => setColorOptions(json))
     }

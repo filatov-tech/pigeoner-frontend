@@ -8,7 +8,7 @@ import {Button, Tooltip, Typography} from "@mui/joy";
 import FlightSideEditForm from "../components/UI/form/FlightSideEditForm";
 import dayjs from "dayjs";
 import FlightResultEditDialog from "../components/UI/form/dialog/FlightResultEditDialog";
-import {FLIGHTS_URL, FlightTypes} from "../constants";
+import {AUTH_TOKEN, BEARER, FLIGHTS_URL, FlightTypes} from "../constants";
 import {ArrowBackIosNewOutlined, DeleteOutline, InfoOutlined} from "@mui/icons-material";
 import {Divider, IconButton, Stack} from "@mui/material";
 import SimpleDeletionConfirmDialog from "../components/UI/form/confirm-action/SimpleDeletionConfirmDialog";
@@ -37,7 +37,11 @@ const Flight = () => {
 
     const fetchFlight = async () => {
         try {
-            const response = await fetch(`${FLIGHTS_URL}/${id}`);
+            const response = await fetch(`${FLIGHTS_URL}/${id}`, {
+                headers: {
+                    "Authorization": BEARER + localStorage.getItem(AUTH_TOKEN)
+                }
+            });
             if (response.ok) {
                 const flight = await response.json();
                 setFlight(flight);
@@ -54,7 +58,11 @@ const Flight = () => {
 
     const fetchFlightResults = async () => {
         try {
-            const response = await fetch(FLIGHT_RESULTS_URL);
+            const response = await fetch(FLIGHT_RESULTS_URL, {
+                headers: {
+                    "Authorization": BEARER + localStorage.getItem(AUTH_TOKEN)
+                }
+            });
             if (response.ok) {
                 const flightResults = await response.json();
                 setFlightResults(flightResults);
@@ -67,7 +75,10 @@ const Flight = () => {
     const removeFlight = async () => {
         try {
             const response = await fetch(FLIGHTS_URL + `/${id}`, {
-                method: "DELETE"
+                method: "DELETE",
+                headers: {
+                    "Authorization": BEARER + localStorage.getItem(AUTH_TOKEN)
+                }
             });
             if (response.ok) {
                 // forward on Flights page
@@ -81,7 +92,10 @@ const Flight = () => {
     const removeFlightResult = async (flightResultId) => {
         try {
             const response = await fetch(FLIGHT_RESULTS_URL + `/${flightResultId}`, {
-                method: "DELETE"
+                method: "DELETE",
+                headers: {
+                    "Authorization": BEARER + localStorage.getItem(AUTH_TOKEN)
+                }
             });
             if (response.ok) {
                 fetchFlightResults();

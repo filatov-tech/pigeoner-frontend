@@ -1,7 +1,7 @@
 import React, {forwardRef, useEffect, useImperativeHandle, useState} from 'react';
 import {Button, DialogContent, DialogTitle, Modal, ModalDialog, Stack} from "@mui/joy";
 import {InputFieldData} from "../../PigeonTable/PigeonFilterForm";
-import {FLIGHTS_URL, PIGEONS_URL} from "../../../../constants"
+import {AUTH_TOKEN, BEARER, FLIGHTS_URL, PIGEONS_URL} from "../../../../constants"
 import ErrorSnackbar from "../../ErrorSnackbar";
 import InputPigeonAutocomplete from "../../input/Autocomplete/InputPigeonAutocomplete";
 import InputDateTime from "../../input/InputDateTime";
@@ -47,7 +47,11 @@ const FlightResultEditDialog = (props, ref) => {
 
     const fetchPigeons = async () => {
         try {
-            const response = await fetch(PIGEONS_URL);
+            const response = await fetch(PIGEONS_URL, {
+                headers: {
+                    "Authorization": BEARER + localStorage.getItem(AUTH_TOKEN)
+                }
+            });
             if (response.ok) {
                 setFieldError({});
                 const pigeons = await response.json();
@@ -76,7 +80,8 @@ const FlightResultEditDialog = (props, ref) => {
             const response = await fetch(getSubmitUrl(method), {
                 method: method,
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "Authorization": BEARER + localStorage.getItem(AUTH_TOKEN)
                 },
                 body: JSON.stringify(flightResult)
             });

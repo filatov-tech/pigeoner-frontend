@@ -6,7 +6,7 @@ import TextField from "@mui/material/TextField";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
-import {KEEPER_URL} from "../../../../constants";
+import {AUTH_TOKEN, BEARER, KEEPER_URL} from "../../../../constants";
 import ErrorSnackbar from "../../ErrorSnackbar";
 
 const KeeperEditDialog = (props, ref) => {
@@ -23,7 +23,8 @@ const KeeperEditDialog = (props, ref) => {
             const response = await fetch(KEEPER_URL, {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "Authorization": BEARER + localStorage.getItem(AUTH_TOKEN)
                 },
                 body: JSON.stringify(dialogValue)
             });

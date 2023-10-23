@@ -7,7 +7,7 @@ import {AddRounded} from "@mui/icons-material";
 import {grey} from "@mui/material/colors";
 import Button from "@mui/material/Button";
 import {Skeleton, Stack} from "@mui/material";
-import {SECTIONS_URL, HIERARCHICAL_SECTIONS_WITH_PIGEONS_URL} from "../constants";
+import {SECTIONS_URL, HIERARCHICAL_SECTIONS_WITH_PIGEONS_URL, BEARER, AUTH_TOKEN} from "../constants";
 
 const Dovecote = () => {
     const editDialogRef = useRef();
@@ -22,7 +22,11 @@ const Dovecote = () => {
 
     const fetchSections = async () => {
         try {
-            const response = await fetch(HIERARCHICAL_SECTIONS_WITH_PIGEONS_URL);
+            const response = await fetch(HIERARCHICAL_SECTIONS_WITH_PIGEONS_URL, {
+                headers: {
+                    "Authorization": BEARER + localStorage.getItem(AUTH_TOKEN)
+                }
+            });
             if (response.ok) {
                 setError(null);
                 const sections = await response.json();
@@ -39,7 +43,10 @@ const Dovecote = () => {
     const removeSection = async (section) => {
         try {
             const response = await fetch(`${SECTIONS_URL}/${section.id}`, {
-                method: "DELETE"
+                method: "DELETE",
+                headers: {
+                    "Authorization": BEARER + localStorage.getItem(AUTH_TOKEN)
+                }
             });
             if (!response.ok) {
                 setError({message: "Не удалось удалить секцию"})

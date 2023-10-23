@@ -5,7 +5,7 @@ import '../../../styles/pigeons-filter.css';
 import {outlinedInputClasses} from "@mui/material/OutlinedInput";
 import AgeSlider from "../input/AgeSlider";
 import InputDate from "../input/InputDate";
-import {DOVECOTE_WITH_SECTIONS_HIERARCHY_URL, MAIN_KEEPER_URL} from "../../../constants";
+import {AUTH_TOKEN, BEARER, DOVECOTE_WITH_SECTIONS_HIERARCHY_URL, MAIN_KEEPER_URL} from "../../../constants";
 import {makeHierarchicalViewOf} from "../../../util/section-options-builder";
 
 const PigeonFilterForm = forwardRef((props, ref) => {
@@ -190,10 +190,18 @@ const PigeonFilterForm = forwardRef((props, ref) => {
     }
 
     useEffect(()=>{
-        fetch(DOVECOTE_WITH_SECTIONS_HIERARCHY_URL)
+        fetch(DOVECOTE_WITH_SECTIONS_HIERARCHY_URL, {
+            headers: {
+                "Authorization": BEARER + localStorage.getItem(AUTH_TOKEN)
+            }
+        })
             .then(res => res.json())
             .then(json => setSectionOptions(makeHierarchicalViewOf(json)));
-        fetch(MAIN_KEEPER_URL)
+        fetch(MAIN_KEEPER_URL, {
+            headers: {
+                "Authorization": BEARER + localStorage.getItem(AUTH_TOKEN)
+            }
+        })
             .then(res => res.json())
             .then(json => {
                 setMainKeeper(json.id);

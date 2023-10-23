@@ -7,7 +7,14 @@ import {Chip, Divider, Stack} from "@mui/material";
 import InputText from "../input/InputText";
 import InputDate from "../input/InputDate";
 import InputKeeperAutocompleteCreatable from "../input/Autocomplete/InputKeeperAutocompleteCreatable";
-import {PIGEONS_URL, KEEPER_URL, MAIN_KEEPER_URL, HIERARCHICAL_SECTIONS_URL} from "../../../constants"
+import {
+    PIGEONS_URL,
+    KEEPER_URL,
+    MAIN_KEEPER_URL,
+    HIERARCHICAL_SECTIONS_URL,
+    AUTH_TOKEN,
+    BEARER
+} from "../../../constants"
 import {makeOptions} from "../../../pages/pigeons";
 import InputDovecoteAutocompleteCreatable from "../input/Autocomplete/InputDovecoteAutocompleteCreatable";
 import ControlledRadioGroup from "../radio/ControlledRadioGroup";
@@ -122,6 +129,8 @@ const PigeonSideEditForm = (props, ref) => {
     const prepareFetchData = (pigeon) => {
         let formData;
         let jsonType;
+        const headers = new Headers();
+        headers.set("Authorization", BEARER + localStorage.getItem(AUTH_TOKEN));
 
         if (images && images.length > 0) {
             formData = new FormData();
@@ -136,10 +145,9 @@ const PigeonSideEditForm = (props, ref) => {
             body: formData
         }
         if (jsonType) {
-            const headers = new Headers();
             headers.set("Content-Type", jsonType);
-            fetchOptions.headers = headers;
         }
+        fetchOptions.headers = headers;
         return {
             url: `${PIGEONS_URL}${pigeonId ? "/" + pigeonId : ""}`,
             options: fetchOptions
@@ -172,19 +180,31 @@ const PigeonSideEditForm = (props, ref) => {
     }
 
     useEffect( ()=>{
-        fetch(MAIN_KEEPER_URL)
+        fetch(MAIN_KEEPER_URL, {
+            headers: {
+                "Authorization": BEARER + localStorage.getItem(AUTH_TOKEN)
+            }
+        })
             .then(res => res.json())
             .then(json => {
                 json.label = json.name;
                 setKeeper(json);
                 setMainKeeper(json);
             });
-        fetch(PIGEONS_URL)
+        fetch(PIGEONS_URL, {
+            headers: {
+                "Authorization": BEARER + localStorage.getItem(AUTH_TOKEN)
+            }
+        })
             .then(resp => resp.json())
             .then(json => setPigeons(json));
         updateSectionsOptions()
         if (!props.keeperOptions) {
-            fetch(KEEPER_URL)
+            fetch(KEEPER_URL, {
+                headers: {
+                    "Authorization": BEARER + localStorage.getItem(AUTH_TOKEN)
+                }
+            })
                 .then(res => res.json())
                 .then(json => setKeeperOptions(makeOptions(json)))
         }
@@ -205,13 +225,21 @@ const PigeonSideEditForm = (props, ref) => {
     }
 
     const updateKeeperOptions = () => {
-        fetch(KEEPER_URL)
+        fetch(KEEPER_URL, {
+            headers: {
+                "Authorization": BEARER + localStorage.getItem(AUTH_TOKEN)
+            }
+        })
             .then(res => res.json())
             .then(json => props.keeperOptions ? props.setKeeperOptions(makeOptions(json)) : setKeeperOptions(makeOptions(json)))
     }
 
     const updateSectionsOptions = () => {
-        fetch(HIERARCHICAL_SECTIONS_URL)
+        fetch(HIERARCHICAL_SECTIONS_URL, {
+            headers: {
+                "Authorization": BEARER + localStorage.getItem(AUTH_TOKEN)
+            }
+        })
             .then(res => res.json())
             .then(json => setSectionsOptions(flatten(addHierarchicalLabelsTo(json))))
     }

@@ -11,7 +11,7 @@ import {Stack} from "@mui/joy";
 import Button from "@mui/material/Button";
 import {CloseOutlined, DoneOutlined, RestoreOutlined} from "@mui/icons-material";
 import dayjs from "dayjs";
-import {FLIGHTS_URL} from "../../../constants";
+import {AUTH_TOKEN, BEARER, FLIGHTS_URL} from "../../../constants";
 
 const FlightSideEditForm = (props, ref) => {
     const [open, setOpen] = useState(false);
@@ -62,7 +62,8 @@ const FlightSideEditForm = (props, ref) => {
             const response = await fetch(url, {
                 method: editMode ? "PUT" : "POST",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "Authorization": BEARER + localStorage.getItem(AUTH_TOKEN)
                 },
                 body: JSON.stringify(flight)
             });

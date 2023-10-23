@@ -9,7 +9,7 @@ import pigeonImageStub from "../images/pigeon-image-stub.png";
 import FsLightbox from "fslightbox-react";
 import {Button} from "@mui/joy";
 import PigeonSideEditForm from "../components/UI/form/PigeonSideEditForm";
-import {PIGEONS_URL} from "../constants";
+import {AUTH_TOKEN, BEARER, PIGEONS_URL} from "../constants";
 
 const Pigeon = () => {
     let { id } = useParams();
@@ -30,16 +30,28 @@ const Pigeon = () => {
 
     const fetchPigeon = async () => {
         try {
-            const response = await fetch(PIGEONS_URL + `/${id}/with-ancestors`);
+            const response = await fetch(PIGEONS_URL + `/${id}/with-ancestors`, {
+                headers: {
+                    "Authorization": BEARER + localStorage.getItem(AUTH_TOKEN)
+                }
+            });
             if (response.ok) {
                 const json = await response.json();
                 if (json.imageNumber && json.imageNumber > 0) {
-                    const imagesListResponse = await fetch(PIGEONS_URL + `/${id}/image`);
+                    const imagesListResponse = await fetch(PIGEONS_URL + `/${id}/image`, {
+                        headers: {
+                            "Authorization": BEARER + localStorage.getItem(AUTH_TOKEN)
+                        }
+                    });
                     if (imagesListResponse.ok) {
                         const imagesUrlList = await imagesListResponse.json();
                         setImagesUrl(imagesUrlList);
                         const imagesPromises = imagesUrlList.map(async imageUrl => {
-                            const imageResponse = await fetch(imageUrl);
+                            const imageResponse = await fetch(imageUrl, {
+                                headers: {
+                                    "Authorization": BEARER + localStorage.getItem(AUTH_TOKEN)
+                                }
+                            });
                             if (imageResponse.ok) {
                                 const blob = await imageResponse.blob();
                                 return new File(

@@ -6,7 +6,7 @@ import TableSkeletonLoader from "../components/UI/loader/TableSkeletonLoader";
 import {Button} from "@mui/joy";
 import {Add} from "@mui/icons-material";
 import FlightSideEditForm from "../components/UI/form/FlightSideEditForm";
-import {FLIGHTS_URL, FlightTypes} from "../constants";
+import {AUTH_TOKEN, BEARER, FLIGHTS_URL, FlightTypes} from "../constants";
 
 const Flights = () => {
     const sideFormRef = useRef();
@@ -15,7 +15,11 @@ const Flights = () => {
 
     const fetchFlights = async () => {
         try {
-            const response = await fetch(FLIGHTS_URL);
+            const response = await fetch(FLIGHTS_URL, {
+                headers: {
+                    "Authorization": BEARER + localStorage.getItem(AUTH_TOKEN)
+                }
+            });
             if (response.ok) {
                 const flights = await response.json();
                 setTableData(flights.map(flight => {

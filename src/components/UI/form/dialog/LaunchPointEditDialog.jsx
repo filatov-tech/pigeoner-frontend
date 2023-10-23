@@ -13,7 +13,7 @@ import {
 } from "@mui/joy";
 import {InfoOutlined} from "@mui/icons-material";
 import {getHelperText} from "../../../../util/utils";
-import {KEEPER_URL, MAIN_KEEPER_URL, LAUNCH_POINTS_URL} from "../../../../constants";
+import {KEEPER_URL, MAIN_KEEPER_URL, LAUNCH_POINTS_URL, BEARER, AUTH_TOKEN} from "../../../../constants";
 
 const emptyValue = {id: null ,name:"", distance: null, mainKeeperPreciseDistance: null, label: ""}
 
@@ -35,7 +35,8 @@ const LaunchPointEditDialog = (props, ref) => {
             const response = await fetch(`${LAUNCH_POINTS_URL}${editMode ? `/${value.id}` : ""}`, {
                 method: editMode ? "PUT" : "POST",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "Authorization": BEARER + localStorage.getItem(AUTH_TOKEN)
                 },
                 body: JSON.stringify(value)
             });
@@ -63,7 +64,11 @@ const LaunchPointEditDialog = (props, ref) => {
 
     const fetchKeepers = async () => {
         try {
-            const response = await fetch(KEEPER_URL);
+            const response = await fetch(KEEPER_URL, {
+                headers: {
+                    "Authorization": BEARER + localStorage.getItem(AUTH_TOKEN)
+                }
+            });
             if (response.ok) {
                 setKeepers(await response.json());
             }
@@ -74,7 +79,11 @@ const LaunchPointEditDialog = (props, ref) => {
 
     const fetchMainKeeper = async () => {
         try {
-            const response = await fetch(MAIN_KEEPER_URL + "/withPreciseDistances");
+            const response = await fetch(MAIN_KEEPER_URL + "/withPreciseDistances", {
+                headers: {
+                    "Authorization": BEARER + localStorage.getItem(AUTH_TOKEN)
+                }
+            });
             if (response.ok) {
                 const mainKeeper = await response.json();
                 setMainKeeper(mainKeeper);

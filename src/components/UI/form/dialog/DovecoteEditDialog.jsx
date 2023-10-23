@@ -8,7 +8,7 @@ import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import {addHierarchicalLabel, addHierarchicalLabelsTo} from "../../../../util/section-options-builder";
-import {HIERARCHICAL_SECTIONS_URL, SECTIONS_URL} from "../../../../constants";
+import {AUTH_TOKEN, BEARER, HIERARCHICAL_SECTIONS_URL, SECTIONS_URL} from "../../../../constants";
 import {flatten, getHelperText} from "../../../../util/utils";
 import ErrorSnackbar from "../../ErrorSnackbar";
 
@@ -35,7 +35,11 @@ const DovecoteEditDialog = (props, ref) => {
 
     const updateSectionsOptions = async () => {
         try {
-            const response = await fetch(HIERARCHICAL_SECTIONS_URL);
+            const response = await fetch(HIERARCHICAL_SECTIONS_URL, {
+                headers: {
+                    "Authorization": BEARER + localStorage.getItem(AUTH_TOKEN)
+                }
+            });
             if (response.ok) {
                 const sectionsOptions = await response.json();
                 setSectionsOptions(flatten(addHierarchicalLabelsTo(sectionsOptions)));
@@ -63,7 +67,8 @@ const DovecoteEditDialog = (props, ref) => {
             const response = await fetch(url, {
                 method: editMode ? "PUT" : "POST",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "Authorization": BEARER + localStorage.getItem(AUTH_TOKEN)
                 },
                 body: JSON.stringify(dialogValue)
             });

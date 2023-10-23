@@ -7,7 +7,7 @@ import LaunchPointEditDialog from "../../form/dialog/LaunchPointEditDialog";
 import {makeOptions} from "../../../../pages/pigeons";
 import {Stack} from "@mui/joy";
 import {Add, DeleteOutline, Edit} from "@mui/icons-material";
-import {LAUNCH_POINTS_URL} from "../../../../constants";
+import {AUTH_TOKEN, BEARER, LAUNCH_POINTS_URL} from "../../../../constants";
 
 const filter = createFilterOptions();
 
@@ -21,7 +21,11 @@ const InputLaunchPointAutocompleteCreatable = ({data, onChange, error, showError
 
     const fetchLaunchPoints = async () => {
         try {
-            const response = await fetch(LAUNCH_POINTS_URL);
+            const response = await fetch(LAUNCH_POINTS_URL, {
+                headers: {
+                    "Authorization": BEARER + localStorage.getItem(AUTH_TOKEN)
+                }
+            });
             if (response.ok) {
                 const launchPoints = await response.json();
                 launchPoints.push({name: "Добавить новую точку", newLaunchPointTrigger: true});
@@ -43,7 +47,10 @@ const InputLaunchPointAutocompleteCreatable = ({data, onChange, error, showError
         }
         try {
             const response = await fetch(`${LAUNCH_POINTS_URL}/${launchPointId}`, {
-                method: "DELETE"
+                method: "DELETE",
+                headers: {
+                    "Authorization": BEARER + localStorage.getItem(AUTH_TOKEN)
+                }
             })
             if (response.ok) {
                 fetchLaunchPoints();
