@@ -42,7 +42,7 @@ const Header = () => {
                                 <NavLink to={"/feeding"} className="nav-link">Питание</NavLink>
                             </li>
                             <li className="nav-item">
-                                <NavLink to={"/"} className="nav-link">
+                                <NavLink to={"/login"} className="nav-link">
                                     <IconButton onClick={() => handleLogout()}>
                                         <Logout />
                                     </IconButton>
