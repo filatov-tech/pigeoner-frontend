@@ -27,7 +27,7 @@ const Header = () => {
                     <div className="collapse navbar-collapse justify-content-end" id="navbarNav">
                         <ul className="navbar-nav nav-underline">
                             <li className="nav-item">
-                                <NavLink to={"/"} className="nav-link">Главная</NavLink>
+                                <NavLink to={"/home"} className="nav-link">Главная</NavLink>
                             </li>
                             <li className="nav-item">
                                 <NavLink to={"/pigeons"} className="nav-link">Голуби</NavLink>

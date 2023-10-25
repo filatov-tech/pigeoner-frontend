@@ -69,7 +69,7 @@ const Login = () => {
             if (response.ok) {
                 const data = await response.json();
                 localStorage.setItem("auth_token", data.token);
-                navigate("/");
+                navigate("/pigeons");
             } else {
                 const apiError = await response.json();
                 setError(apiError);

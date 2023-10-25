@@ -1,10 +1,20 @@
 import React from 'react';
+import {Col, Container, Row} from "react-bootstrap";
+import {Typography} from "@mui/joy";
 
 const Home = () => {
     return (
-        <div>
-            <h1>Home page</h1>
-        </div>
+        <Container>
+            <Row>
+                <Col>
+                    <h1>Главная</h1>
+                    <hr/>
+                    <Typography level="body-lg">
+                        Скоро здесь будет сводная информация по всем данным
+                    </Typography>
+                </Col>
+            </Row>
+        </Container>
     );
 };
 

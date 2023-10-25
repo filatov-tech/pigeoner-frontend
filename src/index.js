@@ -24,13 +24,25 @@ import Flight from "./pages/flight";
 import Feeding from "./pages/feeding";
 import Login from "./pages/login";
 import Register from "./pages/register";
+import MainPage from "./pages/MainPage";
+import Home from "./pages/home";
 
 const router = createBrowserRouter([
+    {
+        path: "/",
+        element: <MainPage />,
+        errorElement: <ErrorPage/>
+    },
     {
         path: "/",
         element: <Layout/>,
         errorElement: <ErrorPage/>,
         children: [
+            {
+                path: "/home",
+                element: <Home/>
+
+            },
             {
                 path: "/pigeons",
                 element: <Pigeons/>
@@ -68,6 +80,8 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage/>
     }
 ])
+
+
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

@@ -74,7 +74,7 @@ const Register = () => {
                 cleanErrors();
                 const data = await response.json();
                 localStorage.setItem(AUTH_TOKEN, data.token);
-                navigate("/");
+                navigate("/pigeons");
             } else {
                 const apiError = await response.json();
                 const fieldsWithError = apiError.fields;
