@@ -21,7 +21,7 @@ export const BEARER = "Bearer "
 
 const API_V1 = "/api/v1"
 const BASE_API_URL = process.env.NODE_ENV ===  PRODUCTION
-    ? "http://pigeoner.ru" + API_V1
+    ? "https://pigeoner.ru" + API_V1
     : "http://localhost:8080" + API_V1;
 
 export const PIGEONS_URL = BASE_API_URL + '/pigeons';
