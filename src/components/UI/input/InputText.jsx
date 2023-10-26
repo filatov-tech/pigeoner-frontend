@@ -1,9 +1,15 @@
-import React, {useId} from 'react';
+import React, {useId, useMemo} from 'react';
 import {FormControl, TextField} from "@mui/material";
 import {getHelperText} from "../../../util/utils";
 
-const InputText = ({data, onChange, error, ...muiProps}) => {
+const InputText = ({data, onChange, error, withoutHelperText, ...muiProps}) => {
     const textInputId = useId();
+
+    const errorMessage = useMemo(()=> {
+        return getHelperText(error);
+    }, [error])
+
+    const extendedMuiProps = withoutHelperText ? muiProps : {...muiProps, helperText: errorMessage};
 
     return (
         <FormControl fullWidth>
@@ -16,8 +22,7 @@ const InputText = ({data, onChange, error, ...muiProps}) => {
                     onChange(e.target.value);
                 }}
                 error={error}
-                helperText={getHelperText(error)}
-                {...muiProps}
+                {...extendedMuiProps}
             />
         </FormControl>
     );

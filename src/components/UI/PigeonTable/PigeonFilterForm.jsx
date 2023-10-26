@@ -215,18 +215,18 @@ const PigeonFilterForm = forwardRef((props, ref) => {
         <form ref={filterForm}>
             <Grid container spacing={2}>
                 <Grid xs={12} sm={6} md={4} lg={3}>
-                    <InputText data={ringNumberFilter} onChange={setRingNumber}/>
+                    <InputText data={ringNumberFilter} onChange={setRingNumber} withoutHelperText />
                 </Grid>
                 <Grid xs={12} sm={6} md={4} lg={3}>
-                    <SelectCommon data={conditionFilter} onChange={setCondition}/>
+                    <SelectCommon data={conditionFilter} onChange={setCondition} withoutHelperText />
                 </Grid>
                 <Grid xs={12} sm={6} md={4} lg={3}>
-                    {sectionOptions && <SelectCommon data={dovecoteFilter} onChange={setDovecote}/>}
+                    {sectionOptions && <SelectCommon data={dovecoteFilter} onChange={setDovecote} withoutHelperText />}
                 </Grid>
                 <Grid xs={12} sm={6} md={4} lg={3}>
-                    <InputText data={nameFilter} onChange={setName} />
+                    <InputText data={nameFilter} onChange={setName} withoutHelperText />
                 </Grid>
-                <Grid container xs={12} md={8} lg={6} columns={100} columnSpacing={0} sx={{paddingRight: 0}}>
+                <Grid container xs={12} md={8} lg={6} columns={100} columnSpacing={0}>
                     <Grid xs={30} sx={{paddingX: 0}}>
                         <SelectCommon
                             data={dateFilterTypeSelect}
@@ -236,6 +236,7 @@ const PigeonFilterForm = forwardRef((props, ref) => {
                                     ? {}
                                     : startGroupElement)}
                             withoutAny
+                            withoutHelperText
                         />
                     </Grid>
                     {dateFilterType === YEAR_TYPE &&
@@ -246,6 +247,7 @@ const PigeonFilterForm = forwardRef((props, ref) => {
                                     onChange={setYearFrom}
                                     customStyle={customMuiStyle(middleGroupElement)}
                                     onlyYear
+                                    withoutHelperText
                                 />
                             </Grid>
                             <Grid xs sx={{paddingX: 0}}>
@@ -254,6 +256,7 @@ const PigeonFilterForm = forwardRef((props, ref) => {
                                     onChange={setYearTo}
                                     customStyle={customMuiStyle(endGroupElement)}
                                     onlyYear
+                                    withoutHelperText
                                 />
                             </Grid>
                         </>
@@ -264,12 +267,14 @@ const PigeonFilterForm = forwardRef((props, ref) => {
                                 <InputDate data={birthdateFromFilter}
                                            onChange={setBirthdateFrom}
                                            customStyle={customMuiStyle(middleGroupElement)}
+                                           withoutHelperText
                                 />
                             </Grid>
                             <Grid xs sx={{paddingX: 0}}>
                                 <InputDate data={birthdateToFilter}
                                            onChange={setBirthdateTo}
                                            customStyle={customMuiStyle(endGroupElement)}
+                                           withoutHelperText
                                 />
                             </Grid>
                         </>
@@ -282,13 +287,13 @@ const PigeonFilterForm = forwardRef((props, ref) => {
                     }
                 </Grid>
                 <Grid xs={12} sm={6} md={4} lg={2}>
-                    <SelectCommon data={keeperFilter} onChange={setKeeper}/>
+                    <SelectCommon data={keeperFilter} onChange={setKeeper} withoutHelperText />
                 </Grid>
                 <Grid xs={12} sm={6} md={4} lg={2}>
-                    <SelectCommon data={sexFilter} onChange={setSex}/>
+                    <SelectCommon data={sexFilter} onChange={setSex} withoutHelperText />
                 </Grid>
                 <Grid xs={12} sm={6} md={4} lg={2}>
-                    <SelectCommon data={mateFilter} onChange={setHasMate}/>
+                    <SelectCommon data={mateFilter} onChange={setHasMate} withoutHelperText />
                 </Grid>
             </Grid>
         </form>

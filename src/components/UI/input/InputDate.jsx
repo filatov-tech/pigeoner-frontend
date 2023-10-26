@@ -3,7 +3,7 @@ import {DatePicker} from "@mui/x-date-pickers";
 import {createTheme, ThemeProvider} from "@mui/material";
 import {getHelperText} from "../../../util/utils";
 
-const InputDate = ({data, onChange, customStyle, onlyYear, error, ...muiProps}) => {
+const InputDate = ({data, onChange, customStyle, onlyYear, error, withoutHelperText, ...muiProps}) => {
     const viewProps = {};
     if (onlyYear) {
         viewProps.views = ["year"];
@@ -13,7 +13,7 @@ const InputDate = ({data, onChange, customStyle, onlyYear, error, ...muiProps}) 
         return getHelperText(error);
     }, [error])
 
-    const extendedMuiProps = {
+    const extendedMuiProps = withoutHelperText ? {} : {
         ...muiProps,
         slotProps: {
             ...muiProps?.slotProps,

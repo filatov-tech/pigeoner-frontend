@@ -2,7 +2,7 @@ import React, {useId} from 'react';
 import {createTheme, FormControl, FormHelperText, InputLabel, MenuItem, Select, ThemeProvider} from "@mui/material";
 import {getHelperText} from "../../../util/utils";
 
-const SelectCommon = ({data, onChange, error, customStyle, withoutAny, variant, ...muiProps}) => {
+const SelectCommon = ({data, onChange, error, customStyle, withoutAny, withoutHelperText, variant, size, ...muiProps}) => {
     const selectId = useId();
 
     const theme = createTheme({
@@ -11,7 +11,7 @@ const SelectCommon = ({data, onChange, error, customStyle, withoutAny, variant, 
 
     return (
         <ThemeProvider theme={theme}>
-            <FormControl fullWidth variant={variant} error={error}>
+            <FormControl fullWidth variant={variant} error={error} size={size ? size : "medium"}>
                 {data.label && <InputLabel id={selectId}>{data.label}</InputLabel>}
                 <Select
                     labelId={selectId}
@@ -28,7 +28,7 @@ const SelectCommon = ({data, onChange, error, customStyle, withoutAny, variant, 
                     {data.options.map(option =>
                         <MenuItem value={option.value} key={option.value}>{option.label}</MenuItem>)}
                 </Select>
-                <FormHelperText error>&nbsp;{getHelperText(error)}</FormHelperText>
+                {!withoutHelperText && <FormHelperText error>&nbsp;{getHelperText(error)}</FormHelperText>}
             </FormControl>
         </ThemeProvider>
 
