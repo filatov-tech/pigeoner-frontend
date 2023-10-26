@@ -3,10 +3,10 @@ import '../styles/flights.css';
 import {Col, Container, Row} from "react-bootstrap";
 import FlightsTable from "../components/UI/FlightsTable/FlightsTable";
 import TableSkeletonLoader from "../components/UI/loader/TableSkeletonLoader";
-import {Button} from "@mui/joy";
-import {Add} from "@mui/icons-material";
+import {Button, Typography} from "@mui/joy";
 import FlightSideEditForm from "../components/UI/form/FlightSideEditForm";
 import {AUTH_TOKEN, BEARER, FLIGHTS_URL, FlightTypes} from "../constants";
+import {Stack} from "@mui/material";
 
 const Flights = () => {
     const sideFormRef = useRef();
@@ -39,28 +39,23 @@ const Flights = () => {
         <Container>
             <Row>
                 <Col>
-                    <div className="flights-page">
-                        <div className="flights-header">
-                            <h1>Полеты</h1>
-                            <hr/>
-                            <p>Здесь отображается информация по существующим соревновательным вылетам голубей</p>
-                        </div>
-                        <div className="flights-table">
-                            {tableData ? <FlightsTable data={tableData}/> : <TableSkeletonLoader/>}
-                        </div>
-                        <div className="flights-add-button">
-                            <Button
-                                onClick={() => sideFormRef.current.setOpen(true)}
-                                startDecorator={<Add />}
-                                size="lg"
-                                variant="solid"
-                                sx={{backgroundColor: "#337ab7"}}
-                            >
-                                Добавить Вылет
-                            </Button>
-                            <FlightSideEditForm ref={sideFormRef} onSubmit={fetchFlights} />
-                        </div>
-                    </div>
+                    <h1>Полеты</h1>
+                    <hr/>
+                    <Stack direction={{xs: "column", sm: "row"}} spacing={2} marginY={2} justifyContent="space-between" alignContent="baseline">
+                        <Typography level="body-lg" alignSelf="center">
+                            Здесь отображается информация по существующим соревновательным вылетам голубей
+                        </Typography>
+                        <Button
+                            variant="solid"
+                            size="lg"
+                            sx={{backgroundColor: "#337ab7", minWidth: "180px"}}
+                            onClick={() => sideFormRef.current.setOpen(true)}
+                        >
+                            Добавить вылет
+                        </Button>
+                    </Stack>
+                    {tableData ? <FlightsTable data={tableData}/> : <TableSkeletonLoader/>}
+                    <FlightSideEditForm ref={sideFormRef} onSubmit={fetchFlights} />
                 </Col>
             </Row>
         </Container>

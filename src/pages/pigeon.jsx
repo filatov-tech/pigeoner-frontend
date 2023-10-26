@@ -7,12 +7,13 @@ import '../styles/custom-styles.css';
 import TwoColumnTable from "../components/UI/TwoColumnTable/TwoColumnTable";
 import pigeonImageStub from "../images/pigeon-image-stub.png";
 import FsLightbox from "fslightbox-react";
-import {Button} from "@mui/joy";
+import {AspectRatio, Button} from "@mui/joy";
 import PigeonSideEditForm from "../components/UI/form/PigeonSideEditForm";
 import {AUTH_TOKEN, BEARER, PIGEONS_URL} from "../constants";
+import {Stack} from "@mui/material";
 
 const Pigeon = () => {
-    let { id } = useParams();
+    let {id} = useParams();
     const [pigeon, setPigeon] = useState();
     const [images, setImages] = useState([]);
     const [openImageViewer, toggleImageViewer] = useState(false);
@@ -78,7 +79,7 @@ const Pigeon = () => {
     useEffect(() => {
         fetchPigeon();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[id]);
+    }, [id]);
 
     return (
         <>
@@ -87,59 +88,43 @@ const Pigeon = () => {
                 <Container>
                     <Row>
                         <Col>
-                            <div className="pigeon-content">
-                                <div className="main-info">
-                                    <div className="main-head">
-                                        <h2>Номер кольца {pigeon.ringNumber}</h2>
-                                        <hr/>
-                                    </div>
-                                    <div className="pigeon-data">
-                                        <TwoColumnTable pigeon={pigeon}/>
-                                        <Button
-                                            variant="soft"
-                                            size="lg"
-                                            onClick={openEditForm}
-                                            sx={{width: "100%"}}
-                                        >
-                                            Изменить данные
-                                        </Button>
-                                        <PigeonSideEditForm
-                                            pigeon={pigeon}
-                                            handleSubmit={handleSubmit}
-                                            ref={sideEditFormRef}
-                                        />
-                                    </div>
-                                    <div className="pigeon-photo">
-                                        <img
-                                            src={imagesUrl[0] ? imagesUrl[0] : pigeonImageStub}
-                                            alt="Pigeon main"
-                                            onClick={() => toggleImageViewer(!openImageViewer)}
-                                            style={{height: "auto", width: "60%"}}
-                                        />
-                                        {images[0] && <FsLightbox
-                                            toggler={openImageViewer}
-                                            sources={imagesUrl}
-                                            type="image"
-                                        />}
-                                    </div>
-                                </div>
-                                <div className="pedigree-container">
-                                    <div className="pedigree-head">
-                                        <h2>Родословная</h2>
-                                        <hr/>
-                                    </div>
-                                    <div className="pedigree-tree-box">
-                                        <PedigreeTree pigeon={pigeon}/>
-                                    </div>
-                                </div>
-                                <div className="flight-container">
-                                    <div className="flight-head">
-                                        <h2>Зачеты</h2>
-                                        <hr/>
-                                    </div>
-                                    <div className="flight-box"></div>
-                                </div>
-                            </div>
+                            <h2>Номер кольца {pigeon.ringNumber}</h2>
+                            <hr/>
+                            <Stack direction={{xs: "column-reverse", md: "row"}} spacing={2} mb={2} alignItems="center">
+                                <Stack flexBasis="60%">
+                                    <TwoColumnTable pigeon={pigeon}/>
+                                    <Button
+                                        variant="soft"
+                                        size="lg"
+                                        onClick={openEditForm}
+                                        sx={{width: "100%"}}
+                                    >
+                                        Изменить данные
+                                    </Button>
+                                    <PigeonSideEditForm
+                                        pigeon={pigeon}
+                                        handleSubmit={handleSubmit}
+                                        ref={sideEditFormRef}
+                                    />
+                                </Stack>
+                                <AspectRatio objectFit="contain" sx={{height: "auto", width: "80%"}} variant="plain">
+                                    <img
+                                        src={imagesUrl[0] ? imagesUrl[0] : pigeonImageStub}
+                                        alt="Pigeon main"
+                                        onClick={() => toggleImageViewer(!openImageViewer)}
+                                    />
+                                </AspectRatio>
+                                {images[0] && <FsLightbox
+                                    toggler={openImageViewer}
+                                    sources={imagesUrl}
+                                    type="image"
+                                />}
+                            </Stack>
+                            <h2>Родословная</h2>
+                            <hr/>
+                            <PedigreeTree pigeon={pigeon}/>
+                            <h2 style={{marginTop: 2}}>Зачеты</h2>
+                            <hr/>
                         </Col>
                     </Row>
                 </Container>

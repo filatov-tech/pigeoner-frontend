@@ -160,7 +160,6 @@ const Pigeons = () => {
                             sx={{backgroundColor: "#337ab7"}}
                             onClick={openSideEditPanel}
                             fullWidth
-
                         >
                             Добавить голубя
                         </Button>
