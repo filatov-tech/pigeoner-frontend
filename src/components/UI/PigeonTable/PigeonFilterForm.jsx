@@ -7,6 +7,7 @@ import AgeSlider from "../input/AgeSlider";
 import InputDate from "../input/InputDate";
 import {AUTH_TOKEN, BEARER, DOVECOTE_WITH_SECTIONS_HIERARCHY_URL, MAIN_KEEPER_URL} from "../../../constants";
 import {makeHierarchicalViewOf} from "../../../util/section-options-builder";
+import Grid from "@mui/material/Unstable_Grid2";
 
 const PigeonFilterForm = forwardRef((props, ref) => {
     const filterForm = useRef();
@@ -211,68 +212,85 @@ const PigeonFilterForm = forwardRef((props, ref) => {
     }, []);
 
     return (
-        <form ref={filterForm} id="pigeon-filter">
-            <div className="pigeons-filters">
-                <div className="ring">
-                    <InputText data={ringNumberFilter} onChange={setRingNumber}/></div>
-                <div className="condition">
-                    <SelectCommon data={conditionFilter} onChange={setCondition}/></div>
-                <div className="dovecote">
-                    {sectionOptions && <SelectCommon data={dovecoteFilter} onChange={setDovecote}/>}</div>
-                <div className="name"><InputText data={nameFilter} onChange={setName} /></div>
-                <div className="date-filters">
-                    <div className="date-filters-item" style={{width: '30%', flexGrow: 0}}>
-                        <SelectCommon data={dateFilterTypeSelect} onChange={setDateFilterType}
-                                      customStyle={customMuiStyle(
-                                          dateFilterType === AGE_TYPE ? {} : startGroupElement)} withoutAny/>
-                    </div>
+        <form ref={filterForm}>
+            <Grid container spacing={2}>
+                <Grid xs={12} sm={6} md={4} lg={3}>
+                    <InputText data={ringNumberFilter} onChange={setRingNumber}/>
+                </Grid>
+                <Grid xs={12} sm={6} md={4} lg={3}>
+                    <SelectCommon data={conditionFilter} onChange={setCondition}/>
+                </Grid>
+                <Grid xs={12} sm={6} md={4} lg={3}>
+                    {sectionOptions && <SelectCommon data={dovecoteFilter} onChange={setDovecote}/>}
+                </Grid>
+                <Grid xs={12} sm={6} md={4} lg={3}>
+                    <InputText data={nameFilter} onChange={setName} />
+                </Grid>
+                <Grid container xs={12} md={8} lg={6} columns={100} columnSpacing={0} sx={{paddingRight: 0}}>
+                    <Grid xs={30} sx={{paddingX: 0}}>
+                        <SelectCommon
+                            data={dateFilterTypeSelect}
+                            onChange={setDateFilterType}
+                            customStyle={customMuiStyle(
+                                dateFilterType === AGE_TYPE
+                                    ? {}
+                                    : startGroupElement)}
+                            withoutAny
+                        />
+                    </Grid>
                     {dateFilterType === YEAR_TYPE &&
                         <>
-                            <div className="date-filters-item">
-                                <InputDate data={yearFromFilter} onChange={setYearFrom}
-                                           customStyle={customMuiStyle(middleGroupElement)}
-                                           onlyYear/>
-                            </div>
-                            <div className="date-filters-item">
-                                <InputDate data={yearToFilter} onChange={setYearTo}
-                                           customStyle={customMuiStyle(endGroupElement)} onlyYear/>
-                            </div>
+                            <Grid xs sx={{paddingX: 0}}>
+                                <InputDate
+                                    data={yearFromFilter}
+                                    onChange={setYearFrom}
+                                    customStyle={customMuiStyle(middleGroupElement)}
+                                    onlyYear
+                                />
+                            </Grid>
+                            <Grid xs sx={{paddingX: 0}}>
+                                <InputDate
+                                    data={yearToFilter}
+                                    onChange={setYearTo}
+                                    customStyle={customMuiStyle(endGroupElement)}
+                                    onlyYear
+                                />
+                            </Grid>
                         </>
-
                     }
                     {dateFilterType === DATE_TYPE &&
                         <>
-                            <div className="date-filters-item">
+                            <Grid xs sx={{paddingX: 0}}>
                                 <InputDate data={birthdateFromFilter}
                                            onChange={setBirthdateFrom}
-                                           customStyle={customMuiStyle(middleGroupElement)}/>
-                            </div>
-                            <div className="date-filters-item">
+                                           customStyle={customMuiStyle(middleGroupElement)}
+                                />
+                            </Grid>
+                            <Grid xs sx={{paddingX: 0}}>
                                 <InputDate data={birthdateToFilter}
                                            onChange={setBirthdateTo}
-                                           customStyle={customMuiStyle(endGroupElement)}/>
-                            </div>
+                                           customStyle={customMuiStyle(endGroupElement)}
+                                />
+                            </Grid>
                         </>
                     }
                     {dateFilterType === AGE_TYPE &&
-                        <div className="date-filters-item" style={{alignSelf: "flex-end"}}>
+                        <Grid xs>
                             <AgeSlider data={{value: [ageYearFrom, ageMonthFrom, ageYearTo, ageMonthTo]}}
                                        onChange={onChangeGroup}/>
-                        </div>
+                        </Grid>
                     }
-                </div>
-                <div className="other-filters">
-                    <div className="other-filters-item">
-                        <SelectCommon data={keeperFilter} onChange={setKeeper}/>
-                    </div>
-                    <div className="other-filters-item">
-                        <SelectCommon data={sexFilter} onChange={setSex}/>
-                    </div>
-                    <div className="other-filters-item">
-                        <SelectCommon data={mateFilter} onChange={setHasMate}/>
-                    </div>
-                </div>
-            </div>
+                </Grid>
+                <Grid xs={12} sm={6} md={4} lg={2}>
+                    <SelectCommon data={keeperFilter} onChange={setKeeper}/>
+                </Grid>
+                <Grid xs={12} sm={6} md={4} lg={2}>
+                    <SelectCommon data={sexFilter} onChange={setSex}/>
+                </Grid>
+                <Grid xs={12} sm={6} md={4} lg={2}>
+                    <SelectCommon data={mateFilter} onChange={setHasMate}/>
+                </Grid>
+            </Grid>
         </form>
     );
 })
