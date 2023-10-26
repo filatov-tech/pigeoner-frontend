@@ -1,12 +1,13 @@
-import React, {useState, useEffect, useRef} from 'react';
-import { Container, Row, Col } from "react-bootstrap";
+import React, {useEffect, useRef, useState} from 'react';
+import {Col, Container, Row} from "react-bootstrap";
 import '../styles/pigeons.css';
 import PigeonTable from "../components/UI/PigeonTable/PigeonTable";
 import ErrorSnackbar from "../components/UI/ErrorSnackbar";
-import ButtonWithPigeons from "../components/UI/button/ButtonWithPigeons";
 import PigeonSideEditForm from "../components/UI/form/PigeonSideEditForm";
 import PigeonFilterForm from "../components/UI/PigeonTable/PigeonFilterForm";
-import {PIGEONS_URL, KEEPER_URL, MAIN_KEEPER_URL, BEARER, AUTH_TOKEN} from "../constants";
+import {AUTH_TOKEN, BEARER, KEEPER_URL, MAIN_KEEPER_URL, PIGEONS_URL} from "../constants";
+import Grid from "@mui/material/Unstable_Grid2";
+import {Button} from "@mui/joy";
 
 const Pigeons = () => {
     const [tableData, setTableData] = useState();
@@ -127,24 +128,50 @@ const Pigeons = () => {
                         keeperOptions={keeperOptions}
                         setKeeperOptions={setKeeperOptions} />
                 </Col>
-                <div className="col-12 manage-panel">
-                    <button id="filter" onClick={handleSubmit}
-                            className="btn btn-primary btn-lg manage-panel-item"
-                            type="button" style={{background: "#337ab7", width: 150 + "px"}}>
-                        Найти
-                    </button>
-                    <button className="btn btn-light btn-lg manage-panel-item" type="reset" onClick={resetFilters}>Сбросить</button>
-                    <div className="manage-panel-item invisible-item"></div>
-                    <div className="manage-panel-item">
-                        <ButtonWithPigeons onClick={openSideEditPanel}/>
+                <Grid container spacing={2}>
+                    <Grid xs={6} sm md lg xl>
+                        <Button
+                            variant="solid"
+                            size="lg"
+                            sx={{backgroundColor: "#337ab7"}}
+                            onClick={handleSubmit}
+                            fullWidth
+                        >
+                            Найти
+                        </Button>
+                    </Grid>
+                    <Grid xs={6} sm md lg xl>
+                        <Button
+                            variant="soft"
+                            size="lg"
+                            onClick={resetFilters}
+                            fullWidth
+                        >
+                            Сбросить
+                        </Button>
+                    </Grid>
+                    <Grid xs={0} lg={5} xl={6}>
+
+                    </Grid>
+                    <Grid xs={12} sm={12} md lg xl sx={{paddingRight: 0}}>
+                        <Button
+                            variant="solid"
+                            size="lg"
+                            sx={{backgroundColor: "#337ab7"}}
+                            onClick={openSideEditPanel}
+                            fullWidth
+
+                        >
+                            Добавить голубя
+                        </Button>
                         <PigeonSideEditForm
                             ref={sideEditFormRef}
                             handleSubmit={handleSubmit}
                             keeperOptions={keeperOptions}
                             setKeeperOptions={setKeeperOptions}
                         />
-                    </div>
-                </div>
+                    </Grid>
+                </Grid>
             </Row>
             <Row>
                 <Col className="table-box">
