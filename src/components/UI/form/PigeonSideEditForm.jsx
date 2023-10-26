@@ -1,5 +1,4 @@
-import React, {forwardRef, useEffect, useImperativeHandle} from 'react';
-import {useState} from "react";
+import React, {forwardRef, useEffect, useImperativeHandle, useState} from 'react';
 import {InputFieldData} from "../PigeonTable/PigeonFilterForm";
 import SideEditForm from "./SideEditForm";
 import Typography from "@mui/material/Typography";
@@ -8,12 +7,12 @@ import InputText from "../input/InputText";
 import InputDate from "../input/InputDate";
 import InputKeeperAutocompleteCreatable from "../input/Autocomplete/InputKeeperAutocompleteCreatable";
 import {
-    PIGEONS_URL,
+    AUTH_TOKEN,
+    BEARER,
+    HIERARCHICAL_SECTIONS_URL,
     KEEPER_URL,
     MAIN_KEEPER_URL,
-    HIERARCHICAL_SECTIONS_URL,
-    AUTH_TOKEN,
-    BEARER
+    PIGEONS_URL
 } from "../../../constants"
 import {makeOptions} from "../../../pages/pigeons";
 import InputDovecoteAutocompleteCreatable from "../input/Autocomplete/InputDovecoteAutocompleteCreatable";
@@ -23,8 +22,7 @@ import SelectCommon from "../input/SelectCommon";
 import InputPigeonAutocomplete from "../input/Autocomplete/InputPigeonAutocomplete";
 import {flatten} from "../../../util/utils";
 import {addHierarchicalLabelsTo} from "../../../util/section-options-builder";
-import {CloseOutlined, DoneOutlined, RestoreOutlined} from "@mui/icons-material";
-import Button from "@mui/material/Button";
+import Button from "@mui/joy/Button";
 import ErrorSnackbar from "../ErrorSnackbar";
 import ImageUpload from "../ImageUpload";
 import dayjs from 'dayjs';
@@ -363,40 +361,22 @@ const PigeonSideEditForm = (props, ref) => {
                     setMainImage={setMainImage}
                     previewImages={previewImages}
                     setPreviewImages={setPreviewImages} />
-                <Stack direction="row" spacing={4} mt={6} mb={4}>
+                <Stack direction="row" spacing={2} mt={6} mb={4} justifyContent="space-between">
                     <Button
-                        variant="outlined"
-                        size="large"
+                        variant="soft"
+                        size="lg"
                         type="button"
                         onClick={resetForm}
-                        sx={{
-                            borderColor:"#337ab7",
-                            color:"#337ab7",
-                            '&:hover': {
-                                borderColor:"#337ab7"
-                            }
-                        }}
-                        startIcon={
-                            editMode
-                                ?
-                                <RestoreOutlined size="large" color="#337ab7"/>
-                                :
-                                <CloseOutlined fontSize="large" color="#337ab7"/>
-                        }>
-                        {editMode ? "Вернуть" : "Очистить"}
+                        sx={{color:"#337ab7"}}
+                    >
+                        {editMode ? "Восстановить" : "Очистить"}
                     </Button>
                     <Button
-                        variant="contained"
-                        size="large"
+                        variant="solid"
+                        size="lg"
                         type="submit"
-                        sx={{
-                            backgroundColor:"#337ab7",
-                            borderColor:"#337ab7",
-                            '&:hover': {
-                                backgroundColor:"#286093"
-                            }
-                        }}
-                        endIcon={<DoneOutlined fontSize="large"/>}>
+                        sx={{backgroundColor:"#337ab7"}}
+                    >
                         Сохранить
                     </Button>
                 </Stack>

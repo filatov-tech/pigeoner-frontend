@@ -8,8 +8,7 @@ import ErrorSnackbar from "../ErrorSnackbar";
 import InputDateTime from "../input/InputDateTime";
 import SelectCommon from "../input/SelectCommon";
 import {Stack} from "@mui/joy";
-import Button from "@mui/material/Button";
-import {CloseOutlined, DoneOutlined, RestoreOutlined} from "@mui/icons-material";
+import Button from "@mui/joy/Button";
 import dayjs from "dayjs";
 import {AUTH_TOKEN, BEARER, FLIGHTS_URL} from "../../../constants";
 
@@ -171,40 +170,22 @@ const FlightSideEditForm = (props, ref) => {
                             variant={"standard"}
                         />
                     </Stack>
-                    <Stack direction="row" spacing={4} mt={4} mb={4}>
+                    <Stack direction="row" spacing={2} mt={4} mb={4} justifyContent="space-between">
                         <Button
-                            variant="outlined"
-                            size="large"
+                            variant="soft"
+                            size="lg"
                             type="button"
                             onClick={resetForm}
-                            sx={{
-                                borderColor:"#337ab7",
-                                color:"#337ab7",
-                                '&:hover': {
-                                    borderColor:"#337ab7"
-                                }
-                            }}
-                            startIcon={
-                                editMode
-                                    ?
-                                    <RestoreOutlined size="large" color="#337ab7"/>
-                                    :
-                                    <CloseOutlined fontSize="large" color="#337ab7"/>
-                            }>
-                            {editMode ? "Вернуть" : "Очистить"}
+                            sx={{color:"#337ab7"}}
+                        >
+                            {editMode ? "Восстановить" : "Очистить"}
                         </Button>
                         <Button
-                            variant="contained"
-                            size="large"
+                            variant="solid"
+                            size="lg"
                             type="submit"
-                            sx={{
-                                backgroundColor:"#337ab7",
-                                borderColor:"#337ab7",
-                                '&:hover': {
-                                    backgroundColor:"#286093"
-                                }
-                            }}
-                            endIcon={<DoneOutlined fontSize="large"/>}>
+                            sx={{backgroundColor:"#337ab7"}}
+                        >
                             Сохранить
                         </Button>
                     </Stack>
