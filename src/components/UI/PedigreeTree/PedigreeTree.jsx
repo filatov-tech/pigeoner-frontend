@@ -1,10 +1,14 @@
 import React, {useEffect, useState} from 'react';
-import {getMappedPigeonData, gridElements} from '../../../util/pedigree-builder';
+import {getMappedPigeonData, gridElements, relativeNamesMap} from '../../../util/pedigree-builder';
 import PigeonCard from "./PigeonCard";
 import EmptyCard from "./EmptyCard";
+import {useMediaQuery} from "react-responsive";
+import {Stack} from "@mui/material";
+import {Typography} from "@mui/joy";
 
 
 const PedigreeTree = ({pigeon}) => {
+    const md = useMediaQuery({ query: "(max-width: 1200px)" })
     const [pigeonsGridMap, setPigeonsGridMap] = useState(new Map());
     useEffect(()=> {
         setPigeonsGridMap(getMappedPigeonData(pigeon))
@@ -15,9 +19,23 @@ const PedigreeTree = ({pigeon}) => {
             <div className="pedigree-tree">
                 {gridElements && gridElements.map(gridElement =>
                     <div className={gridElement} key={gridElement}>
-                        {pigeonsGridMap.get(gridElement) && pigeonsGridMap.get(gridElement).id > 0
-                            ? <PigeonCard pigeon={pigeonsGridMap.get(gridElement)} />
-                            : <EmptyCard pigeonStub={pigeonsGridMap.get(gridElement)} />}
+                        {md
+                            ?
+                            <Stack>
+                                <Typography level="body-md" textAlign="center" fontWeight={300} mt={2} mb={1}>
+                                    {relativeNamesMap.get(gridElement)}
+                                </Typography>
+                                {pigeonsGridMap.get(gridElement) && pigeonsGridMap.get(gridElement).id > 0
+                                    ? <PigeonCard pigeon={pigeonsGridMap.get(gridElement)} />
+                                    : <EmptyCard pigeonStub={pigeonsGridMap.get(gridElement)} />}
+                            </Stack>
+                            :
+                            <>
+                                {pigeonsGridMap.get(gridElement) && pigeonsGridMap.get(gridElement).id > 0
+                                    ? <PigeonCard pigeon={pigeonsGridMap.get(gridElement)} />
+                                    : <EmptyCard pigeonStub={pigeonsGridMap.get(gridElement)} />}
+                            </>
+                        }
                     </div>
                 )}
             </div>

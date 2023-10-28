@@ -289,28 +289,18 @@
     grid-area: mmm;
 }
 
-@media (max-width: 998px) {
+@media (max-width: 1200px) {
     .pedigree-tree {  display: grid;
         grid-template-columns: 1fr;
-        grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+        grid-template-rows: auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto;
         gap: 4px 0;
         grid-auto-flow: row;
         grid-template-areas:
     "pigeon"
     "pigeon"
-    "pigeon"
-    "pigeon"
-    "pigeon"
-    "pigeon"
-    "pigeon"
-    "pigeon"
-    "father"
-    "father"
     "father"
     "father"
     "ff"
-    "ff"
-    "fm"
     "fm"
     "fff"
     "ffm"
@@ -318,17 +308,12 @@
     "fmm"
     "mother"
     "mother"
-    "mother"
-    "mother"
     "mf"
-    "mf"
-    "mm"
     "mm"
     "mff"
     "mfm"
     "mmf"
     "mmm";
-        height: 2400px;
     }
 
     .pigeon { grid-area: pigeon; }

@@ -7,6 +7,27 @@ export const gridElements = [
     "fff", "ffm", "fmf", "fmm", "mff", "mfm", "mmf", "mmm"
 ]
 
+const relativeNamesValues = {
+    pigeon: "Голубь",
+    father: "Отец",
+    mother: "Мать",
+    ff: "Отец > Дед",
+    fm: "Отец > Бабка",
+    mf: "Мать > Дед",
+    mm: "Мать > Бабка",
+    fff: "Отец > Дед > Прадед",
+    ffm: "Отец > Дед > Прабабка",
+    fmf: "Отец > Бабка > Прадед",
+    fmm: "Отец > Бабка > Прабабка",
+    mff: "Мать > Дед > Прадед",
+    mfm: "Мать > Дед > Прабабка",
+    mmf: "Мать > Бабка > Прадед",
+    mmm: "Мать > Бабка > Прабабка"
+}
+
+export const relativeNamesMap = new Map(Object.entries(relativeNamesValues));
+
+
 let currentQueue;
 let nextQueue;
 let deepMeter;

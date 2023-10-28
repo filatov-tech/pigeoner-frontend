@@ -123,7 +123,7 @@ const Pigeon = () => {
                             <h2>Родословная</h2>
                             <hr/>
                             <PedigreeTree pigeon={pigeon}/>
-                            <h2 style={{marginTop: 2}}>Зачеты</h2>
+                            <h2 style={{marginTop: 16}}>Зачеты</h2>
                             <hr/>
                         </Col>
                     </Row>
