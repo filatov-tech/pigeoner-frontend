@@ -6,7 +6,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 
-const ControlledRadioGroup = ({data, onChange}) => {
+const ControlledRadioGroup = ({data, onChange, disabled}) => {
     const radioGroupId = useId();
 
     return (
@@ -21,7 +21,7 @@ const ControlledRadioGroup = ({data, onChange}) => {
                     onChange={(event) => onChange(event.target.value)}
                 >
                     {data.options.map(option =>
-                        <FormControlLabel value={option.value} control={<Radio size="small"/>} label={option.label}/>
+                        <FormControlLabel value={option.value} control={<Radio size="small" disabled={disabled}/>} label={option.label}/>
                     )}
                 </RadioGroup>
             </FormControl>
