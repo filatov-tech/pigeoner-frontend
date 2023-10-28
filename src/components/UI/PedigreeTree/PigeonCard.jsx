@@ -18,7 +18,7 @@ const PigeonCard = ({pigeon, remove, withMenu}) => {
     const cardSize = pigeon.cardSize;
 
     return (
-        <div className={"pigeon-card " + pigeon.sex}>
+        <div className={"pigeon-card " + pigeon.sex.toString().toLowerCase()}>
             <div className={`card no-border ${cardSize}`}>
                 <div className={`card-header no-border ${pigeon.sex}-background`} style={{paddingRight: "4px"}}>
                     <Stack direction="row" spacing={1} justifyContent="space-between" alignItems="center">
