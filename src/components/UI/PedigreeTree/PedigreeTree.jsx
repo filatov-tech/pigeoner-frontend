@@ -82,7 +82,11 @@ const PedigreeTree = ({pigeon, reloadPedigree}) => {
                                     {relativeNamesMap.get(gridElement)}
                                 </Typography>
                                 {pigeonsGridMap.get(gridElement) && pigeonsGridMap.get(gridElement).id > 0
-                                    ? <PigeonCard pigeon={pigeonsGridMap.get(gridElement)} remove={removeRelative} />
+                                    ? <PigeonCard
+                                        pigeon={pigeonsGridMap.get(gridElement)}
+                                        remove={removeRelative}
+                                        withMenu={pigeonsGridMap.get(gridElement).id !== pigeon.id}
+                                    />
                                     : <EmptyCard
                                         pigeonStub={pigeonsGridMap.get(gridElement)}
                                         pigeons={pigeons}
@@ -92,7 +96,11 @@ const PedigreeTree = ({pigeon, reloadPedigree}) => {
                             :
                             <>
                                 {pigeonsGridMap.get(gridElement) && pigeonsGridMap.get(gridElement).id > 0
-                                    ? <PigeonCard pigeon={pigeonsGridMap.get(gridElement)} remove={removeRelative} />
+                                    ? <PigeonCard
+                                        pigeon={pigeonsGridMap.get(gridElement)}
+                                        remove={removeRelative}
+                                        withMenu={pigeonsGridMap.get(gridElement).id !== pigeon.id}
+                                    />
                                     : <EmptyCard
                                         pigeonStub={pigeonsGridMap.get(gridElement)}
                                         pigeons={pigeons}

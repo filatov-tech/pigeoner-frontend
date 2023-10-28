@@ -11,7 +11,7 @@ import Menu from "@mui/joy/Menu";
 import {useNavigate} from "react-router-dom";
 
 
-const PigeonCard = ({pigeon, remove}) => {
+const PigeonCard = ({pigeon, remove, withMenu}) => {
     const navigate = useNavigate();
 
     const flights = pigeon.flights ? pigeon.flights : null;
@@ -23,10 +23,10 @@ const PigeonCard = ({pigeon, remove}) => {
                 <div className={`card-header no-border ${pigeon.sex}-background`} style={{paddingRight: "4px"}}>
                     <Stack direction="row" spacing={1} justifyContent="space-between" alignItems="center">
                         <Typography level="h4">{pigeon.ringNumber} {pigeon.name && ` - ${pigeon.name}`}</Typography>
-                        <Dropdown>
+                        {withMenu && <Dropdown>
                             <MenuButton
-                                slots={{ root: IconButton }}
-                                slotProps={{ root: { variant: 'plain'} }}
+                                slots={{root: IconButton}}
+                                slotProps={{root: {variant: 'plain'}}}
                             >
                                 <MoreVert sx={{color: "rgba(0,0,0,0.5)"}}/>
                             </MenuButton>
@@ -34,7 +34,7 @@ const PigeonCard = ({pigeon, remove}) => {
                                 <MenuItem onClick={() => navigate(`/pigeons/${pigeon.id}`)}>Перейти к голубю</MenuItem>
                                 <MenuItem onClick={() => remove(pigeon)}>Удалить из родословной</MenuItem>
                             </Menu>
-                        </Dropdown>
+                        </Dropdown>}
                     </Stack>
                 </div>
                 <div className="card-body">
