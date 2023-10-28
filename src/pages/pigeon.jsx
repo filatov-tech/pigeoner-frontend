@@ -122,7 +122,7 @@ const Pigeon = () => {
                             </Stack>
                             <h2>Родословная</h2>
                             <hr/>
-                            <PedigreeTree pigeon={pigeon}/>
+                            <PedigreeTree pigeon={pigeon} reloadPedigree={fetchPigeon}/>
                             <h2 style={{marginTop: 16}}>Зачеты</h2>
                             <hr/>
                         </Col>

@@ -16,7 +16,7 @@ const GroupItems = styled('ul')({
     padding: 0,
 });
 
-const InputPigeonAutocomplete = ({data, onChange, error, disabled, ...textFieldProps}) => {
+const InputPigeonAutocomplete = ({data, onChange, error, setError, disabled, ...textFieldProps}) => {
     const id = useId();
     const [inputValue, setInputValue] = useState("");
     const options = data.options.map(pigeon => {
@@ -37,7 +37,8 @@ const InputPigeonAutocomplete = ({data, onChange, error, disabled, ...textFieldP
             disabled={disabled}
             value={data.value}
             onChange={(event, newValue) => {
-                error && error.disable(data.name);
+                error && error.disable && error.disable(data.name);
+                setError && setError(null);
                 onChange(newValue);
             }}
             inputValue={inputValue}

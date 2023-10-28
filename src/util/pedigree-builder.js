@@ -87,6 +87,6 @@ function updateQueuesAndDeepLevel(pigeon) {
 
 function createStub(pigeon) {
     let pigeonStub = new PigeonEmptyStub();
-    pigeonStub.parentId = pigeon.id;
+    pigeonStub.childId = pigeon.id;
     return pigeonStub;
 }
