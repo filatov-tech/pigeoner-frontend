@@ -156,7 +156,20 @@ const FlightResultEditDialog = (props, ref) => {
     return (
         <React.Fragment>
             <Modal open={open} onClose={handleClose}>
-                <ModalDialog  sx={{maxWidth: "370px"}}>
+                <ModalDialog
+                    sx={(theme) => ({
+                        maxWidth: "400px",
+                        [theme.breakpoints.only('xs')]: {
+                            top: 'unset',
+                            bottom: 0,
+                            left: 0,
+                            right: 0,
+                            borderRadius: 0,
+                            transform: 'none',
+                            maxWidth: 'unset',
+                        },
+                    })}
+                >
                     <DialogTitle>{editMode ? "Участник" : "Новый участник"}</DialogTitle>
                     <DialogContent>
                         {editMode
@@ -181,14 +194,8 @@ const FlightResultEditDialog = (props, ref) => {
                                     setFlightResult({...flightResult, arrivalTime: newValue})
                                 }}
                                 withMillis
-                                viewRenderers={{
-                                    hours: null,
-                                    minutes: null,
-                                    seconds: null
-                                }}
-                                view={{
-                                    rowReverse: true
-                                }}
+                                view={{rowReverse: true}}
+                                sx={{width: "100%"}}
                             />
                             {!fieldError.arrivalTime && <Box sx={{height: "8px", width: "100%"}}></Box>}
                             <SelectCommon

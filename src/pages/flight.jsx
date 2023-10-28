@@ -20,7 +20,7 @@ import {useMediaQuery} from "react-responsive";
 
 const Flight = () => {
     const navigate = useNavigate();
-    const isSm = useMediaQuery({query: "(max-width: 501px)"});
+    const sm = useMediaQuery({query: "(max-width: 600px)"});
 
     let { id } = useParams();
     const flightEditRef = useRef();
@@ -195,36 +195,69 @@ const Flight = () => {
                                 </InfoUnit>
                             </Grid>
                         </Grid>
-                        <Grid container xs={12} justifyContent="space-between">
-                            <Grid>
-                                <Button
-                                    onClick={() => flightResultEditRef.current.setOpen(true)}
-                                    variant="solid"
-                                    size="lg"
+
+                        <Grid container xs={12}>
+                            <Grid xs={12}>
+                                <Stack
+                                    direction={{xs: "column-reverse", sm: "row"}}
+                                    justifyContent="space-between"
+                                    spacing={2}
                                 >
-                                    Добавить участника
-                                </Button>
-                                <FlightSideEditForm flight={flight} ref={flightEditRef} onSubmit={fetchFlight}/>
-                            </Grid>
-                            <Grid>
-                                <Stack direction="row" spacing={1}>
                                     <Button
-                                        variant="soft"
+                                        onClick={() => flightResultEditRef.current.setOpen(true)}
+                                        variant="solid"
                                         size="lg"
-                                        onClick={openEditForm}
-                                        fullWidth
                                     >
-                                        {isSm ? "Изменить" : "Изменить данные"}
+                                        Добавить участника
                                     </Button>
-                                    <Button
-                                        variant="soft"
-                                        color="danger"
-                                        onClick={() => flightDeleteDialogRef.current.startDeletion(flight.id)}
-                                    >
-                                        <DeleteOutline fontSize="small"/>
-                                    </Button>
+                                    <FlightSideEditForm flight={flight} ref={flightEditRef} onSubmit={fetchFlight}/>
+                                    <Stack direction="row" spacing={1}>
+                                        <Button
+                                            variant="soft"
+                                            size="lg"
+                                            onClick={openEditForm}
+                                            fullWidth={sm}
+                                        >
+                                            Изменить данные
+                                        </Button>
+                                        <Button
+                                            variant="soft"
+                                            color="danger"
+                                            onClick={() => flightDeleteDialogRef.current.startDeletion(flight.id)}
+                                        >
+                                            <DeleteOutline fontSize="small"/>
+                                        </Button>
+                                    </Stack>
                                 </Stack>
+
+
+                                {/*<Button*/}
+                                {/*    onClick={() => flightResultEditRef.current.setOpen(true)}*/}
+                                {/*    variant="solid"*/}
+                                {/*    size="lg"*/}
+                                {/*>*/}
+                                {/*    Добавить участника*/}
+                                {/*</Button>*/}
+
                             </Grid>
+                            {/*<Grid xs={12}>*/}
+                            {/*    /!*<Stack direction="row" spacing={1}>*!/*/}
+                            {/*    /!*    <Button*!/*/}
+                            {/*    /!*        variant="soft"*!/*/}
+                            {/*    /!*        size="lg"*!/*/}
+                            {/*    /!*        onClick={openEditForm}*!/*/}
+                            {/*    /!*    >*!/*/}
+                            {/*    /!*        Изменить данные*!/*/}
+                            {/*    /!*    </Button>*!/*/}
+                            {/*    /!*    <Button*!/*/}
+                            {/*    /!*        variant="soft"*!/*/}
+                            {/*    /!*        color="danger"*!/*/}
+                            {/*    /!*        onClick={() => flightDeleteDialogRef.current.startDeletion(flight.id)}*!/*/}
+                            {/*    /!*    >*!/*/}
+                            {/*    /!*        <DeleteOutline fontSize="small"/>*!/*/}
+                            {/*    /!*    </Button>*!/*/}
+                            {/*    /!*</Stack>*!/*/}
+                            {/*</Grid>*/}
                         </Grid>
                         <Grid xs={12}>
                             {flightResults ? <FlightTable

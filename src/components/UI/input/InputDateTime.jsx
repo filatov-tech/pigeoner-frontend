@@ -90,9 +90,9 @@ const InputDateTime = ({data, onChange, error, withMillis, view, ...muiProps}) =
                                     viewRenderers={muiProps.viewRenderers
                                         ? muiProps.viewRenderers
                                         : {
-                                            hours: millisView ? null : renderTimeViewClock,
-                                            minutes: millisView ? null : renderTimeViewClock,
-                                            seconds: null
+                                            hours: renderTimeViewClock,
+                                            minutes: renderTimeViewClock,
+                                            seconds: renderTimeViewClock
                                         }}
                                     {...completeMuiProps}
                     />
