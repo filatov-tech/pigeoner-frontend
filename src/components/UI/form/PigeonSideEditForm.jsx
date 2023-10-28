@@ -164,7 +164,7 @@ const PigeonSideEditForm = (props, ref) => {
         setDovecote(sectionsOptions.find(section => section.id === pigeon.sectionId));
         setSex(pigeon.sex.toUpperCase());
         setColor(pigeon.color);
-        setCondition(conditionData.options.find(item => item.label === pigeon.condition).value);
+        setCondition(pigeon.condition);
         setFather(pigeon.father);
         setMother(pigeon.mother);
         setMate(pigeon.mate);
@@ -324,7 +324,7 @@ const PigeonSideEditForm = (props, ref) => {
                 <Divider sx={{marginTop: "30px", marginBottom: "15px"}}>
                     <Chip label="Физ. параметры" sx={{fontSize: "1.2rem"}}/>
                 </Divider>
-                <ControlledRadioGroup data={sexData} onChange={setSex}/>
+                <ControlledRadioGroup data={sexData} onChange={setSex} disabled={editMode}/>
                 <InputColorAutocompleteCreatable
                     data={colorData}
                     onChange={setColor}

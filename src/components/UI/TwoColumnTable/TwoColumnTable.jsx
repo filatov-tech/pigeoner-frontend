@@ -1,7 +1,7 @@
 import React from 'react';
 import Table from "@mui/joy/Table";
 import '../../../styles/pigeon.css';
-import {Sex} from "../../../constants";
+import {Condition, Sex} from "../../../constants";
 
 const TwoColumnTable = ({pigeon}) => {
     return (
@@ -21,7 +21,7 @@ const TwoColumnTable = ({pigeon}) => {
                 </tr>
                 <tr>
                     <th scope="row">Состояние</th>
-                    <td>{pigeon.condition}</td>
+                    <td>{Condition[pigeon.condition]}</td>
                 </tr>
                 <tr>
                     <th scope="row">Голубятня</th>

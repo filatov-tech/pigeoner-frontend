@@ -1,5 +1,6 @@
 import React from 'react';
 import Flight from "./Flight";
+import {Condition} from "../../../constants";
 
 
 const PigeonCard = ({pigeon}) => {
@@ -14,7 +15,7 @@ const PigeonCard = ({pigeon}) => {
                 </div>
                 <div className="card-body">
                     <p className="card-text">
-                        {pigeon.year} - {pigeon.condition}
+                        {pigeon.year} - {Condition[pigeon.condition]}
                         <br/>
                         <span>Владелец: </span>
                         {pigeon.isOwn

@@ -67,10 +67,10 @@ const PigeonFilterForm = forwardRef((props, ref) => {
     }
 
     const conditionOptions = [
-        {value: "Здоров", label: "Здоров"},
-        {value: "Болен", label: "Болен"},
-        {value: "Потерян", label: "Потерян"},
-        {value: "Умер", label: "Умер"},
+        {value: "HEALTH", label: "Здоров"},
+        {value: "DISEASED", label: "Болен"},
+        {value: "LOST", label: "Потерян"},
+        {value: "DEAD", label: "Умер"},
     ];
 
     const filterTypeOptions = [
@@ -80,8 +80,8 @@ const PigeonFilterForm = forwardRef((props, ref) => {
     ]
 
     const sexOptions = [
-        {value: "male", label: "Самец"},
-        {value: "female", label: "Самка"}
+        {value: "MALE", label: "Самец"},
+        {value: "FEMALE", label: "Самка"}
     ]
 
     const hasMateOptions = [

@@ -4,7 +4,7 @@ import {MRT_Localization_RU} from "material-react-table/locales/ru";
 import {Link} from "react-router-dom";
 import {Tooltip} from "@mui/joy";
 import Box from "@mui/material/Box";
-import {Sex} from "../../../constants";
+import {Condition, Sex} from "../../../constants";
 import {Female, Male} from "@mui/icons-material";
 
 const PigeonTable = ({data, isLoading}) => {
@@ -54,7 +54,7 @@ const PigeonTable = ({data, isLoading}) => {
             Cell: ({cell, row}) => {
                 const pigeonSex = Sex[cell.getValue()];
                 return <>
-                    <Tooltip title={Sex[cell.getValue()]} placement="left" variant="outlined" arrow>
+                    <Tooltip title={pigeonSex} placement="left" variant="outlined" arrow>
                         <Box>
                             {pigeonSex === Sex.MALE ? <Male sx={{color: "#2249ff"}} /> : <Female sx={{color: "#ff229f"}} />}
                             <Link to={`/pigeons/${row.original.id}`} className="table-link"></Link>
@@ -83,7 +83,12 @@ const PigeonTable = ({data, isLoading}) => {
         {
             accessorKey: 'condition',
             header: 'Состояние',
-            Cell: addLinkToCell()
+            Cell: ({cell, row}) => {
+                return <>
+                    {Condition[cell.getValue()]}
+                    <Link to={`/pigeons/${row.original.id}`} className="table-link"></Link>
+                </>;
+            }
         },
         {
             accessorKey: 'color',

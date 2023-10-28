@@ -5,6 +5,14 @@ export const FlightTypes = {
     JUNIOR_COMPETITION: "Юниорское соревнование"
 }
 
+export const Condition = {
+    HEALTH: "Здоров",
+    DISEASED: "Болен",
+    DEAD:"Умер",
+    LOST:"Потерян",
+    UNKNOWN:"Неизвестно"
+}
+
 export const AfterFlightCondition = {
     NORMAL: "Нормальное",
     TIRED: "Уставший"
