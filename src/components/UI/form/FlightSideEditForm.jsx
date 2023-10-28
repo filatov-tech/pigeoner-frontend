@@ -7,10 +7,12 @@ import InputLaunchPointAutocompleteCreatable from "../input/Autocomplete/InputLa
 import ErrorSnackbar from "../ErrorSnackbar";
 import InputDateTime from "../input/InputDateTime";
 import SelectCommon from "../input/SelectCommon";
-import {Stack} from "@mui/joy";
+import {ButtonGroup, Stack, Tooltip} from "@mui/joy";
 import Button from "@mui/joy/Button";
 import dayjs from "dayjs";
 import {AUTH_TOKEN, BEARER, FLIGHTS_URL} from "../../../constants";
+import IconButton from "@mui/joy/IconButton";
+import {Close} from "@mui/icons-material";
 
 const FlightSideEditForm = (props, ref) => {
     const [open, setOpen] = useState(false);
@@ -170,21 +172,28 @@ const FlightSideEditForm = (props, ref) => {
                             variant={"standard"}
                         />
                     </Stack>
-                    <Stack direction="row" spacing={2} mt={4} mb={4} justifyContent="space-between">
-                        <Button
-                            variant="soft"
-                            size="lg"
-                            type="button"
-                            onClick={resetForm}
-                            sx={{color:"#337ab7"}}
-                        >
-                            {editMode ? "Восстановить" : "Очистить"}
-                        </Button>
+                    <Stack direction="row" spacing={2} mt={6} mb={4} justifyContent="space-between">
+                        <ButtonGroup variant="soft">
+                            <Tooltip title="Закрыть" variant="soft" arrow placement="top-start">
+                                <IconButton onClick={() => setOpen(false)}>
+                                    <Close sx={{color: "#337ab7"}}/>
+                                </IconButton>
+                            </Tooltip>
+                            <Button
+                                variant="soft"
+                                size="lg"
+                                type="button"
+                                onClick={resetForm}
+                                sx={{color: "#337ab7"}}
+                            >
+                                {editMode ? "Восстановить" : "Очистить"}
+                            </Button>
+                        </ButtonGroup>
                         <Button
                             variant="solid"
                             size="lg"
                             type="submit"
-                            sx={{backgroundColor:"#337ab7"}}
+                            sx={{backgroundColor: "#337ab7"}}
                         >
                             Сохранить
                         </Button>

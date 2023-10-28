@@ -26,6 +26,9 @@ import Button from "@mui/joy/Button";
 import ErrorSnackbar from "../ErrorSnackbar";
 import ImageUpload from "../ImageUpload";
 import dayjs from 'dayjs';
+import {ButtonGroup, Tooltip} from "@mui/joy";
+import IconButton from "@mui/joy/IconButton";
+import {Close} from "@mui/icons-material";
 
 const PigeonSideEditForm = (props, ref) => {
 
@@ -177,7 +180,7 @@ const PigeonSideEditForm = (props, ref) => {
         setInitialized(true);
     }
 
-    useEffect( ()=>{
+    useEffect(() => {
         fetch(MAIN_KEEPER_URL, {
             headers: {
                 "Authorization": BEARER + localStorage.getItem(AUTH_TOKEN)
@@ -211,7 +214,7 @@ const PigeonSideEditForm = (props, ref) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
-    useEffect(()=> {
+    useEffect(() => {
         if (sectionsOptions.length > 0 && editMode && !initialized) {
             initFormWith(props.pigeon);
         }
@@ -280,7 +283,7 @@ const PigeonSideEditForm = (props, ref) => {
     }))
 
     return (
-        <SideEditForm  open={isOpen} onClose={() => toggleSideForm(false)} >
+        <SideEditForm open={isOpen} onClose={() => toggleSideForm(false)}>
             <form onSubmit={handleSubmit}>
                 <Typography variant="h4" align="center" gutterBottom>
                     {editMode
@@ -288,14 +291,14 @@ const PigeonSideEditForm = (props, ref) => {
                         : "Новый голубь"}
                 </Typography>
                 <Divider sx={{marginBottom: "15px"}}>
-                    <Chip label="Основные данные" sx={{fontSize:"1.2rem"}} />
+                    <Chip label="Основные данные" sx={{fontSize: "1.2rem"}}/>
                 </Divider>
                 <InputText
                     data={ringNumberData}
                     onChange={setRingNumber}
                     error={fieldErrorData.ringNumber}
                     required
-                    variant="standard" />
+                    variant="standard"/>
                 <InputDate
                     data={birthdateData}
                     onChange={setBirthdate}
@@ -305,13 +308,13 @@ const PigeonSideEditForm = (props, ref) => {
                     data={nameData}
                     onChange={setName}
                     error={fieldErrorData.name}
-                    variant="standard" />
+                    variant="standard"/>
                 <InputDovecoteAutocompleteCreatable
                     data={dovecoteData}
                     onChange={setDovecote}
                     error={fieldErrorData.section}
                     onSubmit={updateSectionsOptions}
-                    variant="standard" />
+                    variant="standard"/>
                 <InputKeeperAutocompleteCreatable
                     data={keeperData}
                     onChange={setKeeper}
@@ -319,14 +322,14 @@ const PigeonSideEditForm = (props, ref) => {
                     updateKeepers={updateKeeperOptions}
                     variant="standard"/>
                 <Divider sx={{marginTop: "30px", marginBottom: "15px"}}>
-                    <Chip label="Физ. параметры" sx={{fontSize:"1.2rem"}}/>
+                    <Chip label="Физ. параметры" sx={{fontSize: "1.2rem"}}/>
                 </Divider>
-                <ControlledRadioGroup data={sexData} onChange={setSex} />
+                <ControlledRadioGroup data={sexData} onChange={setSex}/>
                 <InputColorAutocompleteCreatable
                     data={colorData}
                     onChange={setColor}
                     error={fieldErrorData.color}
-                    variant="standard" />
+                    variant="standard"/>
                 <SelectCommon
                     data={conditionData}
                     onChange={setCondition}
@@ -335,47 +338,54 @@ const PigeonSideEditForm = (props, ref) => {
                     variant={"standard"}
                     sx={{marginTop: "16px", marginBottom: "8px"}}/>
                 <Divider sx={{marginTop: "30px"}}>
-                    <Chip label="Связи" sx={{fontSize:"1.2rem"}} />
+                    <Chip label="Связи" sx={{fontSize: "1.2rem"}}/>
                 </Divider>
                 <InputPigeonAutocomplete
                     data={fatherData}
                     onChange={setFather}
                     error={fieldErrorData.father}
-                    variant="standard" />
+                    variant="standard"/>
                 <InputPigeonAutocomplete
                     data={motherData}
                     onChange={setMother}
                     error={fieldErrorData.mother}
-                    variant="standard" />
+                    variant="standard"/>
                 <InputPigeonAutocomplete
                     data={mateData}
                     onChange={setMate}
                     error={fieldErrorData.mate}
-                    variant="standard" />
+                    variant="standard"/>
                 <Divider sx={{marginTop: "30px"}}>
-                    <Chip label="Фото" sx={{fontSize:"1.2rem"}} />
+                    <Chip label="Фото" sx={{fontSize: "1.2rem"}}/>
                 </Divider>
                 <ImageUpload
                     images={editMode ? props.pigeon.images : undefined}
                     setImages={setImages}
                     setMainImage={setMainImage}
                     previewImages={previewImages}
-                    setPreviewImages={setPreviewImages} />
+                    setPreviewImages={setPreviewImages}/>
                 <Stack direction="row" spacing={2} mt={6} mb={4} justifyContent="space-between">
-                    <Button
-                        variant="soft"
-                        size="lg"
-                        type="button"
-                        onClick={resetForm}
-                        sx={{color:"#337ab7"}}
-                    >
-                        {editMode ? "Восстановить" : "Очистить"}
-                    </Button>
+                    <ButtonGroup variant="soft">
+                        <Tooltip title="Закрыть" variant="soft" arrow placement="top-start">
+                            <IconButton onClick={() => setOpen(false)}>
+                                <Close sx={{color: "#337ab7"}}/>
+                            </IconButton>
+                        </Tooltip>
+                        <Button
+                            variant="soft"
+                            size="lg"
+                            type="button"
+                            onClick={resetForm}
+                            sx={{color: "#337ab7"}}
+                        >
+                            {editMode ? "Восстановить" : "Очистить"}
+                        </Button>
+                    </ButtonGroup>
                     <Button
                         variant="solid"
                         size="lg"
                         type="submit"
-                        sx={{backgroundColor:"#337ab7"}}
+                        sx={{backgroundColor: "#337ab7"}}
                     >
                         Сохранить
                     </Button>
