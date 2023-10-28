@@ -30,12 +30,45 @@ const PedigreeTree = ({pigeon, reloadPedigree}) => {
         }
     }
 
+    const removeRelative = async (pigeonToRemove) => {
+        if (pigeon.id === pigeonToRemove.id) return;
+
+        const isFatherToRemove = pigeonToRemove.sex === "MALE";
+        const descendant = pigeons.find(pigeon => (
+                (isFatherToRemove && pigeon.fatherId === pigeonToRemove.id)
+                || pigeon.motherId === pigeonToRemove.id
+            )
+        );
+        if (!descendant) return;
+        if (isFatherToRemove) {
+            descendant.fatherId = null;
+        } else {
+            descendant.motherId = null;
+        }
+
+        try {
+            const response = await fetch(PIGEONS_URL + `/${descendant.id}`, {
+                method: "PUT",
+                headers: {
+                    "Authorization": BEARER + localStorage.getItem(AUTH_TOKEN),
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(descendant)
+            });
+            if (response.ok) {
+                reloadPedigree();
+            }
+        } catch (e) {
+            throw new Error("Ошибка при попытке удалить голубя из родословной", e);
+        }
+    }
+
 
     useEffect(()=> {
         setPigeonsGridMap(getMappedPigeonData(pigeon));
         fetchPigeons();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [pigeon]);
 
     return (
         <div className="container genealogy-frame">
@@ -49,7 +82,7 @@ const PedigreeTree = ({pigeon, reloadPedigree}) => {
                                     {relativeNamesMap.get(gridElement)}
                                 </Typography>
                                 {pigeonsGridMap.get(gridElement) && pigeonsGridMap.get(gridElement).id > 0
-                                    ? <PigeonCard pigeon={pigeonsGridMap.get(gridElement)} />
+                                    ? <PigeonCard pigeon={pigeonsGridMap.get(gridElement)} remove={removeRelative} />
                                     : <EmptyCard
                                         pigeonStub={pigeonsGridMap.get(gridElement)}
                                         pigeons={pigeons}
@@ -59,7 +92,7 @@ const PedigreeTree = ({pigeon, reloadPedigree}) => {
                             :
                             <>
                                 {pigeonsGridMap.get(gridElement) && pigeonsGridMap.get(gridElement).id > 0
-                                    ? <PigeonCard pigeon={pigeonsGridMap.get(gridElement)} />
+                                    ? <PigeonCard pigeon={pigeonsGridMap.get(gridElement)} remove={removeRelative} />
                                     : <EmptyCard
                                         pigeonStub={pigeonsGridMap.get(gridElement)}
                                         pigeons={pigeons}
