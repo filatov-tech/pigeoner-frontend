@@ -200,7 +200,7 @@ const Flight = () => {
                             <Grid xs={12}>
                                 <Stack
                                     direction={{xs: "column-reverse", sm: "row"}}
-                                    justifyContent="space-between"
+                                    justifyContent="flex-end"
                                     spacing={2}
                                 >
                                     <Button
@@ -229,35 +229,7 @@ const Flight = () => {
                                         </Button>
                                     </Stack>
                                 </Stack>
-
-
-                                {/*<Button*/}
-                                {/*    onClick={() => flightResultEditRef.current.setOpen(true)}*/}
-                                {/*    variant="solid"*/}
-                                {/*    size="lg"*/}
-                                {/*>*/}
-                                {/*    Добавить участника*/}
-                                {/*</Button>*/}
-
                             </Grid>
-                            {/*<Grid xs={12}>*/}
-                            {/*    /!*<Stack direction="row" spacing={1}>*!/*/}
-                            {/*    /!*    <Button*!/*/}
-                            {/*    /!*        variant="soft"*!/*/}
-                            {/*    /!*        size="lg"*!/*/}
-                            {/*    /!*        onClick={openEditForm}*!/*/}
-                            {/*    /!*    >*!/*/}
-                            {/*    /!*        Изменить данные*!/*/}
-                            {/*    /!*    </Button>*!/*/}
-                            {/*    /!*    <Button*!/*/}
-                            {/*    /!*        variant="soft"*!/*/}
-                            {/*    /!*        color="danger"*!/*/}
-                            {/*    /!*        onClick={() => flightDeleteDialogRef.current.startDeletion(flight.id)}*!/*/}
-                            {/*    /!*    >*!/*/}
-                            {/*    /!*        <DeleteOutline fontSize="small"/>*!/*/}
-                            {/*    /!*    </Button>*!/*/}
-                            {/*    /!*</Stack>*!/*/}
-                            {/*</Grid>*/}
                         </Grid>
                         <Grid xs={12}>
                             {flightResults ? <FlightTable
