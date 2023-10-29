@@ -34,7 +34,7 @@ export function addHierarchicalLabel(object, parentObject) {
 }
 
 export function addHierarchicalLabelsTo(data) {
-    if (data.length === 0) return {};
+    if (!data || data.length === 0) return {};
 
     const rootLevel = '';
     data.forEach(section => {
