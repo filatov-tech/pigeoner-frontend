@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {Col, Container, Row} from "react-bootstrap";
 import PedigreeTree from "../components/UI/PedigreeTree/PedigreeTree";
 import "../styles/pigeon.css";
@@ -11,13 +11,18 @@ import {AspectRatio, Button} from "@mui/joy";
 import PigeonSideEditForm from "../components/UI/form/PigeonSideEditForm";
 import {AUTH_TOKEN, BEARER, PIGEONS_URL} from "../constants";
 import {Stack} from "@mui/material";
+import {DeleteOutline} from "@mui/icons-material";
+import SimpleDeletionConfirmDialog from "../components/UI/form/confirm-action/SimpleDeletionConfirmDialog";
 
 const Pigeon = () => {
+    const navigate = useNavigate();
+
     let {id} = useParams();
     const [pigeon, setPigeon] = useState();
     const [images, setImages] = useState([]);
     const [openImageViewer, toggleImageViewer] = useState(false);
     const [imagesUrl, setImagesUrl] = useState([]);
+    const [openDeletionConfirmDialog, setOpenDeletionConfirmDialog] = useState(false);
 
     const sideEditFormRef = useRef();
 
@@ -76,6 +81,22 @@ const Pigeon = () => {
         }
     }
 
+    const handleDelete = async () => {
+        try {
+            const response = await fetch(PIGEONS_URL + `/${pigeon.id}`, {
+                method: "DELETE",
+                headers: {
+                    "Authorization": BEARER + localStorage.getItem(AUTH_TOKEN)
+                }
+            });
+            if (response.ok) {
+                navigate("/pigeons");
+            }
+        } catch (e) {
+            throw new Error("Ошибка при попытке удалить голубя");
+        }
+    }
+
     useEffect(() => {
         fetchPigeon();
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -93,19 +114,35 @@ const Pigeon = () => {
                             <Stack direction={{xs: "column-reverse", md: "row"}} spacing={2} mb={2} alignItems="center">
                                 <Stack flexBasis="60%">
                                     <TwoColumnTable pigeon={pigeon}/>
-                                    <Button
-                                        variant="soft"
-                                        size="lg"
-                                        onClick={openEditForm}
-                                        sx={{width: "100%"}}
-                                    >
-                                        Изменить данные
-                                    </Button>
-                                    <PigeonSideEditForm
-                                        pigeon={pigeon}
-                                        handleSubmit={handleSubmit}
-                                        ref={sideEditFormRef}
-                                    />
+                                    <Stack direction="row" spacing={1}>
+                                        <Button
+                                            variant="soft"
+                                            size="lg"
+                                            onClick={openEditForm}
+                                            sx={{width: "100%"}}
+                                        >
+                                            Изменить данные
+                                        </Button>
+                                        <PigeonSideEditForm
+                                            pigeon={pigeon}
+                                            handleSubmit={handleSubmit}
+                                            ref={sideEditFormRef}
+                                        />
+                                        <Button
+                                            variant="soft"
+                                            color="danger"
+                                            onClick={() => setOpenDeletionConfirmDialog(true)}
+                                        >
+                                            <DeleteOutline fontSize="small"/>
+                                        </Button>
+                                        <SimpleDeletionConfirmDialog
+                                            open={openDeletionConfirmDialog}
+                                            setOpen={setOpenDeletionConfirmDialog}
+                                            handleDelete={handleDelete}
+                                            title="Удалить голубя"
+                                            content="Вы уверены, что хотите удалить голубя? Будут удалены все его изображания и связи с другими особями"
+                                        />
+                                    </Stack>
                                 </Stack>
                                 <AspectRatio objectFit="contain" sx={{height: "auto", width: "80%"}} variant="plain">
                                     <img
