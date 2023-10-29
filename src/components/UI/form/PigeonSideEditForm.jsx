@@ -114,6 +114,7 @@ const PigeonSideEditForm = (props, ref) => {
             setError(null);
             setFieldErrorData({});
             toggleSideForm(false);
+            updatePigeons();
             props.handleSubmit();
         } else {
             const apiError = await response.json();
@@ -192,13 +193,7 @@ const PigeonSideEditForm = (props, ref) => {
                 setKeeper(json);
                 setMainKeeper(json);
             });
-        fetch(PIGEONS_URL, {
-            headers: {
-                "Authorization": BEARER + localStorage.getItem(AUTH_TOKEN)
-            }
-        })
-            .then(resp => resp.json())
-            .then(json => setPigeons(json));
+        updatePigeons();
         updateSectionsOptions()
         if (!props.keeperOptions) {
             fetch(KEEPER_URL, {
@@ -243,6 +238,16 @@ const PigeonSideEditForm = (props, ref) => {
         })
             .then(res => res.json())
             .then(json => setSectionsOptions(flatten(addHierarchicalLabelsTo(json))))
+    }
+
+    const updatePigeons = () => {
+        fetch(PIGEONS_URL, {
+            headers: {
+                "Authorization": BEARER + localStorage.getItem(AUTH_TOKEN)
+            }
+        })
+            .then(resp => resp.json())
+            .then(json => setPigeons(json));
     }
 
     const disableErrorByFieldName = (fieldName) => {
