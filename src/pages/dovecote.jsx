@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {createContext, useEffect, useRef, useState} from 'react';
 import {Col, Container, Row} from 'react-bootstrap';
 import DovecoteAccordion from "../components/UI/DovecoteAccordion/DovecoteAccordion";
 import AutocloseableErrorMessage from "../components/UI/feedback-message/AutocloseableErrorMessage";
@@ -8,6 +8,8 @@ import {grey} from "@mui/material/colors";
 import Button from "@mui/material/Button";
 import {Skeleton, Stack} from "@mui/material";
 import {SECTIONS_URL, HIERARCHICAL_SECTIONS_WITH_PIGEONS_URL, BEARER, AUTH_TOKEN} from "../constants";
+
+export const DovecoteContext = createContext(null);
 
 const Dovecote = () => {
     const editDialogRef = useRef();
@@ -70,25 +72,27 @@ const Dovecote = () => {
                     {sections
                         ?
                         <React.Fragment>
-                            <DovecoteAccordion
-                                sections={sections}
-                                editDialogRef={editDialogRef}
-                                updateSections={fetchSections}
-                                handleEdit={handleEdit}
-                                handleDelete={removeSection}
-                                setError={setError}
-                            />
-                            {otherPigeons &&
+                            <DovecoteContext.Provider value={{sections, fetchSections}}>
                                 <DovecoteAccordion
-                                    sections={otherPigeons}
+                                    sections={sections}
                                     editDialogRef={editDialogRef}
                                     updateSections={fetchSections}
                                     handleEdit={handleEdit}
                                     handleDelete={removeSection}
                                     setError={setError}
-                                    editDisabled
                                 />
-                            }
+                                {otherPigeons &&
+                                    <DovecoteAccordion
+                                        sections={otherPigeons}
+                                        editDialogRef={editDialogRef}
+                                        updateSections={fetchSections}
+                                        handleEdit={handleEdit}
+                                        handleDelete={removeSection}
+                                        setError={setError}
+                                        editDisabled
+                                    />
+                                }
+                            </DovecoteContext.Provider>
                         </React.Fragment>
                         :
                         <Stack spacing={1}>
