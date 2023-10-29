@@ -31,7 +31,6 @@ const Flight = () => {
     const [flightResults, setFlightResults] = useState();
     const [departure, setDeparture] = useState({date: null, time: null});
 
-    const flightDeleteDialogRef = useRef();
     const [openFlightDeleteDialog, setOpenFlightDeleteDialog] = useState(false);
 
 
@@ -223,7 +222,7 @@ const Flight = () => {
                                         <Button
                                             variant="soft"
                                             color="danger"
-                                            onClick={() => flightDeleteDialogRef.current.startDeletion(flight.id)}
+                                            onClick={() => setOpenFlightDeleteDialog(true)}
                                         >
                                             <DeleteOutline fontSize="small"/>
                                         </Button>
@@ -246,7 +245,6 @@ const Flight = () => {
                 </BootstrapContainer>
             }
             <SimpleDeletionConfirmDialog
-                ref={flightDeleteDialogRef}
                 open={openFlightDeleteDialog}
                 setOpen={setOpenFlightDeleteDialog}
                 handleDelete={removeFlight}

@@ -1,19 +1,8 @@
-import React, {forwardRef, useImperativeHandle, useState} from 'react';
+import React from 'react';
 import {Button, DialogContent, DialogTitle, Modal, ModalClose, ModalDialog, Stack} from "@mui/joy";
 import {DeleteForeverOutlined} from "@mui/icons-material";
 
-const SimpleDeletionConfirmDialog = ({open, setOpen, handleDelete, title, content}, ref) => {
-    const [candidateId, setCandidateId] = useState(null);
-
-    const startDeletion = (candidateId) => {
-        setOpen(true);
-        setCandidateId(candidateId);
-    }
-
-    useImperativeHandle(ref, ()=> ({
-        startDeletion
-    }));
-
+const SimpleDeletionConfirmDialog = ({open, setOpen, handleDelete, title, content}) => {
     return (
         <Modal
             aria-labelledby="modal-title"
@@ -38,7 +27,7 @@ const SimpleDeletionConfirmDialog = ({open, setOpen, handleDelete, title, conten
                     <Button
                         onClick={(e) => {
                             e.stopPropagation();
-                            handleDelete(candidateId);
+                            handleDelete();
                             setOpen(false);
                         }}
                         startDecorator={<DeleteForeverOutlined />}
@@ -63,4 +52,4 @@ const SimpleDeletionConfirmDialog = ({open, setOpen, handleDelete, title, conten
     );
 };
 
-export default forwardRef(SimpleDeletionConfirmDialog);
+export default SimpleDeletionConfirmDialog;
