@@ -27,8 +27,7 @@
     position: sticky;
     top: 100vh;
     display: flex;
-    background-color: #171717;
-    /*padding: 30px 100px;*/
+    background-color: #3a3a3a;
     justify-content: space-between;
     align-items: center;
 }
