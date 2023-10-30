@@ -380,7 +380,7 @@
     height: 2px;
     bottom: 0;
     left: 0;
-    background-color: rgba(0, 0, 0, 0.63);
+    background-color: #337ab7;
     transform-origin: bottom right;
     transition: transform 0.1s ease-out;
 }
