@@ -347,3 +347,78 @@
     .mmm { grid-area: mmm; }
 
 }
+
+.header-menu-item {
+    border: none;
+    background: none;
+    padding-top: 3px;
+}
+
+.header-menu-item span {
+    padding-bottom: 7px;
+    letter-spacing: 0.1rem;
+    font-size: 1.3rem;
+    text-transform: uppercase;
+}
+
+.header-menu-item.active {
+    color: #337ab7;
+    font-weight: bold;
+}
+
+.hover-underline-animation {
+    position: relative;
+    color: rgba(0, 0, 0, 0.63);
+    padding-bottom: 20px;
+}
+
+.hover-underline-animation:after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0);
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.63);
+    transform-origin: bottom right;
+    transition: transform 0.1s ease-out;
+}
+
+.header-menu-item:hover .hover-underline-animation:after {
+    color: #337ab7;
+    background-color: #337ab7;
+    transform: scaleX(1);
+    transform-origin: bottom left;
+}
+
+.header-menu-item:hover .hover-underline-animation {
+    color: #337ab7;
+}
+
+.header-menu-item.active .hover-underline-animation{
+    color: #337ab7;
+}
+
+.header-menu-item.active .hover-underline-animation:after {
+    color: #337ab7;
+    background-color: #337ab7;
+    transform: scaleX(1);
+    transform-origin: bottom left;
+}
+
+.header-menu a:link {
+    text-decoration: none;
+}
+
+.header-menu a:visited {
+    text-decoration: none;
+}
+
+.header-menu a:hover {
+    text-decoration: none;
+}
+
+.header-menu a:active {
+    text-decoration: none;
+}
