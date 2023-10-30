@@ -39,7 +39,7 @@ const PigeonSideEditForm = (props, ref) => {
     const [pigeonId, setPigeonId] = useState(null);
     const [ringNumber, setRingNumber] = useState("");
     const [birthdate, setBirthdate] = useState(null);
-    const [name, setName] = useState(null);
+    const [name, setName] = useState("");
     const [keeper, setKeeper] = useState(null);
     const [dovecote, setDovecote] = useState(null);
     const [sex, setSex] = useState(null);

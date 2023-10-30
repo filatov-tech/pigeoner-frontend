@@ -16,7 +16,7 @@ const InputText = ({data, onChange, error, withoutHelperText, ...muiProps}) => {
             <TextField
                 id={textInputId}
                 label={data.label}
-                value={data.value}
+                value={data.value || ""}
                 onChange={(e) => {
                     error && error.disable(data.name);
                     onChange(e.target.value);
