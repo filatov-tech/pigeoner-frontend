@@ -9,7 +9,7 @@ import pigeonImageStub from "../images/pigeon-image-stub.png";
 import FsLightbox from "fslightbox-react";
 import {AspectRatio, Button} from "@mui/joy";
 import PigeonSideEditForm from "../components/UI/form/PigeonSideEditForm";
-import {AUTH_TOKEN, BEARER, PIGEONS_URL} from "../constants";
+import {AUTH_TOKEN, BEARER, PIGEONS_URL, PRODUCTION} from "../constants";
 import {Stack} from "@mui/material";
 import {DeleteOutline} from "@mui/icons-material";
 import SimpleDeletionConfirmDialog from "../components/UI/form/confirm-action/SimpleDeletionConfirmDialog";
@@ -50,7 +50,10 @@ const Pigeon = () => {
                         }
                     });
                     if (imagesListResponse.ok) {
-                        const imagesUrlList = await imagesListResponse.json();
+                        let imagesUrlList = await imagesListResponse.json();
+                        if (process.env.NODE_ENV ===  PRODUCTION) {
+                            imagesUrlList = imagesUrlList.map(url => url.replace("http:", "https:"));
+                        }
                         const imagesPromises = imagesUrlList.map(async imageUrl => {
                             const imageResponse = await fetch(imageUrl, {
                                 headers: {

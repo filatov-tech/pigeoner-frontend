@@ -23,7 +23,7 @@ export const Sex = {
     FEMALE: "самка"
 }
 
-const PRODUCTION = "production";
+export const PRODUCTION = "production";
 export const AUTH_TOKEN = "auth_token"
 export const BEARER = "Bearer "
 
