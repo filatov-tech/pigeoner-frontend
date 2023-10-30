@@ -51,7 +51,6 @@ const Pigeon = () => {
                     });
                     if (imagesListResponse.ok) {
                         const imagesUrlList = await imagesListResponse.json();
-                        setImagesUrl(imagesUrlList);
                         const imagesPromises = imagesUrlList.map(async imageUrl => {
                             const imageResponse = await fetch(imageUrl, {
                                 headers: {
@@ -69,6 +68,8 @@ const Pigeon = () => {
                         })
                         const images = await Promise.all(imagesPromises);
                         setImages(images);
+                        const imagesUrl = images.map(image => URL.createObjectURL(image));
+                        setImagesUrl(imagesUrl);
                         json.images = images;
                     } else {
                         console.log("Не удалось загрузить фото")
