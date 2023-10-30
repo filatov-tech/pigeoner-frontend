@@ -114,6 +114,12 @@ const PigeonTable = ({data, isLoading}) => {
             }
         }}
         localization={MRT_Localization_RU}
+        initialState={{
+            density: "compact",
+            pagination: {
+                pageSize: 50
+            }
+        }}
     />;
 };
 
