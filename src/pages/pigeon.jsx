@@ -7,7 +7,7 @@ import '../styles/custom-styles.css';
 import TwoColumnTable from "../components/UI/TwoColumnTable/TwoColumnTable";
 import pigeonImageStub from "../images/pigeon-image-stub.png";
 import FsLightbox from "fslightbox-react";
-import {AspectRatio, Button} from "@mui/joy";
+import {AspectRatio, Button, Skeleton} from "@mui/joy";
 import PigeonSideEditForm from "../components/UI/form/PigeonSideEditForm";
 import {AUTH_TOKEN, BEARER, PIGEONS_URL, PRODUCTION} from "../constants";
 import {Stack} from "@mui/material";
@@ -170,9 +170,17 @@ const Pigeon = () => {
                     </Row>
                 </Container>
                 :
-                <div className="spinner-border text-primary m-5" role="status">
-                    <span className="visually-hidden">Loading...</span>
-                </div>
+                <Container>
+                    <h2>Номер кольца ...</h2>
+                    <hr/>
+                    <Stack direction={{xs: "column-reverse", md: "row"}} spacing={2} mb={2} alignItems="center">
+                        <Stack flexBasis="60%">
+                            <Skeleton variant="rectangular" width="100%" height="380px" sx={{mb: 2}} />
+                            <Skeleton variant="rectangular" width="100%" height="70px" />
+                        </Stack>
+                        <Skeleton variant="rectangular" width="100%" height="466px" />
+                    </Stack>
+                </Container>
             }
         </>
     );
