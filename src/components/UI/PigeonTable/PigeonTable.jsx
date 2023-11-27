@@ -6,6 +6,7 @@ import {Tooltip} from "@mui/joy";
 import Box from "@mui/material/Box";
 import {Condition, Sex} from "../../../constants";
 import {Female, Male} from "@mui/icons-material";
+import {getCountryNameRu} from "../../../util/country-codes";
 
 const PigeonTable = ({data, isLoading}) => {
     const addLinkToCell = function () {
@@ -46,6 +47,12 @@ const PigeonTable = ({data, isLoading}) => {
                     ? addLinkToCellWithTooltip(row, cell, birthdate)
                     : addLinkToCell();
             }
+        },
+        {
+            accessorKey: 'countryCode',
+            header: 'Страна',
+            Cell: ({cell, row}) => addLinkToCellWithTooltip(row, cell, getCountryNameRu(row.original.countryCode))
+
         },
         {
             accessorKey: 'sex',

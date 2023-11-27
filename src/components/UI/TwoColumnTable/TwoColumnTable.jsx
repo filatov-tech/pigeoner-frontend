@@ -2,6 +2,7 @@ import React from 'react';
 import Table from "@mui/joy/Table";
 import '../../../styles/pigeon.css';
 import {Condition, Sex} from "../../../constants";
+import {getCountryNameRu} from "../../../util/country-codes";
 
 const TwoColumnTable = ({pigeon}) => {
     return (
@@ -18,6 +19,10 @@ const TwoColumnTable = ({pigeon}) => {
                 <tr>
                     <th scope="row">Дата рождения</th>
                     <td>{pigeon.birthdate}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Страна происхождения</th>
+                    <td>{pigeon.countryCode} - {getCountryNameRu(pigeon.countryCode)}</td>
                 </tr>
                 <tr>
                     <th scope="row">Состояние</th>

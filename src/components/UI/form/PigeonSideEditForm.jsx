@@ -29,6 +29,7 @@ import dayjs from 'dayjs';
 import {ButtonGroup, Tooltip} from "@mui/joy";
 import IconButton from "@mui/joy/IconButton";
 import {Close} from "@mui/icons-material";
+import {isoCountriesRuOptions} from "../../../util/country-codes";
 
 const PigeonSideEditForm = (props, ref) => {
 
@@ -40,6 +41,7 @@ const PigeonSideEditForm = (props, ref) => {
     const [ringNumber, setRingNumber] = useState("");
     const [birthdate, setBirthdate] = useState(null);
     const [name, setName] = useState("");
+    const [countryCode, setCountryCode] = useState("");
     const [keeper, setKeeper] = useState(null);
     const [dovecote, setDovecote] = useState(null);
     const [sex, setSex] = useState(null);
@@ -61,6 +63,7 @@ const PigeonSideEditForm = (props, ref) => {
     const ringNumberData = new InputFieldData("ringNumber", ringNumber, "Номер кольца");
     const birthdateData = new InputFieldData("birthdate", birthdate, "Дата рождения");
     const nameData = new InputFieldData("name", name, "Кличка");
+    const countryCodeData = new InputFieldData("countryCode", countryCode, "Страна происхождения", "", isoCountriesRuOptions);
     const keeperData = new InputFieldData(
         "keeper",
         keeper,
@@ -94,6 +97,7 @@ const PigeonSideEditForm = (props, ref) => {
             ringNumber: ringNumber,
             birthdate: birthdate,
             name: name,
+            countryCode: countryCode,
             keeperId: keeper && keeper.id,
             sectionId: dovecote && dovecote.id,
             sex: sex,
@@ -161,6 +165,7 @@ const PigeonSideEditForm = (props, ref) => {
         setRingNumber(pigeon.ringNumber);
         setBirthdate(pigeon.birthdate ? dayjs(pigeon.birthdate) : null);
         setName(pigeon.name);
+        setCountryCode(pigeon.countryCode);
         setKeeper({value: pigeon.keeperId, label: pigeon.keeperName});
         setDovecote(sectionsOptions.find(section => section.id === pigeon.sectionId));
         setSex(pigeon.sex.toUpperCase());
@@ -268,6 +273,7 @@ const PigeonSideEditForm = (props, ref) => {
         setRingNumber("");
         setBirthdate(null);
         setName(null);
+        setCountryCode(null);
         setKeeper(mainKeeper);
         setDovecote(null);
         setSex("MALE");
@@ -314,6 +320,13 @@ const PigeonSideEditForm = (props, ref) => {
                     onChange={setName}
                     error={fieldErrorData.name}
                     variant="standard"/>
+                <SelectCommon
+                    data={countryCodeData}
+                    onChange={setCountryCode}
+                    error={fieldErrorData.countryCode}
+                    variant={"standard"}
+                    // sx={{marginTop: "16px", marginBottom: "8px"}}
+                />
                 <InputDovecoteAutocompleteCreatable
                     data={dovecoteData}
                     onChange={setDovecote}
