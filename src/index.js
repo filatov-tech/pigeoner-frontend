@@ -26,6 +26,7 @@ import Login from "./pages/login";
 import Register from "./pages/register";
 import MainPage from "./pages/MainPage";
 import Home from "./pages/home";
+import LoginDemo from "./util/LoginDemo";
 
 const router = createBrowserRouter([
     {
@@ -41,7 +42,6 @@ const router = createBrowserRouter([
             {
                 path: "/home",
                 element: <Home/>
-
             },
             {
                 path: "/pigeons",
@@ -78,6 +78,10 @@ const router = createBrowserRouter([
         path: "/register",
         element: <Register/>,
         errorElement: <ErrorPage/>
+    },
+    {
+        path: "/demo",
+        element: <LoginDemo/>
     }
 ])
 
