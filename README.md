@@ -1,70 +1,74 @@
-# Getting Started with Create React App
+# Pigeoner - frontend
+## О проекте
+Данный репозиторий представляет собой клиентскую часть веб-сервиса pigeoner.ru
+### Описание
+Веб-сервис предлагает спортивным голубиным питомникам удобный и интуитивно понятный инстумент для орагнизации учета голубей и деятельности с ними связанной.
+### Основные возможности
+<ol>
+	<li>Учет голубей. В это входит:
+		<ul>
+			<li>управление данными об особи: кличка, номер кольца, дата рождения, окрас, статус, состояние и др.</li>
+			<li>контроль связей: родительских и селекционных</li>
+			<li>сохранение изображений</li>
+			<li>динамично формируемая родословная</li>
+			<li>данные о тренировках и соревновательных вылетах</li>
+		</ul>
+	</li>
+	<li>Управление распределением голубей внутри питомника
+		<ul>
+			<li>полное управление структурой и иерархией голубятен, секций и гнезд</li>
+			<li>распределение голубей в созданной структуре питомника</li>
+		</ul>
+	</li>
+	<li>Учет тренировочных и соревновательных вылетов
+		<ul>
+			<li>создание вылетов различных типов: тренировочные, соревновательные, кубковые и др.</li>
+			<li>добавление участников к вылетам</li>
+			<li>расчет результирующих показателей по итогам вылетов</li>
+			<li>учет состояния птицы после финиша</li>
+			<li>поиск и фильтрация по вылетам и участника</li>
+		</ul>
+	</li>
+</ol>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
-
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Архитектура
+### Общее устройство сервиса
+Приложение разделено на три отдельных компонента, каждый из которых работает в отдельном docker-контейнере. Это:
+1. Backend - Spring Boot приложение
+2. База данных - PostgreSQL. Сами данные и изображения пользователей хранятся в отдельных томах (volumes).
+3. Frontend - React-приложение
+### Серверное окружение
+Приложение запущено и работает на частном виртуальном VDS сервере под управлением Ubuntu. С помощью веб-сервера Nginx, который выполняет роль обратного прокси, осуществляется распределение трафика между частями приложения. Здесь же настроена терминация SSL сертификатов.
+### Backend-часть
+Spring Boot приложение организовано в соответствии с классчиеской трехуровневой архитектурой: клиент-логика-данные. Коммуникация с клиентом реализована с применением REST подхода.
+Авторизация и аутентификация организованы с помщью JWT.
+## Стэк
+<details>
+  <summary>Frontend</summary>
+  <ul>
+    <li>JavaScript/React</li>
+    <li>Material UI</li>
+    <li>Bootstrap</li>
+    <li>HTML/CSS</li>
+  </ul>
+</details>
+<details>
+  <summary>Backend</summary>
+  <ul>
+    <li>Java 17</li>
+    <li>Spring: Boot, Security, MVC, Data JPA</li>
+    <li>Hibernate</li>
+    <li>PostgreSQL</li>
+    <li>Maven</li>
+    <li>Git</li>
+  </ul>
+</details>
+<details>
+  <summary>Deploy</summary>
+  <ul>
+    <li>Docker</li>
+    <li>Ubuntu</li>
+    <li>Nginx</li>
+    <li>GitHub Actions</li>
+  </ul>
+</details>
