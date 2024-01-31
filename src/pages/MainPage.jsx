@@ -1,15 +1,17 @@
 import React from 'react';
 import {Box, Container, Stack} from "@mui/material";
 import skyBackground from "../images/sky-background.jpg";
-import {Button, Link, Typography} from "@mui/joy";
+import {Button, Typography} from "@mui/joy";
 import Grid from "@mui/material/Unstable_Grid2";
 import {useMediaQuery} from "react-responsive";
-import {Link as RouterLink} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 
 
 const MainPage = () => {
+    const navigate = useNavigate();
     const xs = useMediaQuery({query: "(max-width: 470px)"});
+
     return (
         <Box
             component="div"
@@ -42,34 +44,31 @@ const MainPage = () => {
                                 Интуитивный инструмент для полного управления информацией о своих питомцах, их тренировках и результатах
                             </Typography>
                             <Stack direction={{ xs: 'column', sm: 'row' }} spacing={4}>
-
-                                <Link component={RouterLink} to="/demo">
-                                    <Button
-                                        sx={{
-                                            minHeight: 'var(--Button-minHeight, 4rem)',
-                                            fontSize: '1.15rem',
-                                            paddingBlock: '0.5rem',
-                                            paddingInline: '4rem',
-                                            backgroundColor: "#337AB7FF",
-                                        }}
-                                    >
-                                        Попробовать
-                                    </Button>
-                                </Link>
-                                <Link component={RouterLink} to="/login">
-                                    <Button
-                                        sx={{
-                                            minHeight: 'var(--Button-minHeight, 4rem)',
-                                            fontSize: '1.15rem',
-                                            paddingBlock: '0.5rem',
-                                            paddingInline: '4rem'
-                                        }}
-                                        variant="soft"
-                                        color="neutral"
-                                    >
-                                        Войти
-                                    </Button>
-                                </Link>
+                                <Button
+                                    sx={{
+                                        minHeight: 'var(--Button-minHeight, 4rem)',
+                                        fontSize: '1.15rem',
+                                        paddingBlock: '0.5rem',
+                                        paddingInline: '4rem',
+                                        backgroundColor: "#337AB7FF",
+                                    }}
+                                    onClick={()=>navigate("/demo")}
+                                >
+                                    Попробовать
+                                </Button>
+                                <Button
+                                    sx={{
+                                        minHeight: 'var(--Button-minHeight, 4rem)',
+                                        fontSize: '1.15rem',
+                                        paddingBlock: '0.5rem',
+                                        paddingInline: '4rem'
+                                    }}
+                                    variant="soft"
+                                    color="neutral"
+                                    onClick={()=>navigate("/login")}
+                                >
+                                    Войти
+                                </Button>
                             </Stack>
                         </Stack>
                     </Grid>
